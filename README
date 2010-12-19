@@ -1,0 +1,28 @@
+A member of the FlashPunk community (Rolpege) started
+a thread talking about a community UI project, and
+that he just didn't know how to organize it.
+
+I (Richard Marks) have started this project as my
+first contribution towards the project.
+Organization.
+
+I've included stub class files for all the classes
+that I felt we would need, and included a PNG of
+the class inheritance design so you can see what is
+what.
+
+I recommend forking the repository and working on what you will,
+and I will maintain the "official" repository.
+You can submit your forks' implementations to me and
+I will merge them as we go along.
+
+Keep your changes in a branch with your username
+and I will be able to keep track of the changes better.
+
+-Richard Marks
+December 19, 2010
+
+You can reach me on the FlashPunk forums, IRC and
+via email.
+
+ccpsceo@gmail.com
