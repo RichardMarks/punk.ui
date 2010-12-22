@@ -6,6 +6,7 @@ package punk.ui
 	import flash.text.TextFormat;
 	
 	import net.flashpunk.graphics.Image;
+	import net.flashpunk.graphics.Text;
 
 	/**
 	 * @author PigMess
@@ -25,7 +26,7 @@ package punk.ui
 			super(x, y, width, height);
 			
 			_textField = new TextField();
-			_textField.defaultTextFormat = new TextFormat("Courier", 12, 0xb8b8b8);
+			_textField.defaultTextFormat = new TextFormat(Text.font, Text.size, 0xb8b8b8);
 			_textField.text = text;
 			_textField.width = width as Number;
 			_textField.height = height as Number;
