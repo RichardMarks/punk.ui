@@ -60,19 +60,16 @@ package punk.ui
 			_bottomRight = new Image(_skin, new Rectangle(clipRect.x + _gridSize * 2, clipRect.y + _gridSize * 2, gridSize, gridSize));
 			
 			_9sliceGFXList = new Graphiclist(_topLeft, _topCenter, _topRight, _centerLeft, _centerCenter, _centerRight, _bottomLeft, _bottomCenter, _bottomRight);
-			graphic = _9sliceGFXList;
+			graphic = _9sliceGFXList
 		}
 		
-		public function resize():void 
+		override public function update():void 
 		{
-			/*
-			 * Im going to keep this is a separate function for the moment, as i dont want to put it in an update() ovveride. Mainly bacause it just adds that extra load that is shouldnt need to.
-			 */
-			if (_width < _gridSize * 2) _width = _gridSize * 2;
-			if (_height < _gridSize * 2) _height = _gridSize * 2;
+			if (width < _gridSize * 2) width = _gridSize * 2;
+			if (height < _gridSize * 2) height = _gridSize * 2;
 			
-			_xScale = (_width - _gridSize * 2) / _gridSize;
-			_yScale = (_height - _gridSize * 2) / _gridSize;
+			_xScale = (width - _gridSize * 2) / _gridSize;
+			_yScale = (height - _gridSize * 2) / _gridSize;
 			
 			_topCenter.scaleX = _xScale;
 			_centerLeft.scaleY = _yScale;
@@ -81,24 +78,18 @@ package punk.ui
 			_centerRight.scaleY = _yScale;
 			_bottomCenter.scaleX = _xScale;
 			
-			_topLeft.x = x;
-			_topLeft.y = y;
-			_topCenter.x = x + _gridSize;
-			_topCenter.y = y;
-			_topRight.x = x + _gridSize + (_xScale * _gridSize);
-			_topRight.y = y;
-			_centerLeft.x = x;
-			_centerLeft.y = y + _gridSize;
-			_centerCenter.x = x + _gridSize;
-			_centerCenter.y = y + _gridSize;
-			_centerRight.x = x + _gridSize + (_xScale * _gridSize);
-			_centerRight.y = y + _gridSize;
-			_bottomLeft.x = x;
-			_bottomLeft.y = y + _gridSize + (_yScale * _gridSize);
-			_bottomCenter.x = x + _gridSize;
-			_bottomCenter.y = y + _gridSize + (_yScale * _gridSize);
-			_bottomRight.x = x + _gridSize + (_xScale * _gridSize);
-			_bottomRight.y = y + _gridSize + (_yScale * _gridSize);
+			_topCenter.x =  _gridSize;
+			_topRight.x =  _gridSize + (_xScale * _gridSize);
+			_centerLeft.y = _gridSize;
+			_centerCenter.x = _gridSize;
+			_centerCenter.y = _gridSize;
+			_centerRight.x = _gridSize + (_xScale * _gridSize);
+			_centerRight.y = _gridSize;
+			_bottomLeft.y = _gridSize + (_yScale * _gridSize);
+			_bottomCenter.x = _gridSize;
+			_bottomCenter.y = _gridSize + (_yScale * _gridSize);
+			_bottomRight.x = _gridSize + (_xScale * _gridSize);
+			_bottomRight.y = _gridSize + (_yScale * _gridSize);
 		}
 		
 	}

@@ -25,6 +25,11 @@ package punk.ui
 			_skin = skin ? skin : _defaultSkin;
 		}
 		
+		override public function update():void 
+		{
+			super.update();
+		}
+		
 		protected var _skin:Class;
 	}
 }

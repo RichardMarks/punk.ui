@@ -26,16 +26,13 @@ package punk.ui
 		 */
 		public function PunkPanel(x:Number = 0, y:Number = 0, width:Number = 48, height:Number = 48, skin:Class = null)
 		{
-			super(x, y, width, height, skin, new Rectangle(48, 0, 48, 48), 16);
-			
-			resize();
+			super(x,y, width, height, new Rectangle(48, 0, 48, 48), 16, skin);
 			
 		}
 		
-		override public function render(target:BitmapData, point:Point, camera:Point):void 
+		override public function render():void 
 		{
-			
-			super.render(target,point,camera)
+			super.render();
 			
 			for (var a:int = 0; a <= objects.length; a++)
 			{
@@ -43,7 +40,24 @@ package punk.ui
 				{
 					for (var b:int = 0; b <= objects[a].length; b++)
 					{
-						if (objects[a][b]) objects[a][b].render(target, new Point(point.x + this.x, point.y + this.y), camera);
+						if (objects[a][b]) objects[a][b].render();
+					}
+				}
+			}
+			
+		}
+		
+		override public function update():void 
+		{
+			super.update();
+			
+			for (var a:int = 0; a <= objects.length; a++)
+			{
+				if (objects[a])
+				{
+					for (var b:int = 0; b <= objects[a].length; b++)
+					{
+						if (objects[a][b]) objects[a][b].update();
 					}
 				}
 			}
@@ -62,8 +76,8 @@ package punk.ui
 			if (layer < 0) layer = 0;
 			if (!objects[layer]) objects[layer] = new Array;
 			
-			toAdd.x = x;
-			toAdd.y = y;
+			toAdd.x = this.x + x;
+			toAdd.y = this.y + y;
 			
 			objects[layer].push(toAdd);
 		}
