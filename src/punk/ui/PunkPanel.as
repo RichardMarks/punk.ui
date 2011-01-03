@@ -16,7 +16,7 @@ package punk.ui
 	public class PunkPanel extends Punk9SliceComponent
 	{
 		
-		protected var objects:Array = new Array();
+		protected var children:Vector.<Entity> = new Vector.<Entity>()
 		
 		/**
 		 * A panel to hold components
@@ -32,171 +32,53 @@ package punk.ui
 			
 		}
 		
-		override public function update():void 
-		{
-			super.update();
-			
-			for (var a:int = 0; a <= objects.length; a++)
-			{
-				if (objects[a])
-				{
-					for (var b:int = 0; b <= objects[a].length; b++)
-					{
-						if (objects[a][b]) objects[a][b].update();
-					}
-				}
-			}
-			
-		}
-		
-		override public function render():void 
-		{
-			super.render();
-			
-			for (var a:int = 0; a <= objects.length; a++)
-			{
-				if (objects[a])
-				{
-					for (var b:int = 0; b <= objects[a].length; b++)
-					{
-						if (objects[a][b]) objects[a][b].render();
-					}
-				}
-			}
-			
-		}
-		
 		/**
 		 * Adds an Entity to the PunkPanel
 		 * @param	toAdd		The object to add
 		 * @param	x			The x Position to place the object RELATIVE to the Panel's x Position
 		 * @param	y			The y Position to place the object RELATIVE to the Panel's y Position
 		 * @param	layer		The z depth of the object. (The higher, the closer to the top)
+		 * @return				A reference to the Entity
 		 */
-		public function addEntity(toAdd:Entity, x:Number = 0, y:Number = 0, layer:int = 0):void
+		public function add(toAdd:*, x:Number = 0, y:Number = 0, layer:int = 0):Entity
 		{
-			if (layer < 0) layer = 0;
-			if (!objects[layer]) objects[layer] = new Array;
+			var e:Entity;
 			
-			toAdd.x = this.x + x;
-			toAdd.y = this.y + y;
+			if (toAdd is Entity) { e = toAdd; }
+			else if (toAdd is Graphic) { e = new Entity(0, 0, toAdd); }
+			else throw new Error(toAdd + " is not a supported class type")
 			
-			var stopAdd:Boolean = false;
+			e.x = this.x + x;
+			e.y = this.y + y;
 			
-			for (var a:int = 0; a <= objects.length; a++)
-			{
-				if (objects[a])
-				{
-					for (var b:int = 0; b <= objects[a].length; b++)
-					{
-						try {if (objects[a][b] == toAdd) throw new Error("WARNING! " + objects[a][b] + " Has already been added to " + this);}
-						catch (e:Error)
-						{
-							trace(e.message);
-							stopAdd = true;
-						}
-					}
-				}
-			}
-			if (!stopAdd) objects[layer].push(toAdd);
+			e.layer = this.layer - layer;
+			children.push(e);
 			
+			if (this.world == FP.world) { FP.world.add(e); }
+			
+			return e;
 		}
 		
 		/**
-		 * Adds a Graphic to the PunkPanel
-		 * @param	toAdd		The object to add
-		 * @param	x			The x Position to place the object RELATIVE to the Panel's x Position
-		 * @param	y			The y Position to place the object RELATIVE to the Panel's y Position
-		 * @param	layer		The z depth of the object. (The higher, the closer to the top)
-		 * @return				Refernce to the graphic.
-		 * 
-		 */
-		public function addGfx(toAdd:Graphic, x:Number = 0, y:Number = 0, layer:int = 0):Entity
-		{
-			var ent:Entity = new Entity(x,y,toAdd)
-			
-			if (layer < 0) layer = 0;
-			if (!objects[layer]) objects[layer] = new Array;
-			
-			ent.x = this.x + x;
-			ent.y = this.y + y;
-			
-			var stopAdd:Boolean = false;
-			
-			for (var a:int = 0; a <= objects.length; a++)
-			{
-				if (objects[a])
-				{
-					for (var b:int = 0; b <= objects[a].length; b++)
-					{
-						try {if (objects[a][b] == ent) throw new Error("WARNING! " + objects[a][b] + " Has already been added to " + this);}
-						catch (e:Error)
-						{
-							trace(e.message);
-							stopAdd = true;
-						}
-					}
-				}
-			}
-			if (!stopAdd) objects[layer].push(ent);
-			
-			return ent;
-		}
-		
-		/**
-		 * Removes a previously added object from the panel.
-		 * @param	toRemove	The object to remove
+		 * Removes an object from the PunkPanel
+		 * @param	toRemove	The Entity to remove
 		 */
 		public function remove(toRemove:Entity):void
 		{
-			for (var a:int = 0; a <= objects.length; a++)
+			for (var i:int = 0; i < children.length; i++ )
 			{
-				if (objects[a])
-				{
-					for (var b:int = 0; b <= objects[a].length; b++)
-					{
-						if (objects[a][b] == toRemove) objects[a][b] = null
-					}
-				}
+				if (children[i] == toRemove) { if (FP.world == toRemove.world) { FP.world.remove(toRemove); } children.splice(i, 1); }
 			}
 		}
 		
-		/**
-		 * Sets the Entity's x position relative to the panel.
-		 * @param	toMove	Entity to move
-		 * @param	x		Relative position to plave it
-		 */
-		public function setRelativeX(toMove:Entity, x:Number):void
+		override public function added():void 
 		{
-			for (var a:int = 0; a <= objects.length; a++)
-			{
-				if (objects[a])
-				{
-					for (var b:int = 0; b <= objects[a].length; b++)
-					{
-						if (objects[a][b] == toMove) objects[a][b].x = x + this.x
-					}
-				}
-			}
+			for each (var child:Entity in children) { FP.world.add(child); }
 		}
 		
-		/**
-		 * Sets the Entity's x position relative to the panel.
-		 * @param	toMove	Entity to move
-		 * @param	x		Relative position to plave it
-		 */
-		public function setRelativeY(toMove:Entity, y:Number):void
+		override public function removed():void 
 		{
-			for (var a:int = 0; a <= objects.length; a++)
-			{
-				if (objects[a])
-				{
-					for (var b:int = 0; b <= objects[a].length; b++)
-					{
-						if (objects[a][b] == toMove) objects[a][b].y = y + this.y
-					}
-				}
-			}
+			for each (var child:Entity in children) { if (FP.world == child.world) { FP.world.remove(child); } }
 		}
 		
 	}
