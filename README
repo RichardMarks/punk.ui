@@ -11,13 +11,9 @@ that I felt we would need, and included a PNG of
 the class inheritance design so you can see what is
 what.
 
-I recommend forking the repository and working on what you will,
-and I will maintain the "official" repository.
-You can submit your forks' implementations to me and
-I will merge them as we go along.
+There is a wiki for this project here on github:
+https://github.com/RichardMarks/punk.ui/wiki
 
-Keep your changes in a branch with your username
-and I will be able to keep track of the changes better.
 
 -Richard Marks
 December 19, 2010
