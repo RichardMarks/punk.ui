@@ -12,10 +12,18 @@ package punk.ui
 	 * @author	AClockWorkLemon (Saxon Landers)
 	 * 			contact at info.clockworkgames@gmail.com
 	 */
-	public class PunkPanel extends Punk9SliceComponent
+	public class PunkPanel extends PunkUIComponent
 	{
 		
 		protected var children:Vector.<Entity> = new Vector.<Entity>()
+		
+		protected var _9slice:Punk9Slice;
+		protected var _image:Image;
+		
+		protected var oldX:Number;
+		protected var oldY:Number;
+		protected var oldWidth:Number;
+		protected var oldHeight:Number;
 		
 		/**
 		 * A panel to hold components
@@ -27,8 +35,31 @@ package punk.ui
 		 */
 		public function PunkPanel(x:Number = 0, y:Number = 0, width:Number = 48, height:Number = 48, skin:Class = null)
 		{
-			super(x,y, width, height, new Rectangle(48, 0, 48, 48), 16, skin);
+			super(x,y, width, height, skin);
+			_9slice = new Punk9Slice(width, height, new Rectangle(48, 0, 48, 48), 16, _skin);
+			_image = _9slice.update9Slice(width, height);
+			graphic = _image
 			
+			oldX = x;
+			oldY = y;
+			oldWidth = width;
+			oldHeight = height;
+		}
+		
+		override public function update():void 
+		{
+			if (width != oldWidth)
+			{
+				oldWidth = width;
+				_image = _9slice.update9Slice(width, height);
+				graphic = Image;
+			}
+			if (height != oldHeight)
+			{
+				oldHeight = height;
+				_image = _9slice.update9Slice(width, height);
+				graphic = _image;
+			}
 		}
 		
 		/**
@@ -36,7 +67,7 @@ package punk.ui
 		 * @param	toAdd		The object to add
 		 * @param	x			The x Position to place the object RELATIVE to the Panel's x Position
 		 * @param	y			The y Position to place the object RELATIVE to the Panel's y Position
-		 * @param	layer		The z depth of the object. (The higher, the closer to the top)
+		 * @param	layer		The z depth of the object. (The lower, the closer to the top)
 		 * @return				A reference to the Entity
 		 */
 		public function add(toAdd:*, x:Number = 0, y:Number = 0, layer:int = 0):Entity
