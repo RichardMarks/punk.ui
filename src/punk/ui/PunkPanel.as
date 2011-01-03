@@ -3,7 +3,6 @@ package punk.ui
 	import flash.geom.Point;
 	import flash.display.BitmapData;
 	import flash.geom.Rectangle;
-	import flash.text.engine.ElementFormat;
 	import net.flashpunk.Graphic;
 	import net.flashpunk.Entity;
 	import net.flashpunk.graphics.Image;
@@ -116,7 +115,7 @@ package punk.ui
 						return;
 					}
 					
-					value.get = Number(this.x);
+					trace("WARNING! A child was not specified. No action taken")
 					return;
 				}
 				
@@ -139,8 +138,7 @@ package punk.ui
 					return;
 				}
 				
-				// no child specified, set this object's x value
-				this.x = Number(value.x);
+				trace("WARNING! A child was not specified. No action taken")
 			}
 			else throw new Error("Invalid parameter type");
 		}
@@ -178,7 +176,7 @@ package punk.ui
 						return;
 					}
 					
-					value.get = Number(this.y);
+					trace("WARNING! A child was not specified. No action taken")
 					return;
 				}
 				
@@ -201,8 +199,7 @@ package punk.ui
 					return;
 				}
 				
-				// no child specified, set this object's y value
-				this.y = Number(value.y);
+				trace("WARNING! A child was not specified. No action taken")
 			}
 			else throw new Error("Invalid parameter type");
 		}
@@ -242,7 +239,7 @@ package punk.ui
 						return;
 					}
 					
-					value.get = Number(this.layer);
+					trace("WARNING! A child was not specified. No action taken")
 					return;
 				}
 				
@@ -265,8 +262,7 @@ package punk.ui
 					return;
 				}
 				
-				// no child specified, set this object's layer
-				this.layer = Number(value.layer);
+				trace("WARNING! A child was not specified. No action taken")
 			}
 			else throw new Error("Invalid parameter type");
 		}
