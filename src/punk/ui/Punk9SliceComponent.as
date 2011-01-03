@@ -1,10 +1,12 @@
 package punk.ui 
 {
 	import flash.display.BitmapData;
+	import flash.display.GraphicsBitmapFill;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import net.flashpunk.graphics.Graphiclist;
 	import net.flashpunk.graphics.Image;
+	import net.flashpunk.FP;
 	
 	/**
 	 * A Punk.UI component to be used for 9-sliced components.
@@ -24,7 +26,7 @@ package punk.ui
 		protected var _bottomCenter:Image;
 		protected var _bottomRight:Image;
 		
-		protected var _9sliceGFXList:Graphiclist;
+		protected var _gfxList:Graphiclist;
 		
 		protected var _xScale:Number;
 		protected var _yScale:Number;
@@ -50,7 +52,7 @@ package punk.ui
 			if (clipRect == null) clipRect = new Rectangle(0, 0, 1, 1);
 			
 			_topLeft = new Image(_skin, new Rectangle(clipRect.x, clipRect.y, gridSize, gridSize));
-			_topCenter = new Image(_skin, new Rectangle(clipRect.x + _gridSize, clipRect.y, gridSize));
+			_topCenter = new Image(_skin, new Rectangle(clipRect.x + _gridSize, clipRect.y, gridSize, gridSize));
 			_topRight = new Image(_skin, new Rectangle(clipRect.x + _gridSize * 2, clipRect.y, gridSize, gridSize));
 			_centerLeft = new Image(_skin, new Rectangle(clipRect.x, clipRect.y + _gridSize, gridSize, gridSize));
 			_centerCenter = new Image(_skin, new Rectangle(clipRect.x + _gridSize, clipRect.y + _gridSize, gridSize, gridSize));
@@ -59,8 +61,9 @@ package punk.ui
 			_bottomCenter = new Image(_skin, new Rectangle(clipRect.x + _gridSize, clipRect.y + _gridSize * 2, gridSize, gridSize));
 			_bottomRight = new Image(_skin, new Rectangle(clipRect.x + _gridSize * 2, clipRect.y + _gridSize * 2, gridSize, gridSize));
 			
-			_9sliceGFXList = new Graphiclist(_topLeft, _topCenter, _topRight, _centerLeft, _centerCenter, _centerRight, _bottomLeft, _bottomCenter, _bottomRight);
-			graphic = _9sliceGFXList
+			_gfxList = new Graphiclist(_topLeft, _topCenter, _topRight, _centerLeft, _centerCenter, _centerRight, _bottomLeft, _bottomCenter, _bottomRight);
+			graphic = _gfxList;
+			
 		}
 		
 		override public function update():void 
@@ -78,18 +81,19 @@ package punk.ui
 			_centerRight.scaleY = _yScale;
 			_bottomCenter.scaleX = _xScale;
 			
-			_topCenter.x =  _gridSize;
-			_topRight.x =  _gridSize + (_xScale * _gridSize);
-			_centerLeft.y = _gridSize;
-			_centerCenter.x = _gridSize;
-			_centerCenter.y = _gridSize;
+			_topCenter.x = _gridSize ;
+			_topRight.x = _gridSize + (_xScale * _gridSize) ;
+			_centerLeft.y = _gridSize ;
+			_centerCenter.x = _gridSize ;
+			_centerCenter.y = _gridSize ;
 			_centerRight.x = _gridSize + (_xScale * _gridSize);
-			_centerRight.y = _gridSize;
-			_bottomLeft.y = _gridSize + (_yScale * _gridSize);
-			_bottomCenter.x = _gridSize;
+			_centerRight.y = _gridSize ;
+			_bottomLeft.y =  _gridSize + (_yScale * _gridSize);
+			_bottomCenter.x = _gridSize ;
 			_bottomCenter.y = _gridSize + (_yScale * _gridSize);
 			_bottomRight.x = _gridSize + (_xScale * _gridSize);
 			_bottomRight.y = _gridSize + (_yScale * _gridSize);
+			
 		}
 		
 	}

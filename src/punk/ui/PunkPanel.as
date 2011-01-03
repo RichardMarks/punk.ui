@@ -5,7 +5,9 @@ package punk.ui
 	import flash.geom.Rectangle;
 	import flash.text.engine.ElementFormat;
 	import net.flashpunk.Graphic;
+	import net.flashpunk.Entity;
 	import net.flashpunk.graphics.Image;
+	import net.flashpunk.FP;
 	
 	/**
 	 * @author	AClockWorkLemon (Saxon Landers)
@@ -30,23 +32,6 @@ package punk.ui
 			
 		}
 		
-		override public function render():void 
-		{
-			super.render();
-			
-			for (var a:int = 0; a <= objects.length; a++)
-			{
-				if (objects[a])
-				{
-					for (var b:int = 0; b <= objects[a].length; b++)
-					{
-						if (objects[a][b]) objects[a][b].render();
-					}
-				}
-			}
-			
-		}
-		
 		override public function update():void 
 		{
 			super.update();
@@ -64,14 +49,31 @@ package punk.ui
 			
 		}
 		
+		override public function render():void 
+		{
+			super.render();
+			
+			for (var a:int = 0; a <= objects.length; a++)
+			{
+				if (objects[a])
+				{
+					for (var b:int = 0; b <= objects[a].length; b++)
+					{
+						if (objects[a][b]) objects[a][b].render();
+					}
+				}
+			}
+			
+		}
+		
 		/**
-		 * Adds an Image to the PunkPanel
+		 * Adds an Entity to the PunkPanel
 		 * @param	toAdd		The object to add
 		 * @param	x			The x Position to place the object RELATIVE to the Panel's x Position
 		 * @param	y			The y Position to place the object RELATIVE to the Panel's y Position
 		 * @param	layer		The z depth of the object. (The higher, the closer to the top)
 		 */
-		public function add(toAdd:*, x:Number = 0, y:Number = 0, layer:int = 0):void
+		public function addEntity(toAdd:Entity, x:Number = 0, y:Number = 0, layer:int = 0):void
 		{
 			if (layer < 0) layer = 0;
 			if (!objects[layer]) objects[layer] = new Array;
@@ -79,14 +81,32 @@ package punk.ui
 			toAdd.x = this.x + x;
 			toAdd.y = this.y + y;
 			
-			objects[layer].push(toAdd);
+			var stopAdd:Boolean = false;
+			
+			for (var a:int = 0; a <= objects.length; a++)
+			{
+				if (objects[a])
+				{
+					for (var b:int = 0; b <= objects[a].length; b++)
+					{
+						try {if (objects[a][b] == toAdd) throw new Error("WARNING! " + objects[a][b] + " Has already been added to " + this);}
+						catch (e:Error)
+						{
+							trace(e.message);
+							stopAdd = true;
+						}
+					}
+				}
+			}
+			if (!stopAdd) objects[layer].push(toAdd);
+			
 		}
 		
 		/**
 		 * Removes a previously added object from the panel.
 		 * @param	toRemove	The object to remove
 		 */
-		public function remove(toRemove:*):void
+		public function removeEntity(toRemove:Entity):void
 		{
 			for (var a:int = 0; a <= objects.length; a++)
 			{
@@ -98,6 +118,12 @@ package punk.ui
 					}
 				}
 			}
+		}
+		
+		//STILL WOKING HERE
+		public function setRelativeX(toMove:Entity, x:Number):void
+		{
+			
 		}
 		
 	}
