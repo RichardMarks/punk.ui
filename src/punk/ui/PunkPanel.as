@@ -78,8 +78,8 @@ package punk.ui
 			else if (toAdd is Graphic) { e = new Entity(0, 0, toAdd); }
 			else throw new Error(toAdd + " is not a supported class type")
 			
-			e.x = this.x + x;
-			e.y = this.y + y;
+			e.x += this.x + x;
+			e.y += this.y + y;
 			
 			e.layer = this.layer - layer;
 			children.push(e);
