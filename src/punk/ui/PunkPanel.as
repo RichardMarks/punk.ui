@@ -103,10 +103,51 @@ package punk.ui
 		}
 		
 		/**
+		 * Adds a Graphic to the PunkPanel
+		 * @param	toAdd		The object to add
+		 * @param	x			The x Position to place the object RELATIVE to the Panel's x Position
+		 * @param	y			The y Position to place the object RELATIVE to the Panel's y Position
+		 * @param	layer		The z depth of the object. (The higher, the closer to the top)
+		 * @return				Refernce to the graphic.
+		 * 
+		 */
+		public function addGfx(toAdd:Graphic, x:Number = 0, y:Number = 0, layer:int = 0):Entity
+		{
+			var ent:Entity = new Entity(x,y,toAdd)
+			
+			if (layer < 0) layer = 0;
+			if (!objects[layer]) objects[layer] = new Array;
+			
+			ent.x = this.x + x;
+			ent.y = this.y + y;
+			
+			var stopAdd:Boolean = false;
+			
+			for (var a:int = 0; a <= objects.length; a++)
+			{
+				if (objects[a])
+				{
+					for (var b:int = 0; b <= objects[a].length; b++)
+					{
+						try {if (objects[a][b] == ent) throw new Error("WARNING! " + objects[a][b] + " Has already been added to " + this);}
+						catch (e:Error)
+						{
+							trace(e.message);
+							stopAdd = true;
+						}
+					}
+				}
+			}
+			if (!stopAdd) objects[layer].push(ent);
+			
+			return ent;
+		}
+		
+		/**
 		 * Removes a previously added object from the panel.
 		 * @param	toRemove	The object to remove
 		 */
-		public function removeEntity(toRemove:Entity):void
+		public function remove(toRemove:Entity):void
 		{
 			for (var a:int = 0; a <= objects.length; a++)
 			{
@@ -120,7 +161,11 @@ package punk.ui
 			}
 		}
 		
-		//STILL WOKING HERE
+		/**
+		 * Sets the Entity's x position relative to the panel.
+		 * @param	toMove	Entity to move
+		 * @param	x		Relative position to plave it
+		 */
 		public function setRelativeX(toMove:Entity, x:Number):void
 		{
 			for (var a:int = 0; a <= objects.length; a++)
@@ -135,6 +180,11 @@ package punk.ui
 			}
 		}
 		
+		/**
+		 * Sets the Entity's x position relative to the panel.
+		 * @param	toMove	Entity to move
+		 * @param	x		Relative position to plave it
+		 */
 		public function setRelativeY(toMove:Entity, y:Number):void
 		{
 			for (var a:int = 0; a <= objects.length; a++)
