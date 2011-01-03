@@ -123,7 +123,30 @@ package punk.ui
 		//STILL WOKING HERE
 		public function setRelativeX(toMove:Entity, x:Number):void
 		{
-			
+			for (var a:int = 0; a <= objects.length; a++)
+			{
+				if (objects[a])
+				{
+					for (var b:int = 0; b <= objects[a].length; b++)
+					{
+						if (objects[a][b] == toMove) objects[a][b].x = x + this.x
+					}
+				}
+			}
+		}
+		
+		public function setRelativeY(toMove:Entity, y:Number):void
+		{
+			for (var a:int = 0; a <= objects.length; a++)
+			{
+				if (objects[a])
+				{
+					for (var b:int = 0; b <= objects[a].length; b++)
+					{
+						if (objects[a][b] == toMove) objects[a][b].y = y + this.y
+					}
+				}
+			}
 		}
 		
 	}
