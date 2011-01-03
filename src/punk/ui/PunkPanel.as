@@ -52,7 +52,7 @@ package punk.ui
 			{
 				oldWidth = width;
 				_image = _9slice.update9Slice(width, height);
-				graphic = Image;
+				graphic = _image;
 			}
 			if (height != oldHeight)
 			{
