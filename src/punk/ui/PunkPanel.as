@@ -108,11 +108,11 @@ package punk.ui
 					if (value.hasOwnProperty("child"))
 					{
 						var index:Number = children.indexOf(value.child);
-						if (childIndex < 0)
+						if (index < 0)
 						{
 							throw new Error("specified child not found on this panel object");
 						}
-						value.get = Number(children[childIndex].x);
+						value.get = Number(children[index].x);
 						return;
 					}
 					
@@ -170,11 +170,11 @@ package punk.ui
 					if (value.hasOwnProperty("child"))
 					{
 						var index:Number = children.indexOf(value.child);
-						if (childIndex < 0)
+						if (index < 0)
 						{
 							throw new Error("specified child not found on this panel object");
 						}
-						value.get = Number(children[childIndex].y);
+						value.get = Number(children[index].y);
 						return;
 					}
 					
@@ -234,11 +234,11 @@ package punk.ui
 					if (value.hasOwnProperty("child"))
 					{
 						var index:Number = children.indexOf(value.child);
-						if (childIndex < 0)
+						if (index < 0)
 						{
 							throw new Error("specified child not found on this panel object");
 						}
-						value.get = Number(children[childIndex].layer);
+						value.get = Number(children[index].layer);
 						return;
 					}
 					
