@@ -140,13 +140,13 @@ package punk.ui
 						var index:Number = children.indexOf(value.child);
 						if (index < 0)
 						{
-							throw new Error("specified child not found on this panel object");
+							throw new Error("Specified child not found on this panel object");
 						}
 						value.get = Number(children[index].x);
 						return;
 					}
 					
-					trace("WARNING! A child was not specified. No action taken")
+					trace("2:A child was not specified. No action taken")
 					return;
 				}
 				
@@ -169,7 +169,7 @@ package punk.ui
 					return;
 				}
 				
-				trace("WARNING! A child was not specified. No action taken")
+				trace("2:A child was not specified. No action taken")
 			}
 			else throw new Error("Invalid parameter type");
 		}
@@ -207,7 +207,7 @@ package punk.ui
 						return;
 					}
 					
-					trace("WARNING! A child was not specified. No action taken")
+					trace("2:A child was not specified. No action taken")
 					return;
 				}
 				
@@ -230,7 +230,7 @@ package punk.ui
 					return;
 				}
 				
-				trace("WARNING! A child was not specified. No action taken")
+				trace("2:A child was not specified. No action taken")
 			}
 			else throw new Error("Invalid parameter type");
 		}
@@ -270,7 +270,7 @@ package punk.ui
 						return;
 					}
 					
-					trace("WARNING! A child was not specified. No action taken")
+					trace("2:A child was not specified. No action taken")
 					return;
 				}
 				
@@ -293,7 +293,7 @@ package punk.ui
 					return;
 				}
 				
-				trace("WARNING! A child was not specified. No action taken")
+				trace("2:A child was not specified. No action taken")
 			}
 			else throw new Error("Invalid parameter type");
 		}
