@@ -11,11 +11,16 @@ package
 		{
 			super();
 			
-			var label:PunkLabel = new PunkLabel("Testing");
-			add(label);
+			add(new PunkLabel("Testing"));
 			
 			var panel:PunkPanel = new PunkPanel(0, 30);
 			add(panel);
+			panel.add(new PunkLabel("Hello"));
+			
+			var label:PunkLabel = new PunkLabel("I'm inside the panel");
+			label.y = 30;
+			panel.add(label);
+			label.y = 2;
 		}
 	}
 }
