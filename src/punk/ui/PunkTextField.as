@@ -19,3 +19,4 @@ package punk.ui
 			_textField.wordWrap = false;
 		}
 	}
+}

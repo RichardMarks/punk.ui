@@ -4,6 +4,9 @@ package
 	
 	import punk.ui.PunkLabel;
 	import punk.ui.PunkPanel;
+	import punk.ui.PunkPassword;
+	import punk.ui.PunkTextArea;
+	import punk.ui.PunkTextField;
 	
 	public class Test1 extends World
 	{
@@ -21,6 +24,10 @@ package
 			label.y = 30;
 			panel.add(label);
 			label.y = 2;
+			
+			add(new PunkTextArea(50, 50, 300, 20));
+			add(new PunkTextField(50, 100, 300, 20));
+			add(new PunkPassword(50, 150, 300, 20));
 		}
 	}
 }
