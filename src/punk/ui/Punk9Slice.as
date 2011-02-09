@@ -35,8 +35,6 @@ package punk.ui
 		protected var width:Number;
 		protected var height:Number;
 		
-		[Embed(source='defaultSkin.png')] protected var _defaultSkin:Class;
-		
 		/**
 		 * Constructor. Initiates the Punk9Slice
 		 * @param	width		Initial Width of the 9slice
@@ -48,7 +46,7 @@ package punk.ui
 		public function Punk9Slice(width:Number, height:Number, clipRect:Rectangle = null, gridSize:Number = 0, skin:Class = null)
 		{
 			_gridSize = gridSize;
-			_skin = skin || _defaultSkin;
+			_skin = skin;
 			this.width = width;
 			this.height = height;
 			
