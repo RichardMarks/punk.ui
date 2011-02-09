@@ -13,6 +13,7 @@ package punk.ui
 	
 	/**
 	 * @author PigMess
+	 * @author Rolpege
 	 */
 
 	public class PunkLabel extends PunkUIComponent

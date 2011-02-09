@@ -10,7 +10,8 @@ package
 		{
 			super();
 			
-			add(new PunkLabel("Testing"));
+			var label:PunkLabel = new PunkLabel("Testing");
+			add(label);
 		}
 	}
 }
