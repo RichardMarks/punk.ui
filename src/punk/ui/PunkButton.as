@@ -8,11 +8,11 @@ package punk.ui
 	import net.flashpunk.Graphic;
 	import net.flashpunk.Mask;
 	import net.flashpunk.graphics.Graphiclist;
+	import net.flashpunk.graphics.Image;
 	import net.flashpunk.utils.Input;
 
 	/**
 	 * @author Rolpege
-	 * @coauthor PigMess
 	 */
 	
 	public class PunkButton extends PunkUIComponent
@@ -20,33 +20,34 @@ package punk.ui
 		/**
 		 * This function will be called when the button is pressed. 
 		 */		
-		public var callback:Function = null;
-		/**
-		 * This function will be called when the mouse overs the button. 
-		 */		
-		public var overCall:Function = null;
-		/** 
-		 * @private
-		 */
-		protected var overCalled:Boolean = false;
+		public var onPressed:Function = null;
+		
+		public var onReleased:Function = null;
+		
+		public var onEnter:Function = null;
+		
+		public var onExit:Function = null;
+		
+		public var isPressed:Boolean = false;
+		
+		public var isMoused:Boolean = false;
 		
 		/**
-		 * Graphic of the button when active and not pressed nor overed.
+		 * Graphic of the button when it's active and it's not being pressed and the mouse is outside of it.
 		 */	
-		public var normal:Graphic = new Graphic;
+		public var normalGraphic:Graphic = new Graphic;
 		/**
 		 * Graphic of the button when the mouse overs it and it's active.
 		 */		
-		public var hover:Graphic = new Graphic;
+		public var mousedGraphic:Graphic = new Graphic;
 		/**
 		 * Graphic of the button when the mouse is pressing it and it's active.
 		 */		
-		public var down:Graphic = new Graphic;
+		public var pressedGraphic:Graphic = new Graphic;
 		/**
 		 * Graphic of the button when inactive.
-		 * 
 		 */
-		public var inactive:Graphic = new Graphic;
+		public var inactiveGraphic:Graphic = new Graphic;
 		
 		/**
 		 * The button's label 
@@ -64,57 +65,113 @@ package punk.ui
 		 * @param callback	The function that will be called when the button is pressed.
 		 * @param active	Whether the button is active or not.
 		 */
-		public function PunkButton(x:Number=0, y:Number=0, width:int=1, height:int=1, text:String="Button", callback:Function=null, active:Boolean=true)
-		{
-			super(x, y, width, height);
-			setHitbox(width, height);
-			//HERE GETTING GRAPHICS FROM IMAGE
-			this.callback = callback;
-			label = new PunkLabel(x, y, width, height);
-			label.text = text;
+		public function PunkButton(x:Number=0, y:Number=0, width:int=1, height:int=1, text:String="Button",
+								   onReleased:Function=null, active:Boolean=true, skin:Class=null) {
+			super(x, y, width, height, skin);
+			
+			normalGraphic = Image.createRect(width, height, 0xFFFFFF);
+			mousedGraphic = Image.createRect(width, height, 0xCCCCCC);
+			pressedGraphic = Image.createRect(width, height, 0x999999);
+			inactiveGraphic = Image.createRect(width, height, 0x666666);
+			
+			this.onReleased = onReleased;
+			
+			label = new PunkLabel(text, x, y, width, height);
 			label.color = 0x000000;
 			label.background = false;
-			active ? this.graphic = normal : this.graphic = inactive;
+			
+			this.active = active;
 		}
 		
 		/**
 		 * @private 
 		 */
-		override public function update():void
-		{
-			if(this.graphic != inactive) {
-				super.update();
-				
-				if(collidePoint(x, y, Input.mouseX, Input.mouseY))
-				{
-					if(Input.mouseDown)
-					{
-						this.graphic = down;
-					}
-					else
-					{
-						this.graphic = hover;
-						
-						if(!overCalled)
-						{
-							if(overCall != null) overCall();
-							overCalled = true;
-						}
-					}
-				}
+		override public function update():void{
+			super.update();
+			
+			if(collidePoint(this.x, this.y, Input.mouseX, Input.mouseY))
+			{
+				if(Input.mouseDown) _currentGraphic = 2;
 				else
 				{
-					this.graphic = normal;
-					overCalled = false;
+					if(!isMoused) enterCallback();
+					_currentGraphic = 1;
 				}
+			}
+			else
+			{
+				if(isMoused) exitCallback();
+				_currentGraphic = 0;
 			}
 			
 			label.update();
 		}
 		
-		public function onMouseUp(e:MouseEvent = null):void {
-			if(this.graphic == inactive || !Input.mouseReleased || (callback == null)) return;
-			if(this.collidePoint(this.x, this.y, Input.mouseX, Input.mouseY)) callback();
+		/**
+		 * @private
+		 */
+		override public function render():void {
+			if(active)
+			{
+				switch(_currentGraphic)
+				{
+					case 0:
+						renderGraphic(normalGraphic);
+						break;
+					case 1:
+						renderGraphic(mousedGraphic);
+						break;
+					case 2:
+						renderGraphic(pressedGraphic);
+						break;
+				}
+			}
+			else
+			{
+				renderGraphic(inactiveGraphic);
+			}
+			
+			label.render();
+		}
+		
+		protected function pressedCallback():void
+		{
+			if(onPressed != null) onPressed();
+			isPressed = true;
+		}
+		
+		protected function releasedCallback():void
+		{
+			isPressed = false;
+			if(onReleased != null) onReleased();
+		}
+		
+		protected function enterCallback():void
+		{
+			isMoused = true;
+			if(onEnter != null) onEnter();
+		}
+		
+		protected function exitCallback():void
+		{
+			isMoused = false;
+			if(onExit != null) onExit();
+		}
+		
+		/**
+		 * @private
+		 */		
+		protected function onMouseDown(e:MouseEvent = null):void {
+			if(!active || !Input.mousePressed) return;
+			if(this.collidePoint(this.x, this.y, Input.mouseX, Input.mouseY)) pressedCallback();
+		}
+		
+		/**
+		 * @private
+		 */		
+		protected function onMouseUp(e:MouseEvent = null):void {
+			if(!active || !Input.mouseReleased) return;
+			if(this.collidePoint(this.x, this.y, Input.mouseX, Input.mouseY)) releasedCallback();
 		}
 		
 		/**
@@ -126,7 +183,8 @@ package punk.ui
 			label.added();
 			
 			if(FP.stage) {
-				FP.stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+				FP.stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown, false, 0, true);
+				FP.stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp, false, 0, true);
 			}
 		}
 		
@@ -139,8 +197,26 @@ package punk.ui
 			label.removed();
 			
 			if(FP.stage) {
+				FP.stage.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 				FP.stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 			}
 		}
+		
+		protected function renderGraphic(graphic:Graphic):void
+		{
+			if(graphic && graphic.visible)
+			{
+				if (graphic.relative)
+				{
+					_point.x = x;
+					_point.y = y;
+				}
+				else _point.x = _point.y = 0;
+				graphic.render(renderTarget ? renderTarget : FP.buffer, _point, FP.camera);
+			}
+		}
+		
+		protected var _currentGraphic:int = 0;
+		protected var _point:Point = new Point;
 	}
 }

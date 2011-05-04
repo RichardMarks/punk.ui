@@ -1,7 +1,9 @@
 package
 {
+	import net.flashpunk.FP;
 	import net.flashpunk.World;
 	
+	import punk.ui.PunkButton;
 	import punk.ui.PunkLabel;
 	import punk.ui.PunkPanel;
 	import punk.ui.PunkPassword;
@@ -14,20 +16,34 @@ package
 		{
 			super();
 			
-			add(new PunkLabel("Testing"));
+			FP.console.enable();
 			
-			var panel:PunkPanel = new PunkPanel(0, 30);
-			add(panel);
-			panel.add(new PunkLabel("Hello"));
-			
-			var label:PunkLabel = new PunkLabel("I'm inside the panel");
-			label.y = 30;
-			panel.add(label);
-			label.y = 2;
-			
-			add(new PunkTextArea(50, 50, 300, 20));
-			add(new PunkTextField(50, 100, 300, 20));
-			add(new PunkPassword(50, 150, 300, 20));
+			var button:PunkButton = new PunkButton(10, 10, 100, 50);
+			button.onPressed = onPressed;
+			button.onReleased = onReleased;
+			button.onEnter = onEnter;
+			button.onExit = onExit;
+			add(button);
+		}
+		
+		public function onPressed():void
+		{
+			FP.log("onPressed");
+		}
+		
+		public function onReleased():void
+		{
+			FP.log("onReleased");
+		}
+		
+		public function onEnter():void
+		{
+			FP.log("onEnter");
+		}
+		
+		public function onExit():void
+		{
+			FP.log("onExit");
 		}
 	}
 }

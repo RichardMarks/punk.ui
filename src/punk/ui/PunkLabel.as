@@ -27,6 +27,7 @@ package punk.ui
 			super(x, y, width, height);
 			
 			_textField = new TextField();
+			_textField.embedFonts = true;
 			_textField.selectable = false;
 			_textField.defaultTextFormat = new TextFormat("default", PunkLabel.size, PunkLabel.color);
 			_textField.text = text;
