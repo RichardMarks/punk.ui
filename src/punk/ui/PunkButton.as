@@ -101,7 +101,7 @@ package punk.ui
 		override public function update():void{
 			super.update();
 			
-			if(collidePoint(this.x, this.y, Input.mouseX, Input.mouseY))
+			if(PunkUI.mouseIsOver(this, true, true))
 			{
 				if(Input.mouseDown) _currentGraphic = 2;
 				else
@@ -173,7 +173,7 @@ package punk.ui
 		 */		
 		protected function onMouseDown(e:MouseEvent = null):void {
 			if(!active || !Input.mousePressed) return;
-			if(this.collidePoint(this.x, this.y, Input.mouseX, Input.mouseY)) pressedCallback();
+			if(PunkUI.mouseIsOver(this, true, true)) pressedCallback();
 		}
 		
 		/**
@@ -181,7 +181,8 @@ package punk.ui
 		 */		
 		protected function onMouseUp(e:MouseEvent = null):void {
 			if(!active || !Input.mouseReleased) return;
-			if(this.collidePoint(this.x, this.y, Input.mouseX, Input.mouseY)) releasedCallback();
+			if(isPressed) isPressed = false;
+			if(PunkUI.mouseIsOver(this, true, true)) releasedCallback();
 		}
 		
 		/**
