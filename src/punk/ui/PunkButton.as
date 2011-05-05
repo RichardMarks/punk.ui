@@ -52,33 +52,45 @@ package punk.ui
 		/**
 		 * The button's label 
 		 */		
-		public var label:PunkLabel;
+		public var label:PunkText;
 		
 		/**
-		 * Constructor.
+		 * Constructor
 		 *  
-		 * @param x			X coordinate of the button.
-		 * @param y			Y coordinate of the button.
-		 * @param width		Width of the button's hitbox.
-		 * @param height	Height of the button's hitbox.
-		 * @param text		Text of the button
-		 * @param callback	The function that will be called when the button is pressed.
-		 * @param active	Whether the button is active or not.
-		 */
+		 * @param x					The x coordinate of the button
+		 * @param y					The y coordinate of the button
+		 * @param width				The width of the button
+		 * @param height			The height of the button
+		 * @param text				The text of the button's label
+		 * @param onReleased		What to do when the button is clicked.
+		 * @param normalGraphic		Normal graphic.
+		 * @param mousedGraphic		Moused graphic. If not set, normalGraphic will be used.
+		 * @param pressedGraphic	Pressed graphic. If not set, normalGraphic will be used.
+		 * @param inactiveGraphic	Inactive graphic. If not set, normalGraphic will be used.
+		 * @param labelProperties	Additional label properties. Default to align center, width of the button and y to the center, considering textHeight
+		 * @param active			If the button should be active
+		 */		
 		public function PunkButton(x:Number=0, y:Number=0, width:int=1, height:int=1, text:String="Button",
-								   onReleased:Function=null, active:Boolean=true, skin:Class=null) {
-			super(x, y, width, height, skin);
+								   onReleased:Function=null, normalGraphic:Graphic = null, mousedGraphic:Graphic = null,
+								   pressedGraphic:Graphic=null, inactiveGraphic:Graphic = null, labelProperties:Object=null,
+								   active:Boolean=true) {
+			super(x, y, width, height);
 			
-			normalGraphic = Image.createRect(width, height, 0xFFFFFF);
-			mousedGraphic = Image.createRect(width, height, 0xCCCCCC);
-			pressedGraphic = Image.createRect(width, height, 0x999999);
-			inactiveGraphic = Image.createRect(width, height, 0x666666);
+			this.normalGraphic = normalGraphic
+			this.mousedGraphic = mousedGraphic ? mousedGraphic : normalGraphic;
+			this.pressedGraphic = pressedGraphic ? pressedGraphic : normalGraphic;
+			this.inactiveGraphic = inactiveGraphic ? inactiveGraphic : inactiveGraphic;
 			
 			this.onReleased = onReleased;
 			
-			label = new PunkLabel(text, x, y, width, height);
-			label.color = 0x000000;
-			label.background = false;
+			if(!labelProperties) labelProperties = new Object;
+			if(!labelProperties.hasOwnProperty("align")) labelProperties.align = "center";
+			if(!labelProperties.hasOwnProperty("width")) labelProperties.width = width;
+			label = new PunkText(text, 0, 0, labelProperties);
+			if(!labelProperties.hasOwnProperty("y"))
+			{
+				label.y = (height >> 1) - (label.textHeight >> 1);
+			}
 			
 			this.active = active;
 		}
@@ -103,8 +115,6 @@ package punk.ui
 				if(isMoused) exitCallback();
 				_currentGraphic = 0;
 			}
-			
-			label.update();
 		}
 		
 		/**
@@ -131,7 +141,7 @@ package punk.ui
 				renderGraphic(inactiveGraphic);
 			}
 			
-			label.render();
+			renderGraphic(label);
 		}
 		
 		protected function pressedCallback():void
@@ -180,8 +190,6 @@ package punk.ui
 		override public function added():void {
 			super.added();
 			
-			label.added();
-			
 			if(FP.stage) {
 				FP.stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown, false, 0, true);
 				FP.stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp, false, 0, true);
@@ -193,8 +201,6 @@ package punk.ui
 		 */
 		override public function removed():void {
 			super.removed();
-			
-			label.removed();
 			
 			if(FP.stage) {
 				FP.stage.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
