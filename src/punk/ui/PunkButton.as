@@ -32,6 +32,8 @@ package punk.ui
 		
 		public var isMoused:Boolean = false;
 		
+		protected var isKeyed:Boolean = false;
+		
 		/**
 		 * Graphic of the button when it's active and it's not being pressed and the mouse is outside of it.
 		 */	
@@ -48,6 +50,8 @@ package punk.ui
 		 * Graphic of the button when inactive.
 		 */
 		public var inactiveGraphic:Graphic = new Graphic;
+		
+		public var hotkey:int = 0;
 		
 		/**
 		 * The button's label 
@@ -72,7 +76,7 @@ package punk.ui
 		 */		
 		public function PunkButton(x:Number=0, y:Number=0, width:int=1, height:int=1, text:String="Button",
 								   onReleased:Function=null, normalGraphic:Graphic = null, mousedGraphic:Graphic = null,
-								   pressedGraphic:Graphic=null, inactiveGraphic:Graphic = null, labelProperties:Object=null,
+								   pressedGraphic:Graphic=null, inactiveGraphic:Graphic = null, hotkey:int=0, labelProperties:Object=null,
 								   active:Boolean=true) {
 			super(x, y, width, height);
 			
@@ -92,7 +96,17 @@ package punk.ui
 				label.y = (height >> 1) - (label.textHeight >> 1);
 			}
 			
+			this.hotkey = hotkey;
+			
 			this.active = active;
+		}
+		
+		public function setCallbacks(onReleased:Function=null, onPressed:Function=null, onEnter:Function=null, onExit:Function=null):void
+		{
+			this.onReleased = onReleased;
+			this.onPressed = onPressed;
+			this.onEnter = onEnter;
+			this.onExit = onExit;
 		}
 		
 		/**
@@ -101,20 +115,32 @@ package punk.ui
 		override public function update():void{
 			super.update();
 			
+			if(hotkey != 0)
+			{
+				if(!isPressed && Input.pressed(hotkey))
+				{
+					isKeyed = true;
+					pressedCallback();
+				}
+				if(isKeyed && Input.released(hotkey)) 
+				{
+					isKeyed = false;
+					if(isPressed) releasedCallback();
+				}
+			}
+			
 			if(PunkUI.mouseIsOver(this, true, true))
 			{
-				if(Input.mouseDown) _currentGraphic = 2;
-				else
-				{
-					if(!isMoused) enterCallback();
-					_currentGraphic = 1;
-				}
+				if(!isMoused) enterCallback();
+				_currentGraphic = 1;
 			}
 			else
 			{
 				if(isMoused) exitCallback();
 				_currentGraphic = 0;
 			}
+			
+			if(isPressed) _currentGraphic = 2;
 		}
 		
 		/**
@@ -146,8 +172,8 @@ package punk.ui
 		
 		protected function pressedCallback():void
 		{
-			if(onPressed != null) onPressed();
 			isPressed = true;
+			if(onPressed != null) onPressed();
 		}
 		
 		protected function releasedCallback():void
@@ -172,7 +198,7 @@ package punk.ui
 		 * @private
 		 */		
 		protected function onMouseDown(e:MouseEvent = null):void {
-			if(!active || !Input.mousePressed) return;
+			if(!active || !Input.mousePressed || isPressed) return;
 			if(PunkUI.mouseIsOver(this, true, true)) pressedCallback();
 		}
 		
@@ -180,7 +206,7 @@ package punk.ui
 		 * @private
 		 */		
 		protected function onMouseUp(e:MouseEvent = null):void {
-			if(!active || !Input.mouseReleased) return;
+			if(!active || !Input.mouseReleased || !isPressed) return;
 			if(isPressed) isPressed = false;
 			if(PunkUI.mouseIsOver(this, true, true)) releasedCallback();
 		}
