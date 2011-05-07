@@ -129,7 +129,7 @@ package punk.ui
 				}
 			}
 			
-			if(PunkUI.mouseIsOver(this, true, true))
+			if(PunkUI.mouseIsOver(this, true))
 			{
 				if(!isMoused) enterCallback();
 				_currentGraphic = 1;
@@ -199,7 +199,7 @@ package punk.ui
 		 */		
 		protected function onMouseDown(e:MouseEvent = null):void {
 			if(!active || !Input.mousePressed || isPressed) return;
-			if(PunkUI.mouseIsOver(this, true, true)) pressedCallback();
+			if(PunkUI.mouseIsOver(this, true)) pressedCallback();
 		}
 		
 		/**
@@ -208,7 +208,7 @@ package punk.ui
 		protected function onMouseUp(e:MouseEvent = null):void {
 			if(!active || !Input.mouseReleased || !isPressed) return;
 			if(isPressed) isPressed = false;
-			if(PunkUI.mouseIsOver(this, true, true)) releasedCallback();
+			if(PunkUI.mouseIsOver(this, true)) releasedCallback();
 		}
 		
 		/**
