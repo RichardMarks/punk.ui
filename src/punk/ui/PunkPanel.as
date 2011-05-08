@@ -86,6 +86,16 @@ package punk.ui
 				if(uiComponent.graphic && uiComponent.graphic.active) uiComponent.graphic.update();
 			}
 			
+			bounds.width = width;
+			bounds.height = height;
+		}
+		
+		override public function render():void
+		{
+			super.render();
+			
+			buffer.fillRect(FP.bounds, 0x00000000);
+			
 			if(oldX != x || oldY != y)
 			{
 				for each(uiComponent in _children)
@@ -95,18 +105,8 @@ package punk.ui
 				}
 			}
 			
-			bounds.width = width;
-			bounds.height = height;
-			
 			oldX = x;
 			oldY = y;
-		}
-		
-		override public function render():void
-		{
-			super.render();
-			
-			buffer.fillRect(FP.bounds, 0x00000000);
 			
 			for each(var uiComponent:PunkUIComponent in _children)
 			{
