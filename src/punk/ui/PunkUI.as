@@ -1,10 +1,11 @@
 package punk.ui
 {
 	import net.flashpunk.Entity;
+	import net.flashpunk.FP;
 	import net.flashpunk.World;
 	import net.flashpunk.utils.Input;
 
-	public class PunkUI
+	public final class PunkUI
 	{
 		public static const VERSION:String = "1.0dev";
 		
@@ -18,10 +19,9 @@ package punk.ui
 		 * @param screenMouse	Use mouse screen coordinates
 		 * @return 				If the mouse is over the entity
 		 */		
-		public static function mouseIsOver(entity:Entity, onlyOnTop:Boolean = true, screenMouse:Boolean = false):Boolean
+		public static function mouseIsOver(component:PunkUIComponent, onlyOnTop:Boolean = true, screenMouse:Boolean = false):Boolean
 		{
-			if(!entity.world) return false;
-			var w:World = entity.world;
+			var w:* = component.world ? component.world : component._panel;
 			var mx:Number = w.mouseX;
 			var my:Number = w.mouseY;
 			if(screenMouse)
@@ -29,14 +29,12 @@ package punk.ui
 				mx = Input.mouseX;
 				my = Input.mouseY;
 			}
-			var x:Number = entity.x;
-			var y:Number = entity.y;
+			var x:Number = component.x;
+			var y:Number = component.y;
 			
-			if(entity.collidePoint(x, y, mx, my))
-			{
-				if(!onlyOnTop) return true;
-				return w.frontCollidePoint(mx, my) == entity;
-			}
+			if(!onlyOnTop) return component.collidePoint(x, y, mx, my);
+			else return w.frontCollidePoint(mx, my) == component;
+			
 			return false;
 		}
 	}

@@ -58,6 +58,8 @@ package punk.ui
 		 */		
 		public var label:PunkText;
 		
+		protected var initialised:Boolean = false;
+		
 		/**
 		 * Constructor
 		 *  
@@ -114,6 +116,15 @@ package punk.ui
 		 */
 		override public function update():void{
 			super.update();
+			
+			if(!initialised)
+			{
+				if(FP.stage) {
+					FP.stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown, false, 0, true);
+					FP.stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp, false, 0, true);
+					initialised = true;
+				}
+			}
 			
 			if(hotkey != 0)
 			{
@@ -199,7 +210,7 @@ package punk.ui
 		 */		
 		protected function onMouseDown(e:MouseEvent = null):void {
 			if(!active || !Input.mousePressed || isPressed) return;
-			if(PunkUI.mouseIsOver(this, true)) pressedCallback();
+			if(isMoused) pressedCallback();
 		}
 		
 		/**
@@ -208,7 +219,7 @@ package punk.ui
 		protected function onMouseUp(e:MouseEvent = null):void {
 			if(!active || !Input.mouseReleased || !isPressed) return;
 			if(isPressed) isPressed = false;
-			if(PunkUI.mouseIsOver(this, true)) releasedCallback();
+			if(isMoused) releasedCallback();
 		}
 		
 		/**
@@ -220,6 +231,7 @@ package punk.ui
 			if(FP.stage) {
 				FP.stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown, false, 0, true);
 				FP.stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp, false, 0, true);
+				initialised = true;
 			}
 		}
 		
@@ -245,11 +257,11 @@ package punk.ui
 					_point.y = y;
 				}
 				else _point.x = _point.y = 0;
-				graphic.render(renderTarget ? renderTarget : FP.buffer, _point, FP.camera);
+				graphic.render(renderTarget ? renderTarget : FP.buffer, _point, _camera ? _camera : FP.camera);
 			}
 		}
 		
 		protected var _currentGraphic:int = 0;
-		protected var _point:Point = new Point;
+		protected static var _point:Point = new Point;
 	}
 }
