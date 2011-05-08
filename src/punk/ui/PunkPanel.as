@@ -40,10 +40,23 @@ package punk.ui
 		
 		public function add(uiComponent:PunkUIComponent):PunkUIComponent
 		{
+			if(uiComponent is PunkPanel)
+			{
+				trace("PunkPanels can't contain other PunkPanels at the moment.");
+				FP.log("PunkPanels can't contain other PunkPanels at the moment.");
+				return uiComponent;
+			}
+			
+			if(uiComponent._panel) return uiComponent;
 			_children[_count++] = uiComponent;
 			uiComponent._panel = this;
 			uiComponent.x += x;
 			uiComponent.y += y;
+			if(_panel)
+			{
+				uiComponent.x -= _panel.relativeX;
+				uiComponent.y -= _panel.relativeY;
+			}
 			uiComponent.added();
 			return uiComponent;
 		}
@@ -106,14 +119,8 @@ package punk.ui
 				uiComponent.render();
 			}
 			
-			FP.point.x = relativeX;
-			FP.point.y = relativeY;
-			
-			if(!_panel)
-			{
-				FP.point.x -= FP.camera.x;
-				FP.point.y -= FP.camera.y;
-			}
+			FP.point.x = relativeX - FP.camera.x;
+			FP.point.y = relativeY - FP.camera.y;
 			
 			bounds.x = x;
 			bounds.y = y;
