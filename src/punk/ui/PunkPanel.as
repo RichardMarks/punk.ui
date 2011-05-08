@@ -129,6 +129,16 @@ package punk.ui
 			t.copyPixels(buffer, bounds, FP.point);
 		}
 		
+		override public function addGraphic(graphic:Graphic):Graphic
+		{
+			return graphiclist.add(graphic);
+		}
+		
+		public function removeGraphic(graphic:Graphic):Graphic
+		{
+			return graphiclist.remove(graphic);
+		}
+		
 		public function get children():Vector.<PunkUIComponent>
 		{
 			return _children;
@@ -137,6 +147,28 @@ package punk.ui
 		public function get count():int
 		{
 			return _count
+		}
+		
+		public function addList(...list):void
+		{
+			var e:PunkUIComponent;
+			if (list[0] is Array || list[0] is Vector.<*>)
+			{
+				for each (e in list[0]) add(e);
+				return;
+			}
+			for each (e in list) add(e);
+		}
+		
+		public function removeList(...list):void
+		{
+			var e:PunkUIComponent;
+			if (list[0] is Array || list[0] is Vector.<*>)
+			{
+				for each (e in list[0]) remove(e);
+				return;
+			}
+			for each (e in list) remove(e);
 		}
 		
 		internal function get mouseX():int{ return _panel ? _panel.mouseX : world.mouseX; }
