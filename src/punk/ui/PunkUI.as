@@ -32,10 +32,14 @@ package punk.ui
 			var x:Number = component.x;
 			var y:Number = component.y;
 			
-			if(!onlyOnTop) return component.collidePoint(x, y, mx, my);
-			else return w.frontCollidePoint(mx, my) == component;
+			var collide:Boolean = false;
 			
-			return false;
+			if(!onlyOnTop) collide = component.collidePoint(x, y, mx, my);
+			else collide = w.frontCollidePoint(mx, my) == component;
+			
+			if(component._panel) collide = collide && component._panel.collidePoint(component._panel.x, component._panel.y, mx, my);
+			
+			return collide;
 		}
 	}
 }
