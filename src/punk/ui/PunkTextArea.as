@@ -22,6 +22,8 @@ package punk.ui
 			punkText._field.wordWrap = true;
 			punkText._field.width = width ? width : 240;
 			punkText._field.height = height ? height : 36;
+			punkText._field.x = x;
+			punkText._field.y = y;
 		}
 		
 		override public function update():void 
