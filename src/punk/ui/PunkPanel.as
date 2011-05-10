@@ -7,6 +7,8 @@ package punk.ui
 	import net.flashpunk.FP;
 	import net.flashpunk.Graphic;
 	import net.flashpunk.graphics.Graphiclist;
+	import net.flashpunk.tweens.misc.MultiVarTween;
+	import net.flashpunk.utils.Ease;
 
 	public class PunkPanel extends PunkUIComponent
 	{
@@ -20,6 +22,14 @@ package punk.ui
 		
 		protected var oldX:Number = 0;
 		protected var oldY:Number = 0;
+		
+		protected var _oldScrollX:Number = 0;
+		protected var _oldScrollY:Number = 0;
+		protected var _targetX:Number = 0;
+		protected var _targetY:Number = 0;
+		protected var _t:Number = 0;
+		internal var _scrollX:Number = 0;
+		internal var _scrollY:Number = 0;
 		
 		public function PunkPanel(x:Number=0, y:Number=0, width:int=20, height:int=20, background:Graphic = null)
 		{
@@ -50,13 +60,8 @@ package punk.ui
 			if(uiComponent._panel) return uiComponent;
 			_children[_count++] = uiComponent;
 			uiComponent._panel = this;
-			uiComponent.x += x;
-			uiComponent.y += y;
-			if(_panel)
-			{
-				uiComponent.x -= _panel.relativeX;
-				uiComponent.y -= _panel.relativeY;
-			}
+			uiComponent.x += x + _scrollX;
+			uiComponent.y += y + _scrollY;
 			uiComponent.added();
 			return uiComponent;
 		}
@@ -86,6 +91,18 @@ package punk.ui
 				if(uiComponent.graphic && uiComponent.graphic.active) uiComponent.graphic.update();
 			}
 			
+			if(_targetX != _scrollX || _targetY != scrollY)
+			{
+				var d:Number = FP.distance(_targetX, _targetY, _scrollX, _scrollY);
+				var s:Number = d / _t;
+				
+				point.x = _targetX - _scrollX;
+				point.y = _targetY - _scrollY;
+				point.normalize(s);
+				_scrollX += point.x;
+				_scrollY += point.y;
+			}
+			
 			bounds.width = width;
 			bounds.height = height;
 		}
@@ -96,17 +113,20 @@ package punk.ui
 			
 			buffer.fillRect(FP.bounds, 0x00000000);
 			
-			if(oldX != x || oldY != y)
+			if(oldX != x || oldY != y || _oldScrollX != _scrollX || _oldScrollY != _scrollY)
 			{
 				for each(uiComponent in _children)
 				{
-					uiComponent.x += x - oldX;
-					uiComponent.y += y - oldY;
+					uiComponent.x += (x - oldX) + (_scrollX - _oldScrollX);
+					uiComponent.y += (y - oldY) + (_scrollY - _oldScrollY);
 				}
+				
+				oldX = x;
+				oldY = y;
+				
+				_oldScrollX = _scrollX;
+				_oldScrollY = _scrollY;
 			}
-			
-			oldX = x;
-			oldY = y;
 			
 			for each(var uiComponent:PunkUIComponent in _children)
 			{
@@ -127,6 +147,23 @@ package punk.ui
 			
 			var t:BitmapData = renderTarget ? renderTarget : FP.buffer;
 			t.copyPixels(buffer, bounds, FP.point);
+		}
+		
+		public function scrollTo(x:Number, y:Number, ease:Number = 1):void
+		{
+			_targetX = x;
+			_targetY = y;
+			_t = ease < 1 ? 1 : ease;
+		}
+		
+		public function get scrollX():Number
+		{
+			return _scrollX;
+		}
+		
+		public function get scrollY():Number
+		{
+			return _scrollY;
 		}
 		
 		override public function addGraphic(graphic:Graphic):Graphic
@@ -185,5 +222,7 @@ package punk.ui
 			}
 			return null;
 		}
+		
+		private static var point:Point = new Point;
 	}
 }
