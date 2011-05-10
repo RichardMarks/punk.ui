@@ -321,7 +321,7 @@ package punk.ui
 		public function get textHeight():uint { return _textHeight; }
 		
 		// Text information.
-		/** @private */ private var _field:TextField = new TextField;
+		/** @private */ internal var _field:TextField = new TextField;
 		/** @private */ private var _width:uint;
 		/** @private */ private var _height:uint;
 		/** @private */ private var _textWidth:uint;

@@ -6,9 +6,9 @@ package punk.ui
 	 */
 	public class PunkLabel extends PunkUIComponent
 	{
-		private var punkText:PunkText;
+		internal var punkText:PunkText;
 		
-		public function PunkLabel(text:String, x:Number = 0, y:Number = 0, width:int = 1, height:int = 1) 
+		public function PunkLabel(text:String = "", x:Number = 0, y:Number = 0, width:int = 1, height:int = 1) 
 		{
 			super(x, y, width, height);
 			punkText = new PunkText(text, 0, 0);
