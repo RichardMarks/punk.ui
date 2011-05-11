@@ -30,6 +30,7 @@ package punk.ui
 			punkText._field.textColor = 0x000000;
 			punkText._field.type = TextFieldType.INPUT;
 			punkText._field.wordWrap = true;
+			punkText._field.multiline = true;
 			punkText._field.width = width ? width : 240;
 			punkText._field.height = height ? height : 36;
 			punkText._field.x = oldX = x;
