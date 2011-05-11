@@ -18,11 +18,18 @@ package punk.ui
 		 * @param width - width of the component
 		 * @param height - height of the component
 		 */
-		public function PunkUIComponent(x:Number = 0, y:Number = 0, width:int = 1, height:int = 1)
+		public function PunkUIComponent(x:Number = 0, y:Number = 0, width:int = 1, height:int = 1, skin:PunkSkin = null)
 		{
 			super(x, y);
 			this.width = width;
 			this.height = height;
+			
+			setupSkin(skin ? skin : PunkUI.skin);
+		}
+		
+		protected function setupSkin(skin:PunkSkin):void
+		{
+			
 		}
 		
 		public function get relativeX():Number
