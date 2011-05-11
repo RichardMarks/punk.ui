@@ -5,15 +5,9 @@ package punk.ui
 	import net.flashpunk.FP;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
-	/**
-	 * ...
-	 * @author Thomas King
-	 */
+	
 	public class PunkTextArea extends PunkLabel
 	{
-		protected var oldX:Number = 0;
-		protected var oldY:Number = 0;
-		
 		protected var initialised:Boolean = false;
 		
 		public function PunkTextArea(text:String = "", x:Number = 0, y:Number = 0, width:int = 0, height:int = 0) 
@@ -33,8 +27,8 @@ package punk.ui
 			punkText._field.multiline = true;
 			punkText._field.width = width ? width : 240;
 			punkText._field.height = height ? height : 36;
-			punkText._field.x = oldX = x;
-			punkText._field.y = oldY = y;
+			punkText._field.x = x;
+			punkText._field.y = y;
 		}
 		
 		override public function update():void 
@@ -47,14 +41,8 @@ package punk.ui
 				initialised = true;
 			}
 			
-			if(x != oldX || y != oldY)
-			{
-				punkText._field.x = x;
-				punkText._field.y = y;
-			}
-			
-			oldX = x;
-			oldY = y;
+			punkText._field.x = x - int(FP.camera.x);
+			punkText._field.y = y - int(FP.camera.y);
 		}
 		
 		override public function removed():void 
