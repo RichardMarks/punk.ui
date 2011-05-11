@@ -41,8 +41,8 @@ package punk.ui
 				initialised = true;
 			}
 			
-			punkText._field.x = x - int(FP.camera.x);
-			punkText._field.y = y - int(FP.camera.y);
+			punkText._field.x = x - int(_camera ? _camera.x : FP.camera.x);
+			punkText._field.y = y - int(_camera ? _camera.y : FP.camera.y);
 		}
 		
 		override public function removed():void 
