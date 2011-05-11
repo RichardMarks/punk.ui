@@ -8,10 +8,14 @@ package punk.ui
 	{
 		internal var punkText:PunkText;
 		
-		public function PunkLabel(text:String = "", x:Number = 0, y:Number = 0, width:int = 1, height:int = 1) 
+		public function PunkLabel(text:String = "", x:Number = 0, y:Number = 0, width:int = 1, height:int = 1, skin:PunkSkin = null) 
 		{
-			super(x, y, width, height);
-			punkText = new PunkText(text, 0, 0);
+			super(x, y, width, height, skin);
+		}
+		
+		override protected function setupSkin(skin:PunkSkin):void
+		{
+			punkText = new PunkText(text, 0, 0, skin.punkLabelTextProperties);
 			graphic = punkText;
 		}
 		
