@@ -10,6 +10,10 @@ package punk.ui
 	import net.flashpunk.graphics.Graphiclist;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.utils.Input;
+	
+	import punk.ui.skin.ButtonSkin;
+	import punk.ui.skin.PunkSkin;
+	import punk.ui.skin.SkinImage;
 
 	/**
 	 * @author Rolpege
@@ -58,6 +62,8 @@ package punk.ui
 		 */		
 		public var label:PunkText;
 		
+		protected var textString:String = "";
+		
 		protected var initialised:Boolean = false;
 		
 		/**
@@ -76,31 +82,47 @@ package punk.ui
 		 * @param labelProperties	Additional label properties. Default to align center, width of the button and y to the center, considering textHeight
 		 * @param active			If the button should be active
 		 */		
-		public function PunkButton(x:Number=0, y:Number=0, width:int=1, height:int=1, text:String="Button",
-								   onReleased:Function=null, normalGraphic:Graphic = null, mousedGraphic:Graphic = null,
-								   pressedGraphic:Graphic=null, inactiveGraphic:Graphic = null, hotkey:int=0, labelProperties:Object=null,
+		public function PunkButton(x:Number=0, y:Number=0, width:int=1, height:int=1, text:String="Button", onReleased:Function=null, hotkey:int=0, skin:PunkSkin = null,
 								   active:Boolean=true) {
-			super(x, y, width, height);
+			this.textString = text;
 			
-			this.normalGraphic = normalGraphic
-			this.mousedGraphic = mousedGraphic ? mousedGraphic : normalGraphic;
-			this.pressedGraphic = pressedGraphic ? pressedGraphic : normalGraphic;
-			this.inactiveGraphic = inactiveGraphic ? inactiveGraphic : inactiveGraphic;
+			super(x, y, width, height, skin);
 			
 			this.onReleased = onReleased;
-			
-			if(!labelProperties) labelProperties = new Object;
-			if(!labelProperties.hasOwnProperty("align")) labelProperties.align = "center";
-			if(!labelProperties.hasOwnProperty("width")) labelProperties.width = width;
-			label = new PunkText(text, 0, 0, labelProperties);
-			if(!labelProperties.hasOwnProperty("y"))
-			{
-				label.y = (height >> 1) - (label.textHeight >> 1);
-			}
 			
 			this.hotkey = hotkey;
 			
 			this.active = active;
+		}
+		
+		override protected function setupSkin(skin:PunkSkin):void
+		{
+			if(!skin.punkButton) return;
+			
+			setUpButtonSkin(skin.punkButton);
+			
+			var labelProperties:Object = skin.punkButton.properties;
+			if(!labelProperties) labelProperties = new Object;
+			if(!labelProperties.hasOwnProperty("align")) labelProperties.align = "center";
+			if(!labelProperties.hasOwnProperty("width")) labelProperties.width = width;
+			label = new PunkText(textString, 0, 0, labelProperties);
+			if(!labelProperties.hasOwnProperty("y"))
+			{
+				label.y = (height >> 1) - (label.textHeight >> 1);
+			}
+		}
+		
+		protected function setUpButtonSkin(skin:ButtonSkin):void
+		{
+			if(!skin) return;
+			
+			this.normalGraphic = getSkinImage(skin.normal);
+			var mousedGraphic:Image = getSkinImage(skin.moused);
+			this.mousedGraphic = mousedGraphic ? mousedGraphic : normalGraphic;
+			var pressedGraphic:Image = getSkinImage(skin.pressed);
+			this.pressedGraphic = pressedGraphic ? pressedGraphic : normalGraphic;
+			var inactiveGraphic:Image = getSkinImage(skin.inactive);
+			this.inactiveGraphic = inactiveGraphic ? inactiveGraphic : normalGraphic;
 		}
 		
 		public function setCallbacks(onReleased:Function=null, onPressed:Function=null, onEnter:Function=null, onExit:Function=null):void
@@ -247,21 +269,6 @@ package punk.ui
 			}
 		}
 		
-		protected function renderGraphic(graphic:Graphic):void
-		{
-			if(graphic && graphic.visible)
-			{
-				if (graphic.relative)
-				{
-					_point.x = x;
-					_point.y = y;
-				}
-				else _point.x = _point.y = 0;
-				graphic.render(renderTarget ? renderTarget : FP.buffer, _point, _camera ? _camera : FP.camera);
-			}
-		}
-		
 		protected var _currentGraphic:int = 0;
-		protected static var _point:Point = new Point;
 	}
 }

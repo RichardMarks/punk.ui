@@ -1,6 +1,10 @@
 package punk.ui
 {
 	import net.flashpunk.Graphic;
+	import net.flashpunk.graphics.Image;
+	
+	import punk.ui.skin.PunkSkin;
+	import punk.ui.skin.ToggleButtonSkin;
 	
 	public class PunkToggleButton extends PunkButton
 	{
@@ -12,19 +16,34 @@ package punk.ui
 		public var inactiveOnGraphic:Graphic = new Graphic;
 		
 		public function PunkToggleButton(x:Number=0, y:Number=0, width:int=1, height:int=1, on:Boolean=false, text:String="Button",
-										 onReleased:Function=null, normalGraphic:Graphic=null, mousedGraphic:Graphic=null,
-										 pressedGraphic:Graphic=null, inactiveGraphic:Graphic=null, normalOnGraphic:Graphic=null,
-										 mousedOnGraphic:Graphic=null, pressedOnGraphic:Graphic=null, inactiveOnGraphic:Graphic=null,
-										 hotkey:int=0, labelProperties:Object=null, active:Boolean=true)
+										 onReleased:Function=null, hotkey:int=0, skin:PunkSkin=null, active:Boolean=true)
 		{
-			super(x, y, width, height, text, onReleased, normalGraphic, mousedGraphic, pressedGraphic, inactiveGraphic, hotkey, labelProperties, active);
+			super(x, y, width, height, text, onReleased, hotkey, skin, active);
 			
 			this.on = on;
+		}
+		
+		override protected function setupSkin(skin:PunkSkin):void
+		{
+			if(!skin.punkToggleButton) return;
 			
-			this.normalOnGraphic = normalOnGraphic;
-			this.mousedOnGraphic = mousedOnGraphic ? mousedOnGraphic : normalOnGraphic;
-			this.pressedOnGraphic = pressedOnGraphic ? pressedOnGraphic : normalOnGraphic;
-			this.inactiveOnGraphic = inactiveOnGraphic ? inactiveOnGraphic : normalOnGraphic;
+			setUpButtonSkin(skin.punkToggleButton);
+			setUpToggleButtonSkin(skin.punkToggleButton);
+		}
+		
+		protected function setUpToggleButtonSkin(skin:ToggleButtonSkin):void
+		{
+			if(!skin) return;
+			
+			this.normalOnGraphic = getSkinImage(skin.normalOn);
+			var mousedGraphic:Image = getSkinImage(skin.mousedOn);
+			this.mousedOnGraphic = mousedGraphic ? mousedGraphic : normalOnGraphic;
+			var pressedGraphic:Image = getSkinImage(skin.pressedOn);
+			this.pressedOnGraphic = pressedGraphic ? pressedGraphic : normalOnGraphic;
+			var inactiveGraphic:Image = getSkinImage(skin.inactiveOn);
+			this.inactiveOnGraphic = inactiveGraphic ? inactiveGraphic : normalOnGraphic;
+			
+			label = new PunkText(textString, 0, 0, skin.properties);
 		}
 		
 		override public function render():void

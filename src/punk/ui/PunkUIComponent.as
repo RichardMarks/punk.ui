@@ -1,8 +1,15 @@
 package punk.ui
 {
+	import flash.display.BitmapData;
 	import flash.geom.Point;
 	
 	import net.flashpunk.Entity;
+	import net.flashpunk.FP;
+	import net.flashpunk.Graphic;
+	import net.flashpunk.graphics.Image;
+	
+	import punk.ui.skin.PunkSkin;
+	import punk.ui.skin.SkinImage;
 	
 	/**
 	 * @author PigMess
@@ -24,12 +31,20 @@ package punk.ui
 			this.width = width;
 			this.height = height;
 			
-			setupSkin(skin ? skin : PunkUI.skin);
+			var s:PunkSkin = skin ? skin : PunkUI.skin;
+			if(s) setupSkin(s);
 		}
 		
 		protected function setupSkin(skin:PunkSkin):void
 		{
 			
+		}
+		
+		protected function getSkinImage(skinImage:SkinImage, width:int=0, height:int=0):Image
+		{
+			if(!skinImage) return null;
+			var b:BitmapData = skinImage.getBitmap(width ? width : this.width, height ? height : this.height);
+			return (b ? new Image(b) : null);
 		}
 		
 		public function get relativeX():Number
@@ -56,7 +71,22 @@ package punk.ui
 			else y = value;
 		}
 		
+		protected function renderGraphic(graphic:Graphic):void
+		{
+			if(graphic && graphic.visible)
+			{
+				if (graphic.relative)
+				{
+					_point.x = x;
+					_point.y = y;
+				}
+				else _point.x = _point.y = 0;
+				graphic.render(renderTarget ? renderTarget : FP.buffer, _point, _camera ? _camera : FP.camera);
+			}
+		}
+		
 		internal var _camera:Point;
+		protected var _point:Point = new Point;
 		internal var _panel:PunkPanel;
 	}
 }

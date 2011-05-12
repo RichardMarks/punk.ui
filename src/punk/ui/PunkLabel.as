@@ -1,21 +1,25 @@
 package punk.ui 
 {
-	/**
-	 * ...
-	 * @author Thomas King
-	 */
+	import punk.ui.skin.PunkSkin;
+	
 	public class PunkLabel extends PunkUIComponent
 	{
 		internal var punkText:PunkText;
 		
+		protected var textString:String;
+		
 		public function PunkLabel(text:String = "", x:Number = 0, y:Number = 0, width:int = 1, height:int = 1, skin:PunkSkin = null) 
 		{
+			textString = text;
+			
 			super(x, y, width, height, skin);
 		}
 		
 		override protected function setupSkin(skin:PunkSkin):void
 		{
-			punkText = new PunkText(text, 0, 0, skin.punkLabelTextProperties);
+			if(!skin.punkLabel) return;
+			
+			punkText = new PunkText(textString, 0, 0, skin.punkLabel.properties);
 			graphic = punkText;
 		}
 		

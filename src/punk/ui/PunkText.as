@@ -136,8 +136,6 @@ package punk.ui
 				for (var property:String in options) {
 					if (hasOwnProperty(property)) {
 						this[property] = options[property];
-					} else {
-						throw new Error('"' + property + '" is not a property of Text');
 					}
 				}
 			}

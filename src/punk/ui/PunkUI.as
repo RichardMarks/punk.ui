@@ -4,12 +4,15 @@ package punk.ui
 	import net.flashpunk.FP;
 	import net.flashpunk.World;
 	import net.flashpunk.utils.Input;
+	
+	import punk.ui.skin.PunkSkin;
+	import punk.ui.skins.YellowAfterlife;
 
 	public final class PunkUI
 	{
 		public static const VERSION:String = "1.0dev";
 		
-		public static var skin:PunkSkin = new PunkSkin;
+		public static var skin:PunkSkin = new YellowAfterlife;
 		
 		/**
 		 * Is the mouse over an Entity?

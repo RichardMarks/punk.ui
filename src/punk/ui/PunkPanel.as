@@ -9,6 +9,8 @@ package punk.ui
 	import net.flashpunk.graphics.Graphiclist;
 	import net.flashpunk.tweens.misc.MultiVarTween;
 	import net.flashpunk.utils.Ease;
+	
+	import punk.ui.skin.PunkSkin;
 
 	public class PunkPanel extends PunkUIComponent
 	{
@@ -31,12 +33,12 @@ package punk.ui
 		internal var _scrollX:Number = 0;
 		internal var _scrollY:Number = 0;
 		
-		public function PunkPanel(x:Number=0, y:Number=0, width:int=20, height:int=20, background:Graphic = null)
+		public function PunkPanel(x:Number=0, y:Number=0, width:int=20, height:int=20, skin:PunkSkin=null)
 		{
 			if(width < 1) width = 1;
 			if(height < 1) height = 1;
 			
-			super(x, y, width, height);
+			super(x, y, width, height, skin);
 			
 			oldX = x;
 			oldY = y;
@@ -45,7 +47,6 @@ package punk.ui
 			bounds = new Rectangle(0, 0, width, height);
 			
 			graphic = graphiclist = new Graphiclist;
-			if(background) graphiclist.add(background);
 		}
 		
 		public function add(uiComponent:PunkUIComponent):PunkUIComponent

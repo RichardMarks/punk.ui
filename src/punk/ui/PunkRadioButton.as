@@ -2,6 +2,8 @@ package punk.ui
 {
 	import net.flashpunk.Graphic;
 	
+	import punk.ui.skin.PunkSkin;
+	
 	public class PunkRadioButton extends PunkToggleButton
 	{
 		public var onChange:Function = null;
@@ -9,15 +11,23 @@ package punk.ui
 		public var radioButtonGroup:PunkRadioButtonGroup;
 		public var id:String;
 		
-		public function PunkRadioButton(radioButtonGroup:PunkRadioButtonGroup, id:String, x:Number=0, y:Number=0, width:int=1, height:int=1, on:Boolean=false, text:String="Radio button", onChange:Function=null, normalGraphic:Graphic=null, mousedGraphic:Graphic=null, pressedGraphic:Graphic=null, inactiveGraphic:Graphic=null, normalOnGraphic:Graphic=null, mousedOnGraphic:Graphic=null, pressedOnGraphic:Graphic=null, inactiveOnGraphic:Graphic=null, hotkey:int=0, labelProperties:Object=null, active:Boolean=true)
+		public function PunkRadioButton(radioButtonGroup:PunkRadioButtonGroup, id:String, x:Number=0, y:Number=0, width:int=1, height:int=1, on:Boolean=false, text:String="Radio button", onChange:Function=null, hotkey:int=0, skin:PunkSkin=null, active:Boolean=true)
 		{
-			super(x, y, width, height, on, text, null, normalGraphic, mousedGraphic, pressedGraphic, inactiveGraphic, normalOnGraphic, mousedOnGraphic, pressedOnGraphic, inactiveOnGraphic, hotkey, labelProperties, active);
+			super(x, y, width, height, on, text, null, hotkey, skin, active);
 			
 			this.onChange = onChange;
 			this.radioButtonGroup = radioButtonGroup;
 			this.id = id;
 			
 			radioButtonGroup.add(this);
+		}
+		
+		override protected function setupSkin(skin:PunkSkin):void
+		{
+			if(!skin.punkRadioButton) return;
+			
+			setUpButtonSkin(skin.punkRadioButton);
+			setUpToggleButtonSkin(skin.punkRadioButton);
 		}
 		
 		public function dispose():void
