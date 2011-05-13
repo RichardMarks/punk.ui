@@ -39,7 +39,7 @@ package punk.ui.skins
 			punkTextField = new LabelSkin({color: 0xFF3366, size: 16}, gy(64 + (16 * textField), 16));
 			punkPasswordField = new LabelSkin({color: 0xFF3366, size: 16}, gy(16 * passwordField, 48));
 			
-			punkWindow = new WindowSkin(gy(64 + (16 * windowCaption), 33, 16, 15), gy(64 + (16 * windowBody), 47, 16, 17), {color: 0xFF3366, size: 16, x: 2});
+			punkWindow = new WindowSkin(gy(64 + (16 * windowCaption), 33, 16, 15), gy(64 + (16 * windowBody), 47, 16, 17), {color: 0xFF3366, size: 16, x: 2, y: -1});
 		}
 		
 		protected function gy(x:int, y:int, w:int=16, h:int=16):SkinImage
