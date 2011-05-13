@@ -4,7 +4,7 @@ package punk.ui
 	import net.flashpunk.graphics.Image;
 	
 	import punk.ui.skin.PunkSkin;
-	import punk.ui.skin.ToggleButtonSkin;
+	import punk.ui.skin.PunkSkinToggleButtonElement;
 	
 	public class PunkToggleButton extends PunkButton
 	{
@@ -31,7 +31,7 @@ package punk.ui
 			setUpToggleButtonSkin(skin.punkToggleButton);
 		}
 		
-		protected function setUpToggleButtonSkin(skin:ToggleButtonSkin):void
+		protected function setUpToggleButtonSkin(skin:PunkSkinToggleButtonElement):void
 		{
 			if(!skin) return;
 			
@@ -43,7 +43,7 @@ package punk.ui
 			var inactiveGraphic:Image = getSkinImage(skin.inactiveOn);
 			this.inactiveOnGraphic = inactiveGraphic ? inactiveGraphic : normalOnGraphic;
 			
-			label = new PunkText(textString, 0, 0, skin.properties);
+			label = new PunkText(textString, 0, 0, skin.labelProperties);
 		}
 		
 		override public function render():void

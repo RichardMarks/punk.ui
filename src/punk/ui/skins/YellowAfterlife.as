@@ -6,13 +6,13 @@ package punk.ui.skins
 	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Image;
 	
-	import punk.ui.skin.ButtonSkin;
-	import punk.ui.skin.LabelSkin;
+	import punk.ui.skin.PunkSkinButtonElement;
+	import punk.ui.skin.PunkSkinLabelElement;
 	import punk.ui.skin.PunkSkin;
-	import punk.ui.skin.SkinImage;
-	import punk.ui.skin.SkinWithLabel;
-	import punk.ui.skin.ToggleButtonSkin;
-	import punk.ui.skin.WindowSkin;
+	import punk.ui.skin.PunkSkinImage;
+	import punk.ui.skin.PunkSkinHasLabelElement;
+	import punk.ui.skin.PunkSkinToggleButtonElement;
+	import punk.ui.skin.PunkSkinWindowElement;
 	
 	public class YellowAfterlife extends PunkSkin
 	{
@@ -29,27 +29,27 @@ package punk.ui.skins
 			windowBody = FP.clamp(windowBody, 0, 2);
 			
 			var by:int = roundedButtons ? 16 : 0;
-			punkButton = new ButtonSkin(gy(0, by), gy(16, by), gy(32, by), gy(16, by), {color: 0xFF3366, size: 16});
+			punkButton = new PunkSkinButtonElement(gy(0, by), gy(16, by), gy(32, by), gy(16, by), {color: 0xFF3366, size: 16});
 			
-			punkToggleButton = new ToggleButtonSkin(gn(0, 64), gn(16, 64), gn(32, 64), gn(16, 64), gn(0, 80), gn(16, 80), gn(32, 80), gn(16, 80), {color: 0xFF3366, size: 16, x: 16});
-			punkRadioButton = new ToggleButtonSkin(gn(0, 96), gn(16, 96), gn(32, 96), gn(16, 96), gn(0, 112), gn(16, 112), gn(32, 112), gn(16, 112), {color: 0xFF3366, size: 16, x: 16});
+			punkToggleButton = new PunkSkinToggleButtonElement(gn(0, 64), gn(16, 64), gn(32, 64), gn(16, 64), gn(0, 80), gn(16, 80), gn(32, 80), gn(16, 80), {color: 0xFF3366, size: 16, x: 16});
+			punkRadioButton = new PunkSkinToggleButtonElement(gn(0, 96), gn(16, 96), gn(32, 96), gn(16, 96), gn(0, 112), gn(16, 112), gn(32, 112), gn(16, 112), {color: 0xFF3366, size: 16, x: 16});
 			
-			punkLabel = new SkinWithLabel({color: 0xFF3366, size: 16});
-			punkTextArea = new LabelSkin({color: 0xFF3366, size: 16}, gy(64 + (16 * textArea), 0));
-			punkTextField = new LabelSkin({color: 0xFF3366, size: 16}, gy(64 + (16 * textField), 16));
-			punkPasswordField = new LabelSkin({color: 0xFF3366, size: 16}, gy(16 * passwordField, 48));
+			punkLabel = new PunkSkinHasLabelElement({color: 0xFF3366, size: 16});
+			punkTextArea = new PunkSkinLabelElement({color: 0xFF3366, size: 16}, gy(64 + (16 * textArea), 0));
+			punkTextField = new PunkSkinLabelElement({color: 0xFF3366, size: 16}, gy(64 + (16 * textField), 16));
+			punkPasswordField = new PunkSkinLabelElement({color: 0xFF3366, size: 16}, gy(16 * passwordField, 48));
 			
-			punkWindow = new WindowSkin(gy(64 + (16 * windowCaption), 33, 16, 15), gy(64 + (16 * windowBody), 47, 16, 17), {color: 0xFF3366, size: 16, x: 2, y: -1});
+			punkWindow = new PunkSkinWindowElement(gy(64 + (16 * windowCaption), 33, 16, 15), gy(64 + (16 * windowBody), 47, 16, 17), {color: 0xFF3366, size: 16, x: 2, y: -1});
 		}
 		
-		protected function gy(x:int, y:int, w:int=16, h:int=16):SkinImage
+		protected function gy(x:int, y:int, w:int=16, h:int=16):PunkSkinImage
 		{
-			return new SkinImage(gi(x, y, w, h), true, 4, 4, 4, 4);
+			return new PunkSkinImage(gi(x, y, w, h), true, 4, 4, 4, 4);
 		}
 		
-		protected function gn(x:int, y:int, w:int=16, h:int=16):SkinImage
+		protected function gn(x:int, y:int, w:int=16, h:int=16):PunkSkinImage
 		{
-			return new SkinImage(gi(x, y, w, h), false);
+			return new PunkSkinImage(gi(x, y, w, h), false);
 		}
 		
 		protected function gi(x:int, y:int, w:int=16, h:int=16):BitmapData

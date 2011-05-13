@@ -19,7 +19,7 @@ package punk.ui
 		{
 			if(!skin.punkLabel) return;
 			
-			punkText = new PunkText(textString, 0, 0, skin.punkLabel.properties);
+			punkText = new PunkText(textString, 0, 0, skin.punkLabel.labelProperties);
 			graphic = punkText;
 		}
 		

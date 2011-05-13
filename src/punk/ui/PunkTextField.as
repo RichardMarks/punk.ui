@@ -16,7 +16,7 @@ package punk.ui
 		{
 			if(!skin.punkTextField) return;
 			
-			punkText = new PunkText(textString, 0, 0, skin.punkTextField.properties);
+			punkText = new PunkText(textString, 0, 0, skin.punkTextField.labelProperties);
 			graphic = getSkinImage(skin.punkTextField.background);
 		}
 	}

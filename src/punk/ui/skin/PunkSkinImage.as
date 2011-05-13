@@ -9,13 +9,13 @@ package punk.ui.skin
 	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Image;
 
-	public class SkinImage
+	public class PunkSkinImage
 	{
 		protected var s:BitmapData;
 		
 		protected var nineSlice:Boolean;
 		
-		public function SkinImage(source:*, nineSlice:Boolean=true, leftWidth:int = 0, rightWidth:int = 0, topHeight:int = 0, bottomHeight:int = 0)
+		public function PunkSkinImage(source:*, nineSlice:Boolean=true, leftWidth:int = 0, rightWidth:int = 0, topHeight:int = 0, bottomHeight:int = 0)
 		{
 			if(source is Class)
 			{

@@ -9,7 +9,7 @@ package punk.ui
 	import net.flashpunk.graphics.Image;
 	
 	import punk.ui.skin.PunkSkin;
-	import punk.ui.skin.SkinImage;
+	import punk.ui.skin.PunkSkinImage;
 	
 	/**
 	 * @author PigMess
@@ -40,7 +40,7 @@ package punk.ui
 			
 		}
 		
-		protected function getSkinImage(skinImage:SkinImage, width:int=0, height:int=0):Image
+		protected function getSkinImage(skinImage:PunkSkinImage, width:int=0, height:int=0):Image
 		{
 			if(!skinImage) return null;
 			var b:BitmapData = skinImage.getBitmap(width ? width : this.width, height ? height : this.height);

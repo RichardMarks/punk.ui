@@ -11,9 +11,9 @@ package punk.ui
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.utils.Input;
 	
-	import punk.ui.skin.ButtonSkin;
+	import punk.ui.skin.PunkSkinButtonElement;
 	import punk.ui.skin.PunkSkin;
-	import punk.ui.skin.SkinImage;
+	import punk.ui.skin.PunkSkinImage;
 
 	/**
 	 * @author Rolpege
@@ -101,7 +101,7 @@ package punk.ui
 			
 			setUpButtonSkin(skin.punkButton);
 			
-			var labelProperties:Object = skin.punkButton.properties;
+			var labelProperties:Object = skin.punkButton.labelProperties;
 			if(!labelProperties) labelProperties = new Object;
 			if(!labelProperties.hasOwnProperty("align")) labelProperties.align = "center";
 			if(!labelProperties.hasOwnProperty("width")) labelProperties.width = width;
@@ -112,7 +112,7 @@ package punk.ui
 			}
 		}
 		
-		protected function setUpButtonSkin(skin:ButtonSkin):void
+		protected function setUpButtonSkin(skin:PunkSkinButtonElement):void
 		{
 			if(!skin) return;
 			

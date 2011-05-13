@@ -30,7 +30,7 @@ package punk.ui
 		{
 			if(!skin.punkWindow) return;
 			
-			caption = new PunkText(captionString, 0, 0, skin.punkWindow.properties);
+			caption = new PunkText(captionString, 0, 0, skin.punkWindow.labelProperties);
 			var barHeight:int = skin.punkWindow.bar.height;
 			bar = getSkinImage(skin.punkWindow.bar, 0, barHeight);
 			bg = getSkinImage(skin.punkWindow.body, 0, height - barHeight);

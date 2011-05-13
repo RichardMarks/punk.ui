@@ -33,7 +33,7 @@ package punk.ui
 		{
 			if(!skin.punkTextArea) return;
 			
-			punkText = new PunkText(textString, 0, 0, skin.punkTextArea.properties);
+			punkText = new PunkText(textString, 0, 0, skin.punkTextArea.labelProperties);
 			graphic = getSkinImage(skin.punkTextArea.background);
 		}
 		
