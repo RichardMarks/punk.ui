@@ -32,14 +32,12 @@ package punk.ui
 		public var onReleased:Function = null;
 		
 		/**
-		 * @TODO verify if this is a required function, if it is, document it, if not, remove it
-		 * Callback does not appear to be used
+		 * Function called when the mouse first hovers over the button
 		 */
 		public var onEnter:Function = null;
 		
 		/**
-		 * @TODO verify if this is a required function, if it is, document it, if not, remove it
-		 * Callback does not appear to be used
+		 * Function called when the mouse first stops hovering over the button
 		 */
 		public var onExit:Function = null;
 		
@@ -163,8 +161,8 @@ package punk.ui
 		 * Setup the different callbacks that this component uses
 		 * @param	onReleased Function called when mouse is release
 		 * @param	onPressed Function called when mouse is pressed
-		 * @param	onEnter Function not currently used
-		 * @param	onExit Function not currently used
+		 * @param	onEnter Function called when the mouse first hovers over the button
+		 * @param	onExit Function called when the mouse stoppes hovering over the button
 		 */
 		public function setCallbacks(onReleased:Function=null, onPressed:Function=null, onEnter:Function=null, onExit:Function=null):void
 		{
