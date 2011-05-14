@@ -43,7 +43,14 @@ package punk.ui
 			var inactiveGraphic:Image = getSkinImage(skin.inactiveOn);
 			this.inactiveOnGraphic = inactiveGraphic ? inactiveGraphic : normalOnGraphic;
 			
+			var labelProperties:Object = skin.labelProperties;
+			if(!labelProperties) labelProperties = new Object;
+			if(!labelProperties.hasOwnProperty("width")) labelProperties.width = width;
 			label = new PunkText(textString, 0, 0, skin.labelProperties);
+			if(!skin.labelProperties.hasOwnProperty("y"))
+			{
+				label.y = (height >> 1) - (label.textHeight >> 1);
+			}
 		}
 		
 		override public function render():void
