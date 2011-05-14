@@ -1,7 +1,7 @@
 package punk.ui.skin
 {
 	/**
-	 * Base class used to create a label element
+	 * "Base class for every skin element that has a label
 	 */
 	public class PunkSkinHasLabelElement extends PunkSkinElement
 	{
