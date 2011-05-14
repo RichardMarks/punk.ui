@@ -1,7 +1,9 @@
 package punk.ui 
 {
 	import flash.display.BitmapData;
+	import flash.events.FocusEvent;
 	import flash.geom.Matrix;
+	import flash.geom.Point;
 	import flash.text.TextFieldType;
 	
 	import net.flashpunk.FP;
@@ -14,7 +16,7 @@ package punk.ui
 	{
 		protected var initialised:Boolean = false;
 		
-		protected var alpha:Number = 1;
+		protected var updateTextBuffer:Boolean = false;
 		
 		public function PunkTextArea(text:String = "", x:Number = 0, y:Number = 0, width:int = 0, height:int = 0, skin:PunkSkin = null) 
 		{
@@ -22,17 +24,19 @@ package punk.ui
 			if(FP.stage)
 			{
 				FP.stage.addChild(punkText._field);
+				punkText._field.addEventListener(FocusEvent.FOCUS_IN, onFocusInText, false, 0, true);
+				punkText._field.addEventListener(FocusEvent.FOCUS_OUT, onFocusOutText, false, 0, true);
 				initialised = true;
 			}
 			punkText._field.selectable = true;
 			punkText._field.type = TextFieldType.INPUT;
-			punkText._field.wordWrap = true;
 			punkText._field.multiline = true;
-			punkText._field.width = width ? width : 240;
-			punkText._field.height = height ? height : 36;
+			punkText.width = width ? width : 240;
+			punkText.height = height ? height : 36;
 			punkText._field.x = x;
 			punkText._field.y = y;
-			alpha = punkText._field.alpha;
+			punkText.resizable = false;
+			punkText.wordWrap = true;
 			punkText._field.alpha = 0;
 		}
 		
@@ -51,6 +55,8 @@ package punk.ui
 			if(!initialised && FP.stage)
 			{
 				FP.stage.addChild(punkText._field);
+				punkText._field.addEventListener(FocusEvent.FOCUS_IN, onFocusInText, false, 0, true);
+				punkText._field.addEventListener(FocusEvent.FOCUS_OUT, onFocusOutText, false, 0, true);
 				initialised = true;
 			}
 			
@@ -63,19 +69,32 @@ package punk.ui
 			super.render();
 			
 			var bd:BitmapData = (renderTarget ? renderTarget : FP.buffer);
-			punkText._field.alpha = alpha;
-			_matrix.tx = punkText._field.x;
-			_matrix.ty = punkText._field.y;
-			bd.draw(punkText._field, _matrix);
-			punkText._field.alpha = 0;
+			_point.x = punkText._field.x;
+			_point.y = punkText._field.y;
+			if(updateTextBuffer)
+			{
+				punkText.updateTextBuffer();
+			}
+			punkText.render(bd, _point, FP.zero);
+		}
+		
+		protected function onFocusInText(e:FocusEvent):void
+		{
+			updateTextBuffer = true;
+		}
+		
+		protected function onFocusOutText(e:FocusEvent):void
+		{
+			updateTextBuffer = false;
+			punkText.updateTextBuffer();
 		}
 		
 		override public function removed():void 
 		{
 			super.removed();
+			punkText._field.removeEventListener(FocusEvent.FOCUS_IN, onFocusInText);
+			punkText._field.removeEventListener(FocusEvent.FOCUS_OUT, onFocusOutText);
 			FP.stage.removeChild(punkText._field);
 		}
-		
-		private var _matrix:Matrix = new Matrix;
 	}
 }
