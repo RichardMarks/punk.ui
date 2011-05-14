@@ -23,7 +23,7 @@ package punk.ui
 			captionString = caption;
 			super(x, y, width, height, skin);
 			
-			graphiclist.add(bg);
+			if(bg) graphiclist.add(bg);
 		}
 		
 		override protected function setupSkin(skin:PunkSkin):void
