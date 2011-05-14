@@ -4,7 +4,7 @@ package punk.ui
 	
 	public class PunkLabel extends PunkUIComponent
 	{
-		internal var punkText:PunkText;
+		public var punkText:PunkText;
 		
 		protected var textString:String;
 		
