@@ -103,9 +103,9 @@ package punk.ui
 			
 			var labelProperties:Object = skin.punkButton.labelProperties;
 			if(!labelProperties) labelProperties = new Object;
-			if(!labelProperties.hasOwnProperty("align")) labelProperties.align = "center";
-			if(!labelProperties.hasOwnProperty("width")) labelProperties.width = width;
 			label = new PunkText(textString, 0, 0, labelProperties);
+			if(!labelProperties.hasOwnProperty("align")) label.align = "center";
+			if(!labelProperties.hasOwnProperty("width")) label.width = width;
 			if(!labelProperties.hasOwnProperty("y"))
 			{
 				label.y = (height >> 1) - (label.textHeight >> 1);
