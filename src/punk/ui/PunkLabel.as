@@ -2,12 +2,30 @@ package punk.ui
 {
 	import punk.ui.skin.PunkSkin;
 	
+	/**
+	 * A basic label component
+	 */
 	public class PunkLabel extends PunkUIComponent
 	{
+		/**
+		 * The label's text wrapped as an Image
+		 */
 		internal var punkText:PunkText;
 		
+		/**
+		 * The label's text
+		 */
 		protected var textString:String;
 		
+		/**
+		 * Constructor
+		 * @param	text the text to display
+		 * @param	x X-Coordinate for the component
+		 * @param	y Y-Coordinate for the component
+		 * @param	width Width of the component
+		 * @param	height Height of the component
+		 * @param	skin Skin to use when rendering the component
+		 */
 		public function PunkLabel(text:String = "", x:Number = 0, y:Number = 0, width:int = 1, height:int = 1, skin:PunkSkin = null) 
 		{
 			textString = text;
@@ -15,6 +33,10 @@ package punk.ui
 			super(x, y, width, height, skin);
 		}
 		
+		/**
+		 * Additional setup steps for this component
+		 * @param	skin Skin to use when rendering the component
+		 */
 		override protected function setupSkin(skin:PunkSkin):void
 		{
 			if(!skin.punkLabel) return;

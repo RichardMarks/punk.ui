@@ -12,18 +12,17 @@ package punk.ui
 	import punk.ui.skin.PunkSkinImage;
 	
 	/**
-	 * @author PigMess
-	 * @author AClockWorkLemon
-	 * @author Rolpege
+	 * Base class for all Punk.UI components
 	 */
-	
 	public class PunkUIComponent extends Entity
 	{		
-		/** class constructor
-		 * @param x - position of the component on the X axis
-		 * @param y - position of the component on the Y axis
-		 * @param width - width of the component
-		 * @param height - height of the component
+		/**
+		 * Constructor
+		 * @param	x X-Coordinate to place the component
+		 * @param	y Y-Coordinate to place the component
+		 * @param	width Width of the component
+		 * @param	height Height of the component
+		 * @param	skin Skin to style this component with
 		 */
 		public function PunkUIComponent(x:Number = 0, y:Number = 0, width:int = 1, height:int = 1, skin:PunkSkin = null)
 		{
@@ -35,11 +34,23 @@ package punk.ui
 			if(s) setupSkin(s);
 		}
 		
+		/**
+		 * Override this, called by components extending this class to do skin specific setup
+		 * @param	skin the PunkSkin to use for custom skin setup
+		 */
+		
 		protected function setupSkin(skin:PunkSkin):void
 		{
 			
 		}
 		
+		/**
+		 * Returns the FlashPunk Image representation of a PunkSkinImage, cropped to the supplied width and height, if available
+		 * @param	skinImage the PunkSkinImage to convert to a FlashPunk Image
+		 * @param	width Width of the image section to return
+		 * @param	height Height of the image section to return
+		 * @return FlashPunk Image copy of the PunkSkinImage or null if no skin image is supplied.
+		 */
 		protected function getSkinImage(skinImage:PunkSkinImage, width:int=0, height:int=0):Image
 		{
 			if(!skinImage) return null;
@@ -47,30 +58,46 @@ package punk.ui
 			return (b ? new Image(b) : null);
 		}
 		
+		/**
+		 * Relative X-Coordinate for the component
+		 */
 		public function get relativeX():Number
 		{
 			if(_panel) return x - _panel.x - _panel._scrollX;
 			return x;
 		}
 		
+		/**
+		 * relative Y-Coordinate for the component
+		 */
 		public function get relativeY():Number
 		{
 			if(_panel) return y - _panel.y - _panel._scrollY;
 			return y;
 		}
 		
+		/**
+		 * Relative X-Coordinate for the component
+		 */
 		public function set relativeX(value:Number):void
 		{
 			if(_panel) x = value + _panel.x + _panel._scrollX;
 			else x = value;
 		}
 		
+		/**
+		 * Relative Y-Coordinate for the component
+		 */
 		public function set relativeY(value:Number):void
 		{
 			if(_panel) y = value + _panel.y + _panel._scrollY;
 			else y = value;
 		}
 		
+		/**
+		 * Cause the supplied Graphic to be rendered
+		 * @param	graphic the Graphic to render
+		 */
 		protected function renderGraphic(graphic:Graphic):void
 		{
 			if(graphic && graphic.visible)

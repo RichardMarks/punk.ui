@@ -22,20 +22,40 @@ package punk.ui
 	public class PunkButton extends PunkUIComponent
 	{	
 		/**
-		 * This function will be called when the button is pressed. 
+		 * Function called when the button is pressed. 
 		 */		
 		public var onPressed:Function = null;
 		
+		/**
+		 * Function called when the button is released
+		 */
 		public var onReleased:Function = null;
 		
+		/**
+		 * @TODO verify if this is a required function, if it is, document it, if not, remove it
+		 * Callback does not appear to be used
+		 */
 		public var onEnter:Function = null;
 		
+		/**
+		 * @TODO verify if this is a required function, if it is, document it, if not, remove it
+		 * Callback does not appear to be used
+		 */
 		public var onExit:Function = null;
 		
+		/**
+		 * Is the button pressed
+		 */
 		public var isPressed:Boolean = false;
 		
+		/**
+		 * Is the button activated via the mouse
+		 */
 		public var isMoused:Boolean = false;
 		
+		/**
+		 * Is the button activated via the keyboard
+		 */
 		protected var isKeyed:Boolean = false;
 		
 		/**
@@ -55,6 +75,9 @@ package punk.ui
 		 */
 		public var inactiveGraphic:Graphic = new Graphic;
 		
+		/**
+		 * Hotkey used to trigger this component
+		 */
 		public var hotkey:int = 0;
 		
 		/**
@@ -62,8 +85,14 @@ package punk.ui
 		 */		
 		public var label:PunkText;
 		
+		/**
+		 * Text string for this component
+		 */
 		protected var textString:String = "";
 		
+		/**
+		 * Has the component been inititalized
+		 */
 		protected var initialised:Boolean = false;
 		
 		/**
@@ -75,11 +104,8 @@ package punk.ui
 		 * @param height			The height of the button
 		 * @param text				The text of the button's label
 		 * @param onReleased		What to do when the button is clicked.
-		 * @param normalGraphic		Normal graphic.
-		 * @param mousedGraphic		Moused graphic. If not set, normalGraphic will be used.
-		 * @param pressedGraphic	Pressed graphic. If not set, normalGraphic will be used.
-		 * @param inactiveGraphic	Inactive graphic. If not set, normalGraphic will be used.
-		 * @param labelProperties	Additional label properties. Default to align center, width of the button and y to the center, considering textHeight
+		 * @param hotkey            Hotkey the trigger the component
+		 * @param skin              The skin to use when rendering the component
 		 * @param active			If the button should be active
 		 */		
 		public function PunkButton(x:Number=0, y:Number=0, width:int=1, height:int=1, text:String="Button", onReleased:Function=null, hotkey:int=0, skin:PunkSkin = null,
@@ -95,6 +121,10 @@ package punk.ui
 			this.active = active;
 		}
 		
+		/**
+		 * Additional setup steps for this component
+		 * @param	skin Skin to use when rendering the component
+		 */
 		override protected function setupSkin(skin:PunkSkin):void
 		{
 			if(!skin.punkButton) return;
@@ -112,6 +142,10 @@ package punk.ui
 			}
 		}
 		
+		/**
+		 * Additional setup specifically for the button's graphical states
+		 * @param	skin Skin to use when rendering the component
+		 */
 		protected function setUpButtonSkin(skin:PunkSkinButtonElement):void
 		{
 			if(!skin) return;
@@ -125,6 +159,13 @@ package punk.ui
 			this.inactiveGraphic = inactiveGraphic ? inactiveGraphic : normalGraphic;
 		}
 		
+		/**
+		 * Setup the different callbacks that this component uses
+		 * @param	onReleased Function called when mouse is release
+		 * @param	onPressed Function called when mouse is pressed
+		 * @param	onEnter Function not currently used
+		 * @param	onExit Function not currently used
+		 */
 		public function setCallbacks(onReleased:Function=null, onPressed:Function=null, onEnter:Function=null, onExit:Function=null):void
 		{
 			this.onReleased = onReleased;
@@ -203,24 +244,36 @@ package punk.ui
 			renderGraphic(label);
 		}
 		
+		/**
+		 * helper function to ensure the validity of a call to fire the onPressed function
+		 */
 		protected function pressedCallback():void
 		{
 			isPressed = true;
 			if(onPressed != null) onPressed();
 		}
 		
+		/**
+		 * helper function to ensure the validity of a call to fire the onRelease function
+		 */
 		protected function releasedCallback():void
 		{
 			isPressed = false;
 			if(onReleased != null) onReleased();
 		}
 		
+		/**
+		 * helper function to ensure the validity of a call to fire the onEnter function
+		 */
 		protected function enterCallback():void
 		{
 			isMoused = true;
 			if(onEnter != null) onEnter();
 		}
 		
+		/**
+		 * helper function to ensure the validity of a call to fire the onExit function
+		 */
 		protected function exitCallback():void
 		{
 			isMoused = false;
