@@ -226,6 +226,7 @@ package punk.ui
 		public function get text():String { return _text; }
 		public function set text(value:String):void
 		{
+			_text = _field.text;
 			if (_text == value) return;
 			_field.text = _text = value;
 			updateTextBuffer();
