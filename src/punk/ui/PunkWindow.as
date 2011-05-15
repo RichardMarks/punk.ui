@@ -9,6 +9,9 @@ package punk.ui
 	public class PunkWindow extends PunkPanel
 	{
 		protected var dragging:Boolean = false;
+		
+		public var draggable:Boolean = true;
+		
 		protected var mouseOffsetX:Number = 0;
 		protected var mouseOffsetY:Number = 0;
 		
@@ -18,10 +21,12 @@ package punk.ui
 		protected var bar:Image;
 		protected var bg:Image;
 		
-		public function PunkWindow(x:Number=0, y:Number=0, width:int=20, height:int=20, caption:String = "", skin:PunkSkin=null)
+		public function PunkWindow(x:Number=0, y:Number=0, width:int=20, height:int=20, caption:String = "", draggable:Boolean = true, skin:PunkSkin=null)
 		{
 			captionString = caption;
 			super(x, y, width, height, skin);
+			
+			this.draggable = draggable;
 			
 			if(bg) graphiclist.add(bg);
 		}
@@ -40,6 +45,8 @@ package punk.ui
 		override public function update():void
 		{
 			super.update();
+			
+			if(!draggable) return;
 			
 			if(Input.mousePressed && PunkUI.mouseIsOver(this))
 			{
