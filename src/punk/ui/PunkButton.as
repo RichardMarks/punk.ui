@@ -250,6 +250,8 @@ package punk.ui
 		override public function added():void {
 			super.added();
 			
+			initialised = false;
+			
 			if(FP.stage) {
 				FP.stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown, false, 0, true);
 				FP.stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp, false, 0, true);

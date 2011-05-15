@@ -209,6 +209,34 @@ package punk.ui
 			for each (e in list) remove(e);
 		}
 		
+		public function removeAll():void
+		{
+			for each(var e:PunkUIComponent in children)
+			{
+				remove(e);
+			}
+		}
+		
+		override public function added():void
+		{
+			super.added();
+			
+			for each(var e:PunkUIComponent in children)
+			{
+				e.added();
+			}
+		}
+		
+		override public function removed():void
+		{
+			super.removed();
+			
+			for each(var e:PunkUIComponent in children)
+			{
+				e.removed();
+			}
+		}
+		
 		internal function get mouseX():int{ return _panel ? _panel.mouseX : world.mouseX; }
 		internal function get mouseY():int{ return _panel ? _panel.mouseY : world.mouseY; }
 		
