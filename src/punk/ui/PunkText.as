@@ -223,7 +223,7 @@ package punk.ui
 		/**
 		 * Text string.
 		 */
-		public function get text():String { return _text; }
+		public function get text():String { return _field.text; }
 		public function set text(value:String):void
 		{
 			_text = _field.text;
