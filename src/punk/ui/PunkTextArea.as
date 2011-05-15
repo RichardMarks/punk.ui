@@ -21,13 +21,6 @@ package punk.ui
 		public function PunkTextArea(text:String = "", x:Number = 0, y:Number = 0, width:int = 0, height:int = 0, skin:PunkSkin = null) 
 		{
 			super(text, x, y, width, height, skin);
-			if(FP.stage)
-			{
-				FP.stage.addChild(punkText._field);
-				punkText._field.addEventListener(FocusEvent.FOCUS_IN, onFocusInText, false, 0, true);
-				punkText._field.addEventListener(FocusEvent.FOCUS_OUT, onFocusOutText, false, 0, true);
-				initialised = true;
-			}
 			punkText._field.selectable = true;
 			punkText._field.type = TextFieldType.INPUT;
 			punkText._field.multiline = true;
@@ -87,6 +80,21 @@ package punk.ui
 		{
 			updateTextBuffer = false;
 			punkText.updateTextBuffer();
+		}
+		
+		override public function added():void
+		{
+			super.added();
+			
+			initialised = false;
+			
+			if(FP.stage)
+			{
+				FP.stage.addChild(punkText._field);
+				punkText._field.addEventListener(FocusEvent.FOCUS_IN, onFocusInText, false, 0, true);
+				punkText._field.addEventListener(FocusEvent.FOCUS_OUT, onFocusOutText, false, 0, true);
+				initialised = true;
+			}
 		}
 		
 		override public function removed():void 
