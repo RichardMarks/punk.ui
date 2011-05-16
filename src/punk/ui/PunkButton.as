@@ -16,9 +16,8 @@ package punk.ui
 	import punk.ui.skin.PunkSkinImage;
 
 	/**
-	 * @author Rolpege
+	 * A button component.
 	 */
-	
 	public class PunkButton extends PunkUIComponent
 	{	
 		/**
