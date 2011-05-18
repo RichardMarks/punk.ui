@@ -6,18 +6,53 @@ package punk.ui
 	
 	import punk.ui.skin.PunkSkin;
 	
+	/**
+	 * A window component
+	 */
 	public class PunkWindow extends PunkPanel
 	{
+		/**
+		 * If the component is being moved
+		 */
 		protected var dragging:Boolean = false;
+		
+		/**
+		 * Offset used to track the Mouse's X-Coordinate
+		 */
 		protected var mouseOffsetX:Number = 0;
+		/**
+		 * Offset used to track the Mouse's Y-Coordinate
+		 */
 		protected var mouseOffsetY:Number = 0;
 		
+		/**
+		 * The component's caption String
+		 */
 		protected var captionString:String = "";
 		
+		/**
+		 * The graphical representation of its caption String
+		 */
 		public var caption:PunkText;
+		
+		/**
+		 * Image used for the component's bar
+		 */
 		protected var bar:Image;
+		/**
+		 * Image used for the component's backgroun
+		 */
 		protected var bg:Image;
 		
+		/**
+		 * Constructor
+		 * @param	x X-Coordinate of the component
+		 * @param	y Y-Coordinate of the component
+		 * @param	width Width of the component
+		 * @param	height Height of the component
+		 * @param	caption String for the component's caption
+		 * @param	skin Skin to use when rendering the component
+		 */
 		public function PunkWindow(x:Number=0, y:Number=0, width:int=20, height:int=20, caption:String = "", skin:PunkSkin=null)
 		{
 			captionString = caption;
@@ -26,6 +61,10 @@ package punk.ui
 			graphiclist.add(bg);
 		}
 		
+		/**
+		 * Additional setup steps for this component
+		 * @param	skin Skin to use when rendering the component
+		 */
 		override protected function setupSkin(skin:PunkSkin):void
 		{
 			if(!skin.punkWindow) return;
@@ -37,6 +76,9 @@ package punk.ui
 			bg.y = barHeight;
 		}
 		
+		/**
+		 * @private
+		 */
 		override public function update():void
 		{
 			super.update();
@@ -58,6 +100,9 @@ package punk.ui
 			if(Input.mouseReleased) dragging = false;
 		}
 		
+		/**
+		 * @private
+		 */
 		override public function render():void
 		{
 			super.render();

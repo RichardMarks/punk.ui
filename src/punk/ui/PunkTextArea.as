@@ -10,12 +10,30 @@ package punk.ui
 	
 	import punk.ui.skin.PunkSkin;
 	
+	/**
+	 * TextArea component
+	 */
 	public class PunkTextArea extends PunkLabel
 	{
+		/**
+		 * Boolean; True if the component has been inititalized; Otherwise False.
+		 */
 		protected var initialised:Boolean = false;
 		
+		/**
+		 * The alpha value for the component
+		 */
 		protected var alpha:Number = 1;
 		
+		/**
+		 * Constructor
+		 * @param	text text the String of text to display
+		 * @param	x X-Coordinate of the component
+		 * @param	y Y-Coordinate of the component
+		 * @param	width Width of the component
+		 * @param	height Height of the component
+		 * @param	skin Skin to use when rendering the component
+		 */
 		public function PunkTextArea(text:String = "", x:Number = 0, y:Number = 0, width:int = 0, height:int = 0, skin:PunkSkin = null) 
 		{
 			super(text, x, y, width, height, skin);
@@ -36,6 +54,10 @@ package punk.ui
 			punkText._field.alpha = 0;
 		}
 		
+		/**
+		 * Additional setup steps for this component
+		 * @param	skin Skin to use when rendering the component
+		 */
 		override protected function setupSkin(skin:PunkSkin):void
 		{
 			if(!skin.punkTextArea) return;
@@ -44,6 +66,9 @@ package punk.ui
 			graphic = getSkinImage(skin.punkTextArea.background);
 		}
 		
+		/**
+		 * @private
+		 */
 		override public function update():void 
 		{
 			super.update();
@@ -58,6 +83,9 @@ package punk.ui
 			punkText._field.y = y - int(FP.camera.y);
 		}
 		
+		/**
+		 * @private
+		 */
 		override public function render():void
 		{
 			super.render();
@@ -70,12 +98,18 @@ package punk.ui
 			punkText._field.alpha = 0;
 		}
 		
+		/**
+		 * @private
+		 */
 		override public function removed():void 
 		{
 			super.removed();
 			FP.stage.removeChild(punkText._field);
 		}
 		
+		/**
+		 * @private
+		 */
 		private var _matrix:Matrix = new Matrix;
 	}
 }
