@@ -227,7 +227,7 @@ package punk.ui
 		 * Scroll the panel to a location, with easing.
 		 * @param	x X-Coordinate to scroll to
 		 * @param	y Y-Coordinate to scroll to
-		 * @param	ease Strength of the ease
+		 * @param	ease Strength of the ease. Set to 1 to disable easing and scroll automatically.
 		 */
 		public function scrollTo(x:Number, y:Number, ease:Number = 1):void
 		{
@@ -318,6 +318,9 @@ package punk.ui
 			for each (e in list) remove(e);
 		}
 		
+		/**
+		 * Remove every PunkUIComponent from the panel
+		 */
 		public function removeAll():void
 		{
 			for each(var e:PunkUIComponent in children)
@@ -326,6 +329,9 @@ package punk.ui
 			}
 		}
 		
+		/**
+		 * @private
+		 */
 		override public function added():void
 		{
 			super.added();
@@ -336,6 +342,9 @@ package punk.ui
 			}
 		}
 		
+		/**
+		 * @private
+		 */
 		override public function removed():void
 		{
 			super.removed();
@@ -353,7 +362,7 @@ package punk.ui
 		/**
 		 * Y-Coordinate of the mouse
 		 */
-		internal function get mouseY():int{ return _panel ? _panel.mouseY : world.mouseY; } }
+		internal function get mouseY():int { return _panel ? _panel.mouseY : world.mouseY; }
 		
 		/**
 		 * Return the top most PunkUIComponent of the panel at a given point

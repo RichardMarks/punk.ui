@@ -25,7 +25,7 @@ package punk.ui
 		}
 		
 		/**
-		 * Add a PunkRadiorButton to the collection
+		 * Add a PunkRadioButton to the collection
 		 * @param	radioButton PunkRadioButton to add
 		 */
 		internal function add(radioButton:PunkRadioButton):void

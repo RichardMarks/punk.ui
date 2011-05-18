@@ -16,6 +16,9 @@ package punk.ui
 		 */
 		protected var dragging:Boolean = false;
 		
+		/**
+		 * If the component can be dragged by the user using the mouse.
+		 */
 		public var draggable:Boolean = true;
 		
 		/**
@@ -46,7 +49,6 @@ package punk.ui
 		 */
 		protected var bg:Image;
 
-		public function PunkWindow(x:Number=0, y:Number=0, width:int=20, height:int=20, caption:String = "", draggable:Boolean = true, skin:PunkSkin=null)
 		/**
 		 * Constructor
 		 * @param	x X-Coordinate of the component
@@ -54,6 +56,7 @@ package punk.ui
 		 * @param	width Width of the component
 		 * @param	height Height of the component
 		 * @param	caption String for the component's caption
+		 * @param	draggable Whether the component can be dragged by the user using the mouse.
 		 * @param	skin Skin to use when rendering the component
 		 */
 		public function PunkWindow(x:Number=0, y:Number=0, width:int=20, height:int=20, caption:String = "", draggabble:Boolean = true, skin:PunkSkin=null)

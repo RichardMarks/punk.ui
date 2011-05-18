@@ -96,17 +96,26 @@ package punk.ui
 			punkText.render(bd, _point, FP.zero);
 		}
 		
+		/**
+		 * @private
+		 */
 		protected function onFocusInText(e:FocusEvent):void
 		{
 			updateTextBuffer = true;
 		}
 		
+		/**
+		 * @private
+		 */
 		protected function onFocusOutText(e:FocusEvent):void
 		{
 			updateTextBuffer = false;
 			punkText.updateTextBuffer();
 		}
 		
+		/**
+		 * @private
+		 */
 		override public function added():void
 		{
 			super.added();
