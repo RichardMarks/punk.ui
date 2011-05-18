@@ -14,10 +14,25 @@ package punk.ui.skins
 	import punk.ui.skin.PunkSkinToggleButtonElement;
 	import punk.ui.skin.PunkSkinWindowElement;
 	
+	/**
+	 * Yellow After Life skin definition
+	 */
 	public class YellowAfterlife extends PunkSkin
 	{
+		/**
+		 * The asset to use for the skin images
+		 */
 		[Embed(source="yellowafterlife.png")] protected const I:Class;
 		
+		/**
+		 * Constructor.
+		 * @param	roundedButtons If using rounded buttons
+		 * @param	passwordField defines which image style is used for the Password Field
+		 * @param	textArea defines which image style is used for the Text Area
+		 * @param	textField defines which image style is used for the Text Field
+		 * @param	windowCaption defines which image style is used for the Window Caption
+		 * @param	windowBody defines which image style is used for the Window Body
+		 */
 		public function YellowAfterlife(roundedButtons:Boolean = true, passwordField:int = 2, textArea:int = 0, textField:int = 1, windowCaption:int = 0, windowBody:int = 0)
 		{
 			super();
@@ -42,16 +57,40 @@ package punk.ui.skins
 			punkWindow = new PunkSkinWindowElement(gy(64 + (16 * windowCaption), 33, 16, 15), gy(64 + (16 * windowBody), 47, 16, 17), {color: 0xFF3366, size: 16, x: 2, y: -1});
 		}
 		
+		/**
+		 * Returns the portion of the skin image as a PunkSkinImage object in a 9-Slice format
+		 * @param	x X-Coordinate for the image offset
+		 * @param	y Y-Coordinate for the image offset
+		 * @param	w Width of the image sub-section
+		 * @param	h Height of the image sub-section
+		 * @return PunkSkinImage for the image sub-section requested in 9-Slice format
+		 */
 		protected function gy(x:int, y:int, w:int=16, h:int=16):PunkSkinImage
 		{
 			return new PunkSkinImage(gi(x, y, w, h), true, 4, 4, 4, 4);
 		}
 		
+		/**
+		 * Returns the portion of the skin image as a PunkSkinImage object in a non 9-Sliced format
+		 * @param	x X-Coordinate for the image offset
+		 * @param	y Y-Coordinate for the image offset
+		 * @param	w Width of the image sub-section
+		 * @param	h Height of the image sub-section
+		 * @return PunkSkinImage for the image sub-section requested in a non 9-Sliced format
+		 */
 		protected function gn(x:int, y:int, w:int=16, h:int=16):PunkSkinImage
 		{
 			return new PunkSkinImage(gi(x, y, w, h), false);
 		}
 		
+		/**
+		 * Returns the portion of the skin image requested as a BitmapData object
+		 * @param	x X-Coordinate for the image offset
+		 * @param	y Y-Coordinate for the image offset
+		 * @param	w Width of the image sub-section
+		 * @param	h Height of the image sub-section
+		 * @return BitmapData for the image sub-section requested
+		 */
 		protected function gi(x:int, y:int, w:int=16, h:int=16):BitmapData
 		{
 			_r.x = x;

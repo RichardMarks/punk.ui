@@ -9,12 +9,30 @@ package punk.ui.skin
 	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Image;
 
+	/**
+	 * Image wrapper used for skinning Punk.UI components
+	 */
 	public class PunkSkinImage
 	{
+		/**
+		 * The BitmapData representing the base image data
+		 */
 		protected var s:BitmapData;
 		
+		/**
+		 * If this image is a 9-Slice image
+		 */
 		protected var nineSlice:Boolean;
 		
+		/**
+		 * Constructor.
+		 * @param	source Source image
+		 * @param	nineSlice If the source image is a 9-Slice image
+		 * @param	leftWidth Distance from left side of the source image used for 9-Slicking the image
+		 * @param	rightWidth Distance from right side of the source image used for 9-Slicking the image
+		 * @param	topHeight Height Distance from top side of the source image used for 9-Slicking the image
+		 * @param	bottomHeight Distance from bottom side of the source image used for 9-Slicking the image
+		 */
 		public function PunkSkinImage(source:*, nineSlice:Boolean=true, leftWidth:int = 0, rightWidth:int = 0, topHeight:int = 0, bottomHeight:int = 0)
 		{
 			if(source is Class)
@@ -65,6 +83,12 @@ package punk.ui.skin
 			}
 		}
 		
+		/**
+		 * Returns a BitmapData representation with this skin image
+		 * @param	width The width of the image to return (required for 9-Sliced images)
+		 * @param	height The height of the image to return (required for 9-Sliced images)
+		 * @return A BitmapData representation of the skin image
+		 */
 		public function getBitmap(width:int, height:int):BitmapData
 		{
 			if(!nineSlice) return s;
@@ -88,6 +112,15 @@ package punk.ui.skin
 			return bd;
 		}
 		
+		/**
+		 * Helper function used in the reconstruction of the class's original BitmapData from 9-Slice parts.
+		 * @param	s Source image
+		 * @param	d Target BitmapData object
+		 * @param	x X-Coordinate to copy the source to
+		 * @param	y Y-Coordinate to copy the source to
+		 * @param	w Width of the 9-Slice part
+		 * @param	h Height of 9-Slice part
+		 */
 		protected function fill(s:BitmapData, d:BitmapData, x:int, y:int, w:int, h:int):void
 		{
 			_graphics.clear();
@@ -98,6 +131,12 @@ package punk.ui.skin
 			d.draw(FP.sprite, _matrix);
 		}
 		
+		/**
+		 * Helper function used prior to copying bitmap data, this setups up the copy regions
+		 * @param	bitmapData The BitmapData to be copied
+		 * @param	x X-Coordinate for the destination point
+		 * @param	y Y-Coordinate for the destination point.
+		 */
 		protected function bitmapOnRect(bitmapData:BitmapData, x:int, y:int):void
 		{
 			_rect.x = 0;
@@ -108,6 +147,9 @@ package punk.ui.skin
 			_point.y = y;
 		}
 		
+		/**
+		 * @return the height of the source image
+		 */
 		public function get height():int
 		{
 			return s.height;

@@ -10,20 +10,23 @@ package punk.ui
 
 	public final class PunkUI
 	{
+		/**
+		 * The current version of Punk.UI
+		 */
 		public static const VERSION:String = "1.0dev";
 		
+		/**
+		 * The current skin being used by Punk.UI
+		 */
 		public static var skin:PunkSkin = new YellowAfterlife;
 		
 		/**
-		 * Is the mouse over an Entity?
-		 *  
-		 * This additional function is needed on World: https://github.com/RichardMarks/punk.ui/wiki/Additional-function-on-World
-		 * 
-		 * @param entity		The entity to check if the mouse is over it.
-		 * @param onlyOnTop		Only return true if the entity is on top.
-		 * @param screenMouse	Use mouse screen coordinates
-		 * @return 				If the mouse is over the entity
-		 */		
+		 * Determines if the mouse cursor is hovering over a PunkUIComponent
+		 * @param	component the component to test
+		 * @param	onlyOnTop only return true if the component being tested is the top most element
+		 * @param	screenMouse If the mouse coordinates system should be relative to the screen
+		 * @return Boolean value indicating if the supplied component has the mouse hovering over it
+		 */
 		public static function mouseIsOver(component:PunkUIComponent, onlyOnTop:Boolean = true, screenMouse:Boolean = false):Boolean
 		{
 			var w:* = component.world ? component.world : component._panel;

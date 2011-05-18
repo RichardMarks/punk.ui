@@ -12,27 +12,84 @@ package punk.ui
 	
 	import punk.ui.skin.PunkSkin;
 
+	/**
+	 * A panel component. This component can contain other PunkUIComponents.
+	 */
 	public class PunkPanel extends PunkUIComponent
 	{
+		
+		/**
+		 * A graphic list which can be used to add graphical components to the panel.
+		 */
 		public var graphiclist:Graphiclist;
 		
+		/**
+		 * Render buffer for this component
+		 */
 		protected var buffer:BitmapData;
+		/**
+		 * Pointer to the clipping mask used in the rendering process
+		 */
 		protected var bounds:Rectangle;
 		
+		/**
+		 * Container for all child elements of the panel
+		 */
 		protected var _children:Vector.<PunkUIComponent> = new Vector.<PunkUIComponent>;
+		/**
+		 * Count of child elements
+		 */
 		protected var _count:int = 0;
 		
+		/**
+		 * Stores the previous X-Coordinate for use when updating positions of child components.
+		 */
 		protected var oldX:Number = 0;
+		/**
+		 * Stores the previous Y-Coordinate for use when updating the positions of child components.
+		 */
 		protected var oldY:Number = 0;
 		
+		/**
+		 * Stores the previous X-Scroll offset for use when updating the position of child components.
+		 */
 		protected var _oldScrollX:Number = 0;
+		/**
+		 * Stores the previous Y-Scroll offset for use when updating the position of child components.
+		 */
 		protected var _oldScrollY:Number = 0;
+		
+		/**
+		 * Target distance in the X plane to scroll the panel
+		 */
 		protected var _targetX:Number = 0;
+		/**
+		 * Target distance in the Y-plane to scroll the panel.
+		 */
 		protected var _targetY:Number = 0;
+		
+		/**
+		 * Easing amount used in scrolling
+		 */
 		protected var _t:Number = 0;
+		
+		/**
+		 * X-Scroll offset
+		 */
 		internal var _scrollX:Number = 0;
+		/**
+		 * Y-Scroll offset
+		 */
 		internal var _scrollY:Number = 0;
 		
+		/**
+		 * Constructor.
+		 * @param	x X-Coordinate for the component
+		 * @param	y Y-Coordinate for the component
+		 * @param	width Width of the component
+		 * @param	height Height of the component
+		 * @param	skin Skin to use when rendering the component
+		 */
 		public function PunkPanel(x:Number=0, y:Number=0, width:int=20, height:int=20, skin:PunkSkin=null)
 		{
 			if(width < 1) width = 1;
@@ -49,6 +106,11 @@ package punk.ui
 			graphic = graphiclist = new Graphiclist;
 		}
 		
+		/**
+		 * Add a PunkUIComponent to the panel.
+		 * @param	uiComponent Punk UI component to add
+		 * @return  PunkUIComponent that was added
+		 */
 		public function add(uiComponent:PunkUIComponent):PunkUIComponent
 		{
 			if(uiComponent is PunkPanel)
@@ -67,6 +129,11 @@ package punk.ui
 			return uiComponent;
 		}
 		
+		/**
+		 * Remove a PunkUIComponent from the panel.
+		 * @param	uiComponent PunkUIComponent to remove
+		 * @return  the PunkUIComponent that was removed
+		 */
 		public function remove(uiComponent:PunkUIComponent):PunkUIComponent
 		{
 			var index:int = _children.indexOf(uiComponent);
@@ -78,6 +145,9 @@ package punk.ui
 			return uiComponent;
 		}
 		
+		/**
+		 * @private
+		 */
 		override public function update():void
 		{
 			super.update();
@@ -108,6 +178,9 @@ package punk.ui
 			bounds.height = height;
 		}
 		
+		/**
+		 * @private
+		 */
 		override public function render():void
 		{
 			super.render();
@@ -150,6 +223,12 @@ package punk.ui
 			t.copyPixels(buffer, bounds, FP.point);
 		}
 		
+		/**
+		 * Scroll the panel to a location, with easing.
+		 * @param	x X-Coordinate to scroll to
+		 * @param	y Y-Coordinate to scroll to
+		 * @param	ease Strength of the ease
+		 */
 		public function scrollTo(x:Number, y:Number, ease:Number = 1):void
 		{
 			_targetX = x;
@@ -157,36 +236,62 @@ package punk.ui
 			_t = ease < 1 ? 1 : ease;
 		}
 		
+		/**
+		 * X-Scroll offset
+		 */
 		public function get scrollX():Number
 		{
 			return _scrollX;
 		}
 		
+		/**
+		 * Y-Scroll offset
+		 */
 		public function get scrollY():Number
 		{
 			return _scrollY;
 		}
 		
+		/**
+		 * Add a Graphic to the panel
+		 * @param	graphic Graphic to add
+		 * @return the Graphic added to the panel
+		 */
 		override public function addGraphic(graphic:Graphic):Graphic
 		{
 			return graphiclist.add(graphic);
 		}
 		
+		/**
+		 * Remove a Graphic from the panel
+		 * @param	graphic Graphic to remove
+		 * @return the Graphic removed from the panel
+		 */
 		public function removeGraphic(graphic:Graphic):Graphic
 		{
 			return graphiclist.remove(graphic);
 		}
 		
+		/**
+		 * Return the vector containing all child PunkUIComponents
+		 */
 		public function get children():Vector.<PunkUIComponent>
 		{
 			return _children;
 		}
 		
+		/**
+		 * Count of all child PunkUIComponents in the panel
+		 */
 		public function get count():int
 		{
 			return _count
 		}
 		
+		/**
+		 * Add a list of PunkUIComponents to the panel
+		 * @param	...list the list of PunkUIComponents to add
+		 */
 		public function addList(...list):void
 		{
 			var e:PunkUIComponent;
@@ -198,6 +303,10 @@ package punk.ui
 			for each (e in list) add(e);
 		}
 		
+		/**
+		 * Remove a list of PunkUIComponents from the panel
+		 * @param	...list the list of PunkUIComponents to remove
+		 */
 		public function removeList(...list):void
 		{
 			var e:PunkUIComponent;
@@ -236,10 +345,22 @@ package punk.ui
 				e.removed();
 			}
 		}
+
+		/**
+		 * X-Coordinate of the mouse
+		 */
+		internal function get mouseX():int { return _panel ? _panel.mouseX : world.mouseX; }
+		/**
+		 * Y-Coordinate of the mouse
+		 */
+		internal function get mouseY():int{ return _panel ? _panel.mouseY : world.mouseY; } }
 		
-		internal function get mouseX():int{ return _panel ? _panel.mouseX : world.mouseX; }
-		internal function get mouseY():int{ return _panel ? _panel.mouseY : world.mouseY; }
-		
+		/**
+		 * Return the top most PunkUIComponent of the panel at a given point
+		 * @param	x X-Coordinate
+		 * @param	y Y-Coordinate
+		 * @return  top most PunkUIComponent at the supplied point
+		 */
 		internal function frontCollidePoint(x:Number, y:Number):PunkUIComponent
 		{
 			var i:int = _children.length-1;
