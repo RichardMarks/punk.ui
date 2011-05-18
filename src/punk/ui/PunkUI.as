@@ -13,7 +13,7 @@ package punk.ui
 		/**
 		 * The current version of Punk.UI
 		 */
-		public static const VERSION:String = "1.0dev";
+		public static const VERSION:String = "1.0";
 		
 		/**
 		 * The current skin being used by Punk.UI
