@@ -164,14 +164,21 @@ package punk.ui
 			
 			if(_targetX != scrollX || _targetY != scrollY)
 			{
-				var d:Number = FP.distance(_targetX, _targetY, scrollX, scrollY);
-				var s:Number = d / _t;
-				
-				point.x = _targetX - scrollX;
-				point.y = _targetY - scrollY;
-				point.normalize(s);
-				scrollX += point.x;
-				scrollY += point.y;
+				if(_scrolledWithEase)
+				{
+					var d:Number = FP.distance(_targetX, _targetY, scrollX, scrollY);
+					var s:Number = d / _t;
+					
+					point.x = _targetX - scrollX;
+					point.y = _targetY - scrollY;
+					point.normalize(s);
+					scrollX += point.x;
+					scrollY += point.y;
+				}
+			}
+			else
+			{
+				_scrolledWithEase = false;
 			}
 			
 			bounds.width = width;
@@ -234,6 +241,7 @@ package punk.ui
 			_targetX = x;
 			_targetY = y;
 			_t = ease < 1 ? 1 : ease;
+			_scrolledWithEase = true;
 		}
 		
 		/**
@@ -365,6 +373,8 @@ package punk.ui
 			}
 			return null;
 		}
+		
+		private var _scrolledWithEase:Boolean = false;
 		
 		private static var point:Point = new Point;
 	}
