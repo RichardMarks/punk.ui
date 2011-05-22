@@ -76,11 +76,11 @@ package punk.ui
 		/**
 		 * X-Scroll offset
 		 */
-		internal var _scrollX:Number = 0;
+		public var scrollX:Number = 0;
 		/**
 		 * Y-Scroll offset
 		 */
-		internal var _scrollY:Number = 0;
+		public var scrollY:Number = 0;
 		
 		/**
 		 * Constructor.
@@ -123,8 +123,8 @@ package punk.ui
 			if(uiComponent._panel) return uiComponent;
 			_children[_count++] = uiComponent;
 			uiComponent._panel = this;
-			uiComponent.x += x + _scrollX;
-			uiComponent.y += y + _scrollY;
+			uiComponent.x += x + scrollX;
+			uiComponent.y += y + scrollY;
 			uiComponent.added();
 			return uiComponent;
 		}
@@ -162,16 +162,16 @@ package punk.ui
 				if(uiComponent.graphic && uiComponent.graphic.active) uiComponent.graphic.update();
 			}
 			
-			if(_targetX != _scrollX || _targetY != scrollY)
+			if(_targetX != scrollX || _targetY != scrollY)
 			{
-				var d:Number = FP.distance(_targetX, _targetY, _scrollX, _scrollY);
+				var d:Number = FP.distance(_targetX, _targetY, scrollX, scrollY);
 				var s:Number = d / _t;
 				
-				point.x = _targetX - _scrollX;
-				point.y = _targetY - _scrollY;
+				point.x = _targetX - scrollX;
+				point.y = _targetY - scrollY;
 				point.normalize(s);
-				_scrollX += point.x;
-				_scrollY += point.y;
+				scrollX += point.x;
+				scrollY += point.y;
 			}
 			
 			bounds.width = width;
@@ -187,19 +187,19 @@ package punk.ui
 			
 			buffer.fillRect(FP.bounds, 0x00000000);
 			
-			if(oldX != x || oldY != y || _oldScrollX != _scrollX || _oldScrollY != _scrollY)
+			if(oldX != x || oldY != y || _oldScrollX != scrollX || _oldScrollY != scrollY)
 			{
 				for each(uiComponent in _children)
 				{
-					uiComponent.x += (x - oldX) + (_scrollX - _oldScrollX);
-					uiComponent.y += (y - oldY) + (_scrollY - _oldScrollY);
+					uiComponent.x += (x - oldX) + (scrollX - _oldScrollX);
+					uiComponent.y += (y - oldY) + (scrollY - _oldScrollY);
 				}
 				
 				oldX = x;
 				oldY = y;
 				
-				_oldScrollX = _scrollX;
-				_oldScrollY = _scrollY;
+				_oldScrollX = scrollX;
+				_oldScrollY = scrollY;
 			}
 			
 			for each(var uiComponent:PunkUIComponent in _children)
@@ -234,22 +234,6 @@ package punk.ui
 			_targetX = x;
 			_targetY = y;
 			_t = ease < 1 ? 1 : ease;
-		}
-		
-		/**
-		 * X-Scroll offset
-		 */
-		public function get scrollX():Number
-		{
-			return _scrollX;
-		}
-		
-		/**
-		 * Y-Scroll offset
-		 */
-		public function get scrollY():Number
-		{
-			return _scrollY;
 		}
 		
 		/**

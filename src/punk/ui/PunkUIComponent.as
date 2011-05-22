@@ -63,7 +63,7 @@ package punk.ui
 		 */
 		public function get relativeX():Number
 		{
-			if(_panel) return x - _panel.x - _panel._scrollX;
+			if(_panel) return x - _panel.x - _panel.scrollX;
 			return x;
 		}
 		
@@ -72,7 +72,7 @@ package punk.ui
 		 */
 		public function get relativeY():Number
 		{
-			if(_panel) return y - _panel.y - _panel._scrollY;
+			if(_panel) return y - _panel.y - _panel.scrollY;
 			return y;
 		}
 		
@@ -81,7 +81,7 @@ package punk.ui
 		 */
 		public function set relativeX(value:Number):void
 		{
-			if(_panel) x = value + _panel.x + _panel._scrollX;
+			if(_panel) x = value + _panel.x + _panel.scrollX;
 			else x = value;
 		}
 		
@@ -90,7 +90,7 @@ package punk.ui
 		 */
 		public function set relativeY(value:Number):void
 		{
-			if(_panel) y = value + _panel.y + _panel._scrollY;
+			if(_panel) y = value + _panel.y + _panel.scrollY;
 			else y = value;
 		}
 		
