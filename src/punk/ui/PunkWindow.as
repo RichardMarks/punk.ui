@@ -59,7 +59,7 @@ package punk.ui
 		 * @param	draggable Whether the component can be dragged by the user using the mouse.
 		 * @param	skin Skin to use when rendering the component
 		 */
-		public function PunkWindow(x:Number=0, y:Number=0, width:int=20, height:int=20, caption:String = "", draggabble:Boolean = true, skin:PunkSkin=null)
+		public function PunkWindow(x:Number=0, y:Number=0, width:int=20, height:int=20, caption:String = "", draggable:Boolean = true, skin:PunkSkin=null)
 		{
 			captionString = caption;
 			super(x, y, width, height, skin);
