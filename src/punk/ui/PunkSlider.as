@@ -119,21 +119,23 @@ package punk.ui {
 			if (!active || !Input.mousePressed) return;
 			if (isHovered) {
 				updateValue();
-				startDragging();
+				if(!isDragging) startDragging();
 			}
 		}
 			
 		protected function onMouseUp(e:MouseEvent = null):void {
 			if(!active || !Input.mouseReleased) return;
-			stopDragging();
+			if(isDragging) stopDragging();
 		}
 		
 		protected function startDragging():void {
 			FP.stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove, false, 0, true);
+			isDragging = true;
 		}
 		
 		protected function stopDragging():void {
 			FP.stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+			isDragging = false;
 		}
 		
 		protected function onMouseMove(e:MouseEvent = null):void {
@@ -170,6 +172,7 @@ package punk.ui {
 			super.removed();
 			
 			if(FP.stage) {
+				if(isDragging) stopDragging();
 				FP.stage.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 				FP.stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 			}
