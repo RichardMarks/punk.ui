@@ -73,8 +73,7 @@ package punk.ui
 		}
 		
 		/**
-		 * Alignment ("left", "center" or "right").
-		 * Only relevant if text spans multiple lines.
+		 * Alignment ("left", "center", "right" or "justify").
 		 */
 		public function get align():String { return punkText.align; }
 		public function set align(value:String):void
@@ -89,6 +88,15 @@ package punk.ui
 		public function set wordWrap(value:Boolean):void
 		{
 			punkText.wordWrap = value;
+		}
+		
+		/**
+		 * Color 
+		 */		
+		public function get color():uint { return punkText.color; }
+		public function set color(value:uint):void
+		{
+			punkText.color = value;
 		}
 	}
 }
