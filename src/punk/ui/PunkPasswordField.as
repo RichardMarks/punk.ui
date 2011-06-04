@@ -9,15 +9,16 @@ package punk.ui
 	{
 		/**
 		 * Constructor
+		 * @param	text the String of text to display
 		 * @param	x X-Coordinate for the component
 		 * @param	y Y-Coordinate for the component
 		 * @param	width Width of the component
 		 * @param	height Height of the component
 		 * @param	skin Skin to use when rendering the component
 		 */
-		public function PunkPasswordField(x:Number = 0, y:Number = 0, width:int = 0, text:String = "", skin:PunkSkin=null) 
+		public function PunkPasswordField(text:String = "", x:Number = 0, y:Number = 0, width:int = 0, height:int = 20, skin:PunkSkin=null) 
 		{
-			super(text, x, y, width, skin);
+			super(text, x, y, width, height, skin);
 			
 			punkText._field.displayAsPassword = true;
 		}
