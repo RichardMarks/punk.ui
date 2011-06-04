@@ -21,6 +21,7 @@ package punk.ui
 			super(text, x, y, width, height, skin);
 			
 			punkText._field.displayAsPassword = true;
+			punkText.updateTextBuffer();
 		}
 		
 		/**
