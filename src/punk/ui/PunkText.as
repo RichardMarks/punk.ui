@@ -144,7 +144,6 @@ package punk.ui
 		/** Updates the text buffer, which is the source for the image buffer. */
 		public function updateTextBuffer():void
 		{
-			_field.setTextFormat(_form);
 			_field.width = _width;
 			_textWidth = _field.textWidth + 4;
 			_textHeight = _field.textHeight + 4;
@@ -213,6 +212,49 @@ package punk.ui
 			super.updateBuffer();
 		}
 		
+		/**
+		 * Applies a custom color to a range of characters. Will be overriden if color, font, size or align are updated after calling this.
+		 *  
+		 * @param color			The new color you want
+		 * @param beginIndex	Optional; an integer that specifies the zero-based index position specifying the 
+		 * 						first character of the desired range of text.
+		 * @param endIndex		Optional; an integer that specifies the first character after the desired text span.
+		 * 
+		 */		
+		public function setColorRegion(color:uint, beginIndex:int = -1, endIndex:int = -1):void
+		{
+			_field.setTextFormat(new TextFormat(null, null, color), beginIndex, endIndex);
+			updateTextBuffer();
+		}
+		
+		/**
+		 * Applies a custom font to a range of characters. Will be overriden if color, font, size or align are updated after calling this.
+		 *  
+		 * @param font			The new font you want
+		 * @param beginIndex	Optional; an integer that specifies the zero-based index position specifying the 
+		 * 						first character of the desired range of text.
+		 * @param endIndex		Optional; an integer that specifies the first character after the desired text span.
+		 * 
+		 */		
+		public function setFontRegion(font:String, beginIndex:int = -1, endIndex:int = -1):void
+		{
+			_field.setTextFormat(new TextFormat(font, null, null), beginIndex, endIndex);
+		}
+		
+		/**
+		 * Applies a custom size to a range of characters. Will be overriden if color, font, size or align are updated after calling this.
+		 *  
+		 * @param size			The new size you want
+		 * @param beginIndex	Optional; an integer that specifies the zero-based index position specifying the 
+		 * 						first character of the desired range of text.
+		 * @param endIndex		Optional; an integer that specifies the first character after the desired text span.
+		 * 
+		 */		
+		public function setSizeRegion(size:int, beginIndex:int = -1, endIndex:int = -1):void
+		{
+			_field.setTextFormat(new TextFormat(null, size, null), beginIndex, endIndex);
+		}
+		
 		/** @private Centers the Text's originX/Y to its center. */
 		override public function centerOrigin():void 
 		{
@@ -232,25 +274,36 @@ package punk.ui
 			updateTextBuffer();
 		}
 		
+		override public function get color():uint { return _color; }
+		override public function set color(value:uint):void
+		{
+			if(_color == value) return;
+			_form.color = _color = value;
+			_field.setTextFormat(_form);
+			updateTextBuffer();
+		}
+		
 		/**
-		 * Font family.
+		 * Font family. Will override individual set fonts when updated.
 		 */
 		public function get font():String { return _font; }
 		public function set font(value:String):void
 		{
 			if (_font == value) return;
 			_form.font = _font = value;
+			_field.setTextFormat(_form);
 			updateTextBuffer();
 		}
 		
 		/**
-		 * Font size.
+		 * Font size. Will override individual set sizes when updated.
 		 */
 		public function get size():uint { return _size; }
 		public function set size(value:uint):void
 		{
 			if (_size == value) return;
 			_form.size = _size = value;
+			_field.setTextFormat(_form);
 			updateTextBuffer();
 		}
 		
@@ -262,6 +315,7 @@ package punk.ui
 		{
 			if (_align == value) return;
 			_form.align = _align = value;
+			_field.setTextFormat(_form);
 			updateTextBuffer();
 		}
 		
@@ -486,6 +540,7 @@ package punk.ui
 		/** @private */ private var _scrollH:int;
 		/** @private */ private var _scrollV:int;
 		/** @private */ private var _type:String;
+		/** @private */ private var _color:uint;
 		
 		/** @private */ private var _outlineFilter:GlowFilter;
 		
