@@ -14,12 +14,9 @@ package punk.ui {
 	public class PunkSlider extends PunkUIComponent {
 		
 		/**
-		 * The dimension of the handle in the sliding direction
+		 * The minimum dimension of the handle in the sliding direction
 		 */
-		private static const HANDLE_SIZE:uint = 16;
-		
-		protected var sliderHandle:Graphic;
-		protected var inactiveSliderHandle:Graphic;
+		private static const MIN_HANDLE_SIZE:uint = 16;
 		
 		/**
 		 * Function called when the slider value is changed. 
@@ -36,10 +33,14 @@ package punk.ui {
 		protected var defaultValue:Number;
 		protected var integerValue:Boolean;
 		protected var horizontal:Boolean;
+		protected var handleLength:uint;
 		
 		protected var isHovered:Boolean = false;
 		protected var isDragging:Boolean = false;
 		protected var initialised:Boolean = false;
+		
+		protected var sliderHandle:Graphic;
+		protected var inactiveSliderHandle:Graphic;
 		
 		/**
 		 * Constructor 
@@ -60,6 +61,8 @@ package punk.ui {
 				defaultValue:Number=0, integerValue:Boolean=true, horizontal:Boolean=true, skin:PunkSkin=null, active:Boolean=true) { 
 			
 			this.horizontal = horizontal;
+			this.handleLength = Math.max(MIN_HANDLE_SIZE, length / (maxValue - minValue + 1));
+			
 			super(x, y, horizontal ? length : breadth, horizontal ? breadth : length, skin);
 			this.onChanged = onChanged;
 			this.minValue = minValue;
@@ -76,8 +79,8 @@ package punk.ui {
 			
 			if (!skin.punkButton || !skin.punkToggleButton) return;
 			
-			var handleWidth:int = horizontal ? HANDLE_SIZE : width;
-			var handleHeight:int = horizontal ? height : HANDLE_SIZE;
+			var handleWidth:int = horizontal ? handleLength : width;
+			var handleHeight:int = horizontal ? height : handleLength;
 			
 			// Uses button and togglebutton skin at the moment
 			graphic = getSkinImage(skin.punkButton.normal);
@@ -126,11 +129,11 @@ package punk.ui {
 			renderGraphic(graphic);
 			
 			if (horizontal) {
-				sliderHandle.x = (value / maxValue) * (width-HANDLE_SIZE);
+				sliderHandle.x = (value / maxValue) * (width-handleLength);
 				sliderHandle.y = 0;
 			} else {
 				sliderHandle.x = 0;
-				sliderHandle.y = (value / maxValue) * (height-HANDLE_SIZE);
+				sliderHandle.y = (value / maxValue) * (height-handleLength);
 			}
 			if(active) {
 				renderGraphic(sliderHandle);
@@ -168,13 +171,16 @@ package punk.ui {
 			updateValue();
 		}		
 		
+		/**
+		 * Updates the value of the slider according to the mouse position, and calls onChanged if it has changed.
+		 */
 		protected function updateValue():void {
 			var oldValue:Number = _value;
 			
 			if (horizontal) {
-				value = ((Input.mouseX - x - (HANDLE_SIZE/2)) / (width - HANDLE_SIZE)) * (maxValue);
+				value = ((Input.mouseX - x - (handleLength/2)) / (width - handleLength)) * (maxValue);
 			} else {
-				value = ((Input.mouseY - y - (HANDLE_SIZE/2)) / (height - HANDLE_SIZE)) * (maxValue);
+				value = ((Input.mouseY - y - (handleLength/2)) / (height - handleLength)) * (maxValue);
 			}
 			
 			if (oldValue != _value) onChanged(_value);
