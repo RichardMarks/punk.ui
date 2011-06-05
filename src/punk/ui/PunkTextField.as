@@ -14,13 +14,14 @@ package punk.ui
 		 * @param	x X-Coordinate of the component
 		 * @param	y Y-Coordinate of the component
 		 * @param	width Width of the component
+		 * @param	height Height of the component
 		 * @param	skin Skin to use when rendering the component
 		 */
-		public function PunkTextField(text:String = "", x:Number = 0, y:Number = 0, width:int = 0, skin:PunkSkin=null) 
+		public function PunkTextField(text:String = "", x:Number = 0, y:Number = 0, width:int = 0, height:int = 20, skin:PunkSkin=null) 
 		{
-			super(text, x, y, width ? width : 240, 20, skin);
-			punkText._field.multiline = false;
-			punkText._field.wordWrap = false;
+			super(text, x, y, width ? width : 240, height, skin);
+			punkText.multiline = false;
+			punkText.wordWrap = false;
 		}
 		
 		/**

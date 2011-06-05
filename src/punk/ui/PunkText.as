@@ -47,7 +47,7 @@ package punk.ui
 		/**
 		 * If the text field can automatically resize if its contents grow.
 		 */
-		public var resizable: Boolean;
+		public var resizable:Boolean;
 		
 		/**
 		 * Outline color
@@ -67,7 +67,7 @@ package punk.ui
 		 * @param	options		An object containing key/value pairs of the following optional parameters:
 		 * 						font		Font family.
 		 * 						size		Font size.
-		 * 						align		Alignment ("left", "center" or "right").
+		 * 						align		Alignment ("left", "center", "right" or "justify").
 		 * 						wordWrap	Automatic word wrapping.
 		 * 						resizable	If the text field can automatically resize if its contents grow.
 		 * 						width		Initial buffer width.
@@ -144,7 +144,6 @@ package punk.ui
 		/** Updates the text buffer, which is the source for the image buffer. */
 		public function updateTextBuffer():void
 		{
-			_field.setTextFormat(_form);
 			_field.width = _width;
 			_textWidth = _field.textWidth + 4;
 			_textHeight = _field.textHeight + 4;
@@ -213,6 +212,49 @@ package punk.ui
 			super.updateBuffer();
 		}
 		
+		/**
+		 * Applies a custom color to a range of characters. Will be overriden if color, font, size or align are updated after calling this.
+		 *  
+		 * @param color			The new color you want
+		 * @param beginIndex	Optional; an integer that specifies the zero-based index position specifying the 
+		 * 						first character of the desired range of text.
+		 * @param endIndex		Optional; an integer that specifies the first character after the desired text span.
+		 * 
+		 */		
+		public function setColorRegion(color:uint, beginIndex:int = -1, endIndex:int = -1):void
+		{
+			_field.setTextFormat(new TextFormat(null, null, color), beginIndex, endIndex);
+			updateTextBuffer();
+		}
+		
+		/**
+		 * Applies a custom font to a range of characters. Will be overriden if color, font, size or align are updated after calling this.
+		 *  
+		 * @param font			The new font you want
+		 * @param beginIndex	Optional; an integer that specifies the zero-based index position specifying the 
+		 * 						first character of the desired range of text.
+		 * @param endIndex		Optional; an integer that specifies the first character after the desired text span.
+		 * 
+		 */		
+		public function setFontRegion(font:String, beginIndex:int = -1, endIndex:int = -1):void
+		{
+			_field.setTextFormat(new TextFormat(font, null, null), beginIndex, endIndex);
+		}
+		
+		/**
+		 * Applies a custom size to a range of characters. Will be overriden if color, font, size or align are updated after calling this.
+		 *  
+		 * @param size			The new size you want
+		 * @param beginIndex	Optional; an integer that specifies the zero-based index position specifying the 
+		 * 						first character of the desired range of text.
+		 * @param endIndex		Optional; an integer that specifies the first character after the desired text span.
+		 * 
+		 */		
+		public function setSizeRegion(size:int, beginIndex:int = -1, endIndex:int = -1):void
+		{
+			_field.setTextFormat(new TextFormat(null, size, null), beginIndex, endIndex);
+		}
+		
 		/** @private Centers the Text's originX/Y to its center. */
 		override public function centerOrigin():void 
 		{
@@ -232,37 +274,48 @@ package punk.ui
 			updateTextBuffer();
 		}
 		
+		override public function get color():uint { return _color; }
+		override public function set color(value:uint):void
+		{
+			if(_color == value) return;
+			_form.color = _color = value;
+			_field.setTextFormat(_form);
+			updateTextBuffer();
+		}
+		
 		/**
-		 * Font family.
+		 * Font family. Will override individual set fonts when updated.
 		 */
 		public function get font():String { return _font; }
 		public function set font(value:String):void
 		{
 			if (_font == value) return;
 			_form.font = _font = value;
+			_field.setTextFormat(_form);
 			updateTextBuffer();
 		}
 		
 		/**
-		 * Font size.
+		 * Font size. Will override individual set sizes when updated.
 		 */
 		public function get size():uint { return _size; }
 		public function set size(value:uint):void
 		{
 			if (_size == value) return;
 			_form.size = _size = value;
+			_field.setTextFormat(_form);
 			updateTextBuffer();
 		}
 		
 		/**
-		 * Alignment ("left", "center" or "right").
-		 * Only relevant if text spans multiple lines.
+		 * Alignment ("left", "center", "right" or "justify").
 		 */
 		public function get align():String { return _align; }
 		public function set align(value:String):void
 		{
 			if (_align == value) return;
 			_form.align = _align = value;
+			_field.setTextFormat(_form);
 			updateTextBuffer();
 		}
 		
@@ -300,6 +353,153 @@ package punk.ui
 		}
 		
 		/**
+		 * The type of anti-aliasing used for this text field. Use flash.text.AntiAliasType constants for this property.
+		 * You can control this setting only if the font is embedded. You can use "normal" and "advanced"
+		 */		
+		public function get antiAliasType():String{ return _antiAliasType; }
+		public function set antiAliasType(value:String):void
+		{
+			if(_antiAliasType == value) return;
+			_field.antiAliasType = _antiAliasType = value;
+			updateTextBuffer();
+		}
+		
+		/**
+		 * Specifies whether the text field is a password text field. If the value of this property is true,
+		 * the text field is treated as a password text field and hides the input characters using asterisks
+		 * instead of the actual characters. If false, the text field is not treated as a password text field.
+		 * When password mode is enabled, the Cut and Copy commands and their corresponding keyboard shortcuts
+		 * will not function. This security mechanism prevents an unscrupulous user from using the shortcuts to 
+		 * discover a password on an unattended computer.
+		 */		
+		public function get displayAsPassword():Boolean{ return _displayAsPassword; }
+		public function set displayAsPassword(value:Boolean):void
+		{
+			if(_displayAsPassword == value) return;
+			_field.displayAsPassword = _displayAsPassword = value;
+			updateTextBuffer();
+		}
+		
+		/**
+		 * The maximum number of characters that the text field can contain, as entered by a user.
+		 * A script can insert more text than maxChars allows; the maxChars property indicates only how much
+		 * text a user can enter. If the value of this property is 0, a user can enter an unlimited amount of text.
+		 */		
+		public function get maxChars():int{ return _maxChars; }
+		public function set maxChars(value:int):void
+		{
+			if(_maxChars == value) return;
+			_field.maxChars = _maxChars = value;
+			updateTextBuffer();
+		}
+		
+		/**
+		 * The maximum value of scrollH.
+		 */		
+		public function get maxScrollH():int{ return _field.maxScrollH; }
+		
+		/**
+		 * The maximum value of scrollV.
+		 */		
+		public function get maxScrollV():int{ return _field.maxScrollV; }
+		
+		/**
+		 * Indicates whether the text field is a multiline text field. If the value is true, the text field is multiline;
+		 * if the value is false, the text field is a single-line text field.
+		 */		
+		public function get multiline():Boolean{ return _multiline; }
+		public function set multiline(value:Boolean):void
+		{
+			if(_multiline == value) return;
+			_field.multiline = _multiline = value;
+			updateTextBuffer();
+		}
+		
+		/**
+		 * Indicates the set of characters that a user can enter into the text field. If the value of the restrict property is null,
+		 * you can enter any character. If the value of the restrict property is an empty string, you cannot enter any character.
+		 * If the value of the restrict property is a string of characters, you can enter only characters in the string into the text field.
+		 * The string is scanned from left to right. You can specify a range by using the hyphen (-) character.
+		 * This only restricts user interaction; a script may put any text into the text field.
+		 * 
+		 * <p>If the string begins with a caret (^) character, all characters are initially accepted and succeeding characters in the string
+		 * are excluded from the set of accepted characters. If the string does not begin with a caret (^) character, no characters are
+		 * initially accepted and succeeding characters in the string are included in the set of accepted characters.</p>
+		 */		
+		public function get restrict():String{ return _restrict; }
+		public function set restrict(value:String):void
+		{
+			if(_restrict == value) return;
+			_field.restrict = _restrict = value;
+			updateTextBuffer();
+		}
+		
+		/**
+		 * A Boolean value that indicates whether the text field is selectable. The value true indicates that the text is selectable.
+		 * The selectable property controls whether a text field is selectable, not whether a text field is editable. A dynamic text
+		 * field can be selectable even if it is not editable. If a dynamic text field is not selectable, the user cannot select its text.
+		 * 
+		 * <p>If selectable is set to false, the text in the text field does not respond to selection commands from the mouse or keyboard,
+		 * and the text cannot be copied with the Copy command. If selectable is set to true, the text in the text field can be selected with
+		 * the mouse or keyboard, and the text can be copied with the Copy command. You can select text this way even if the text field is a
+		 * dynamic text field instead of an input text field.</p>
+		 */		
+		public function get selectable():Boolean{ return _selectable; }
+		public function set selectable(value:Boolean):void
+		{
+			if(_selectable == value) return;
+			_field.selectable = _selectable = value;
+			updateTextBuffer();
+		}
+		
+		/**
+		 * The current horizontal scrolling position. If the scrollH property is 0, the text is not horizontally scrolled.
+		 * This property value is an integer that represents the horizontal position in pixels.
+		 * 
+		 * <p>The units of horizontal scrolling are pixels, whereas the units of vertical scrolling are lines. Horizontal scrolling
+		 * is measured in pixels because most fonts you typically use are proportionally spaced; that is, the characters can have different
+		 * widths. Flash Player performs vertical scrolling by line because users usually want to see a complete line of text rather than a
+		 * partial line. Even if a line uses multiple fonts, the height of the line adjusts to fit the largest font in use.</p>
+		 */		
+		public function get scrollH():int{ return _scrollH; }
+		public function set scrollH(value:int):void
+		{
+			if(_scrollH == value) return;
+			_field.scrollH = _scrollH = value;
+			updateTextBuffer();
+		}
+		
+		/**
+		 * The vertical position of text in a text field. The scrollV property is useful for directing users to a specific paragraph in a
+		 * long passage, or creating scrolling text fields.
+		 * 
+		 * <p>The units of vertical scrolling are lines, whereas the units of horizontal scrolling are pixels. If the first line displayed
+		 * is the first line in the text field, scrollV is set to 1 (not 0). Horizontal scrolling is measured in pixels because most fonts
+		 * are proportionally spaced; that is, the characters can have different widths. Flash performs vertical scrolling by line because
+		 * users usually want to see a complete line of text rather than a partial line. Even if there are multiple fonts on a line,
+		 * the height of the line adjusts to fit the largest font in use.
+		 */		
+		public function get scrollV():int{ return _scrollV; }
+		public function set scrollV(value:int):void
+		{
+			if(_scrollV == value) return;
+			_field.scrollV = _scrollV = value;
+			updateTextBuffer();
+		}
+		
+		/**
+		 * The type of the text field. Either one of the following TextFieldType constants: TextFieldType.DYNAMIC, which specifies a
+		 * dynamic text field, which a user cannot edit, or TextFieldType.INPUT, which specifies an input text field, which a user can edit.
+		 */		
+		public function get type():String{ return _type; }
+		public function set type(value:String):void
+		{
+			if(_type == value) return;
+			_field.type = _type = value;
+			updateTextBuffer();
+		}
+		
+		/**
 		 * The scaled width of the text image.
 		 */
 		override public function get scaledWidth():uint { return _width * scaleX * scale; }
@@ -331,6 +531,16 @@ package punk.ui
 		/** @private */ private var _size:uint;
 		/** @private */ private var _align:String;
 		/** @private */ private var _wordWrap:Boolean;
+		/** @private */ private var _antiAliasType:String;
+		/** @private */ private var _displayAsPassword:Boolean
+		/** @private */ private var _maxChars:int;
+		/** @private */ private var _multiline:Boolean;
+		/** @private */ private var _restrict:String;
+		/** @private */ private var _selectable:Boolean;
+		/** @private */ private var _scrollH:int;
+		/** @private */ private var _scrollV:int;
+		/** @private */ private var _type:String;
+		/** @private */ private var _color:uint;
 		
 		/** @private */ private var _outlineFilter:GlowFilter;
 		

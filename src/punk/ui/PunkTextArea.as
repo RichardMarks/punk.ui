@@ -36,9 +36,9 @@ package punk.ui
 		public function PunkTextArea(text:String = "", x:Number = 0, y:Number = 0, width:int = 0, height:int = 0, skin:PunkSkin = null) 
 		{
 			super(text, x, y, width, height, skin);
-			punkText._field.selectable = true;
-			punkText._field.type = TextFieldType.INPUT;
-			punkText._field.multiline = true;
+			punkText.selectable = true;
+			punkText.type = TextFieldType.INPUT;
+			punkText.multiline = true;
 			punkText.width = width ? width : 240;
 			punkText.height = height ? height : 36;
 			punkText._field.x = x;
