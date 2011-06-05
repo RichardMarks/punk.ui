@@ -104,6 +104,7 @@ package punk.ui
 				}
 				else
 				{
+					if (options.hasOwnProperty("color")) _color = options.color;
 					if (options.hasOwnProperty("font")) _font = options.font;
 					if (options.hasOwnProperty("size")) _size = options.size;
 					if (options.hasOwnProperty("align")) _align = options.align;
@@ -118,7 +119,7 @@ package punk.ui
 			
 			_field.embedFonts = true;
 			_field.wordWrap = _wordWrap;
-			_form = new TextFormat(_font, _size, 0xFFFFFF);
+			_form = new TextFormat(_font, _size, _color);
 			_form.align = _align;
 			_field.defaultTextFormat = _form;
 			_field.text = _text = text;
@@ -540,7 +541,7 @@ package punk.ui
 		/** @private */ private var _scrollH:int;
 		/** @private */ private var _scrollV:int;
 		/** @private */ private var _type:String;
-		/** @private */ private var _color:uint;
+		/** @private */ private var _color:uint = 0xFFFFFF;
 		
 		/** @private */ private var _outlineFilter:GlowFilter;
 		
