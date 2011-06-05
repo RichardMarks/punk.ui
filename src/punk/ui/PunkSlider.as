@@ -40,6 +40,7 @@ package punk.ui {
 		protected var initialised:Boolean = false;
 		
 		protected var sliderHandle:Graphic;
+		protected var draggingSliderHandle:Graphic;
 		protected var inactiveSliderHandle:Graphic;
 		
 		/**
@@ -85,6 +86,7 @@ package punk.ui {
 			// Uses button and togglebutton skin at the moment
 			graphic = getSkinImage(skin.punkButton.normal);
 			sliderHandle = getSkinImage(skin.punkPasswordField.background, handleWidth, handleHeight);
+			draggingSliderHandle = getSkinImage(skin.punkButton.pressed, handleWidth, handleHeight);
 			inactiveSliderHandle = getSkinImage(skin.punkPasswordField.background, handleWidth, handleHeight);
 		}
 		
@@ -129,14 +131,19 @@ package punk.ui {
 			renderGraphic(graphic);
 			
 			if (horizontal) {
-				sliderHandle.x = (value / maxValue) * (width-handleLength);
-				sliderHandle.y = 0;
+				sliderHandle.x = draggingSliderHandle.x = (value / maxValue) * (width-handleLength);
+				sliderHandle.y = draggingSliderHandle.y = 0;
 			} else {
-				sliderHandle.x = 0;
-				sliderHandle.y = (value / maxValue) * (height-handleLength);
+				sliderHandle.x = draggingSliderHandle.x = 0;
+				sliderHandle.y = draggingSliderHandle.y = (value / maxValue) * (height-handleLength);
 			}
-			if(active) {
-				renderGraphic(sliderHandle);
+			if (active) {
+				if (isDragging) {
+					renderGraphic(draggingSliderHandle);
+				} else {
+					renderGraphic(sliderHandle);
+				}
+				
 			}
 			else {
 				renderGraphic(inactiveSliderHandle);
