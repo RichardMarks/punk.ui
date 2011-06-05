@@ -13,7 +13,10 @@ package punk.ui {
 	 */
 	public class PunkSlider extends PunkUIComponent {
 		
-		private static const HANDLE_WIDTH:uint = 16;
+		/**
+		 * The dimension of the handle in the sliding direction
+		 */
+		private static const HANDLE_SIZE:uint = 16;
 		
 		protected var sliderHandle:Graphic;
 		protected var inactiveSliderHandle:Graphic;
@@ -32,21 +35,38 @@ package punk.ui {
 		protected var maxValue:Number;
 		protected var defaultValue:Number;
 		protected var integerValue:Boolean;
+		protected var horizontal:Boolean;
 		
 		protected var isHovered:Boolean = false;
-		protected var isDragging:Boolean;
+		protected var isDragging:Boolean = false;
 		protected var initialised:Boolean = false;
 		
-		public function PunkSlider(	x:Number=0, y:Number=0, width:int=100, onChanged:Function=null, 
-									minValue:Number=0, maxValue:Number=100, defaultValue:Number=0, integerValue:Boolean=true, skin:PunkSkin=null, active:Boolean=true) { 
-			super(x, y, width, HANDLE_WIDTH, skin);
+		/**
+		 * Constructor 
+		 * @param	x X-coordinate of the component
+		 * @param	y Y-coordinate of the component
+		 * @param	length Length of the slider in the sliding direction
+		 * @param	breadth The breadth of the slider in the non-sliding direction
+		 * @param	onChanged Function called when the value changes, signature onChanged(v:Number)
+		 * @param	minValue Minimum value of the slider
+		 * @param	maxValue Maximum value of the slider
+		 * @param	defaultValue Default value of the slider
+		 * @param	integerValue If the slider only should take integer values
+		 * @param	horizontal If the slider should be slideable horizontally
+		 * @param	skin Skin to use when rendering the component
+		 * @param	active If the slider should be active
+		 */
+		public function PunkSlider(	x:Number = 0, y:Number = 0, length:int = 100, breadth:int=16, onChanged:Function = null, minValue:Number = 0, maxValue:Number = 100, 
+				defaultValue:Number=0, integerValue:Boolean=true, horizontal:Boolean=true, skin:PunkSkin=null, active:Boolean=true) { 
+			
+			this.horizontal = horizontal;
+			super(x, y, horizontal ? length : breadth, horizontal ? breadth : length, skin);
 			this.onChanged = onChanged;
 			this.minValue = minValue;
 			this.maxValue = maxValue;
 			this.defaultValue = defaultValue;
 			this.integerValue = integerValue;
 			this.active = active;
-			
 			this.value = defaultValue;
 			
 			isDragging = false;
@@ -56,12 +76,14 @@ package punk.ui {
 			
 			if (!skin.punkButton || !skin.punkToggleButton) return;
 			
+			var handleWidth:int = horizontal ? HANDLE_SIZE : width;
+			var handleHeight:int = horizontal ? height : HANDLE_SIZE;
+			
 			// Uses button and togglebutton skin at the moment
 			graphic = getSkinImage(skin.punkButton.normal);
-			sliderHandle = getSkinImage(skin.punkToggleButton.normalOn, HANDLE_WIDTH, HANDLE_WIDTH);
-			inactiveSliderHandle = getSkinImage(skin.punkToggleButton.inactive, HANDLE_WIDTH, HANDLE_WIDTH);
+			sliderHandle = getSkinImage(skin.punkPasswordField.background, handleWidth, handleHeight);
+			inactiveSliderHandle = getSkinImage(skin.punkPasswordField.background, handleWidth, handleHeight);
 		}
-		
 		
 		/**
 		 * Setup the function called when the slider value changes.
@@ -71,7 +93,6 @@ package punk.ui {
 		{
 			this.onChanged = onChanged;
 		}
-		
 		
 		/**
 		 * @private 
@@ -104,8 +125,13 @@ package punk.ui {
 			
 			renderGraphic(graphic);
 			
-			sliderHandle.x = (value / maxValue) * (width-HANDLE_WIDTH);
-			sliderHandle.y = -(HANDLE_WIDTH/2) + height / 2;
+			if (horizontal) {
+				sliderHandle.x = (value / maxValue) * (width-HANDLE_SIZE);
+				sliderHandle.y = 0;
+			} else {
+				sliderHandle.x = 0;
+				sliderHandle.y = (value / maxValue) * (height-HANDLE_SIZE);
+			}
 			if(active) {
 				renderGraphic(sliderHandle);
 			}
@@ -144,7 +170,13 @@ package punk.ui {
 		
 		protected function updateValue():void {
 			var oldValue:Number = _value;
-			value = ((Input.mouseX - x - (HANDLE_WIDTH/2)) / (width - HANDLE_WIDTH)) * (maxValue); //clamped by setter
+			
+			if (horizontal) {
+				value = ((Input.mouseX - x - (HANDLE_SIZE/2)) / (width - HANDLE_SIZE)) * (maxValue);
+			} else {
+				value = ((Input.mouseY - y - (HANDLE_SIZE/2)) / (height - HANDLE_SIZE)) * (maxValue);
+			}
+			
 			if (oldValue != _value) onChanged(_value);
 		}
 		
@@ -178,8 +210,9 @@ package punk.ui {
 			}
 		}
 		
+		
 		/**
-		 * Set the sliders value.
+		 * Set the slider's value. 
 		 */
 		public function set value(value:Number):void {
 			if (integerValue) value = Math.round(value);
@@ -194,7 +227,7 @@ package punk.ui {
 		}
 		
 		/**
-		 * Get the sliders value.
+		 * Get the slider's value.
 		 */
 		public function get value():Number {
 			return _value;
