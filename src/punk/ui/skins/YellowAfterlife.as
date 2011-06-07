@@ -2,6 +2,7 @@ package punk.ui.skins
 {
 	import flash.display.BitmapData;
 	import flash.geom.Rectangle;
+	import punk.ui.skin.PunkSkinSliderElement;
 	
 	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Image;
@@ -54,7 +55,9 @@ package punk.ui.skins
 			punkTextField = new PunkSkinLabelElement({color: 0xFF3366, size: 16}, gy(64 + (16 * textField), 16));
 			punkPasswordField = new PunkSkinLabelElement({color: 0xFF3366, size: 16}, gy(16 * passwordField, 48));
 			
-			punkWindow = new PunkSkinWindowElement(gy(64 + (16 * windowCaption), 33, 16, 15), gy(64 + (16 * windowBody), 47, 16, 17), {color: 0xFF3366, size: 16, x: 2, y: -1});
+			punkWindow = new PunkSkinWindowElement(gy(64 + (16 * windowCaption), 33, 16, 15), gy(64 + (16 * windowBody), 47, 16, 17), { color: 0xFF3366, size: 16, x: 2, y: -1 } );
+			
+			punkSlider = new PunkSkinSliderElement(gy(0, 128), gy(16, 128), gy(0, 144), gy(32, 128), gy(16, 144), gy(32, 144));
 		}
 		
 		/**

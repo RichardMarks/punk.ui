@@ -41,6 +41,11 @@ package punk.ui.skin
 		public var punkWindow:PunkSkinWindowElement;
 		
 		/**
+		 * Reference to the Slider skin
+		 */
+		public var punkSlider:PunkSkinSliderElement;
+		
+		/**
 		 * Constructor.  This class should be extended in order to create a custom skin.
 		 */
 		public function PunkSkin()
