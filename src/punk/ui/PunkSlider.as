@@ -34,12 +34,18 @@ package punk.ui {
 		protected var integerValue:Boolean;
 		protected var horizontal:Boolean;
 		protected var handleLength:uint;
+		protected var handleWidth:int;
+		protected var handleHeight:int;
 		
-		protected var isHovered:Boolean = false;
+		protected var sliderIsHovered:Boolean = false;
+		protected var handleIsHovered:Boolean = false;
 		protected var isDragging:Boolean = false;
 		protected var initialised:Boolean = false;
 		
+		protected var slider:Graphic;
+		protected var inactiveSlider:Graphic;
 		protected var sliderHandle:Graphic;
+		protected var mousedSliderHandle:Graphic;
 		protected var draggingSliderHandle:Graphic;
 		protected var inactiveSliderHandle:Graphic;
 		
@@ -78,16 +84,17 @@ package punk.ui {
 		
 		override protected function setupSkin(skin:PunkSkin):void {
 			
-			if (!skin.punkButton || !skin.punkToggleButton) return;
+			if (!skin.punkSlider) return;
 			
-			var handleWidth:int = horizontal ? handleLength : width;
-			var handleHeight:int = horizontal ? height : handleLength;
+			handleWidth = horizontal ? handleLength : width;
+			handleHeight = horizontal ? height : handleLength;
 			
-			// Uses button and togglebutton skin at the moment
-			graphic = getSkinImage(skin.punkButton.normal);
-			sliderHandle = getSkinImage(skin.punkPasswordField.background, handleWidth, handleHeight);
-			draggingSliderHandle = getSkinImage(skin.punkButton.pressed, handleWidth, handleHeight);
-			inactiveSliderHandle = getSkinImage(skin.punkPasswordField.background, handleWidth, handleHeight);
+			slider = getSkinImage(skin.punkSlider.normal);
+			inactiveSlider = getSkinImage(skin.punkSlider.inactive);
+			sliderHandle = getSkinImage(skin.punkSlider.normalHandle, handleWidth, handleHeight);
+			mousedSliderHandle = getSkinImage(skin.punkSlider.mousedHandle, handleWidth, handleHeight);
+			draggingSliderHandle = getSkinImage(skin.punkSlider.pressedHandle, handleWidth, handleHeight);
+			inactiveSliderHandle = getSkinImage(skin.punkSlider.inactiveHandle, handleWidth, handleHeight);
 		}
 		
 		/**
@@ -114,11 +121,25 @@ package punk.ui {
 				}
 			}
 			
-			if(PunkUI.mouseIsOver(this, true)) {
-				isHovered = true;
+			if (horizontal) {
+				sliderHandle.x = draggingSliderHandle.x = mousedSliderHandle.x = inactiveSliderHandle.x = (value / maxValue) * (width-handleLength);
+				sliderHandle.y = draggingSliderHandle.y = mousedSliderHandle.y = inactiveSliderHandle.y = 0;
+			} else {
+				sliderHandle.x = draggingSliderHandle.x = mousedSliderHandle.x = inactiveSliderHandle.x = 0;
+				sliderHandle.y = draggingSliderHandle.y = mousedSliderHandle.y = inactiveSliderHandle.y = (value / maxValue) * (height-handleLength);
+			}
+			
+			if (PunkUI.mouseIsOver(this, true)) {
+				sliderIsHovered = true;
 			}
 			else {
-				isHovered = false;
+				sliderIsHovered = false;
+			}
+			
+			if (sliderIsHovered && mouseIsOverHandle()) {
+				handleIsHovered = true;
+			} else {
+				handleIsHovered = false;
 			}
 			
 		}
@@ -128,24 +149,22 @@ package punk.ui {
 		 */
 		override public function render():void {
 			
-			renderGraphic(graphic);
 			
-			if (horizontal) {
-				sliderHandle.x = draggingSliderHandle.x = (value / maxValue) * (width-handleLength);
-				sliderHandle.y = draggingSliderHandle.y = 0;
-			} else {
-				sliderHandle.x = draggingSliderHandle.x = 0;
-				sliderHandle.y = draggingSliderHandle.y = (value / maxValue) * (height-handleLength);
-			}
 			if (active) {
+				
+				renderGraphic(slider);
+				
 				if (isDragging) {
 					renderGraphic(draggingSliderHandle);
+				} else if (handleIsHovered) {
+					renderGraphic(mousedSliderHandle);
 				} else {
 					renderGraphic(sliderHandle);
 				}
 				
 			}
 			else {
+				renderGraphic(inactiveSlider);
 				renderGraphic(inactiveSliderHandle);
 			}
 			
@@ -153,7 +172,7 @@ package punk.ui {
 		
 		protected function onMouseDown(e:MouseEvent = null):void {
 			if (!active || !Input.mousePressed) return;
-			if (isHovered) {
+			if (sliderIsHovered) {
 				updateValue();
 				if(!isDragging) startDragging();
 			}
@@ -223,6 +242,17 @@ package punk.ui {
 			}
 		}
 		
+		/**
+		 * Helper function to check whether the mouse is over the handle.
+		 * @return true if mouse is over handle.
+		 */
+		protected function mouseIsOverHandle():Boolean {
+			if (	Input.mouseX > sliderHandle.x+x && Input.mouseX < sliderHandle.x+x + handleWidth
+				&&	Input.mouseY > sliderHandle.y+y && Input.mouseY < sliderHandle.y+y + handleHeight)
+				return true;
+				
+			return false;
+		}
 		
 		/**
 		 * Set the slider's value. 
