@@ -282,6 +282,11 @@ package punk.ui
 		 */		
 		protected function onMouseDown(e:MouseEvent = null):void {
 			if(!active || !Input.mousePressed || isPressed) return;
+			if(world != FP.world)
+			{
+				removed();
+				return;
+			}
 			if(isMoused) pressedCallback();
 		}
 		
@@ -291,6 +296,11 @@ package punk.ui
 		protected function onMouseUp(e:MouseEvent = null):void {
 			if(!active || !Input.mouseReleased || !isPressed) return;
 			if(isPressed) isPressed = false;
+			if(world != FP.world)
+			{
+				removed();
+				return;
+			}
 			if(isMoused) releasedCallback();
 		}
 		

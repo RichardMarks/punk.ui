@@ -172,6 +172,11 @@ package punk.ui {
 		
 		protected function onMouseDown(e:MouseEvent = null):void {
 			if (!active || !Input.mousePressed) return;
+			if(world != FP.world)
+			{
+				removed();
+				return;
+			}
 			if (sliderIsHovered) {
 				updateValue();
 				if(!isDragging) startDragging();
@@ -180,6 +185,11 @@ package punk.ui {
 			
 		protected function onMouseUp(e:MouseEvent = null):void {
 			if(!active || !Input.mouseReleased) return;
+			if(world != FP.world)
+			{
+				removed();
+				return;
+			}
 			if(isDragging) stopDragging();
 		}
 		
@@ -194,6 +204,11 @@ package punk.ui {
 		}
 		
 		protected function onMouseMove(e:MouseEvent = null):void {
+			if(world != FP.world)
+			{
+				removed();
+				return;
+			}
 			updateValue();
 		}		
 		
