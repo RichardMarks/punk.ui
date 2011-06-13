@@ -113,6 +113,7 @@ package punk.ui
 		 */
 		public function add(uiComponent:PunkUIComponent):PunkUIComponent
 		{
+			/* 
 			if(uiComponent is PunkPanel)
 			{
 				trace("PunkPanels can't contain other PunkPanels at the moment.");
@@ -121,6 +122,8 @@ package punk.ui
 			}
 			
 			if(uiComponent._panel) return uiComponent;
+			*/
+			
 			_children[_count++] = uiComponent;
 			uiComponent._panel = this;
 			uiComponent.x += x + scrollX;
@@ -183,16 +186,7 @@ package punk.ui
 			
 			bounds.width = width;
 			bounds.height = height;
-		}
-		
-		/**
-		 * @private
-		 */
-		override public function render():void
-		{
-			super.render();
 			
-			buffer.fillRect(FP.bounds, 0x00000000);
 			
 			if(oldX != x || oldY != y || _oldScrollX != scrollX || _oldScrollY != scrollY)
 			{
@@ -208,6 +202,18 @@ package punk.ui
 				_oldScrollX = scrollX;
 				_oldScrollY = scrollY;
 			}
+			
+		}
+		
+		/**
+		 * @private
+		 */
+		override public function render():void
+		{
+			super.render();
+			
+			buffer.fillRect(FP.bounds, 1234568998*width);
+			
 			
 			for each(var uiComponent:PunkUIComponent in _children)
 			{
@@ -227,7 +233,7 @@ package punk.ui
 			bounds.y = y;
 			
 			var t:BitmapData = renderTarget ? renderTarget : FP.buffer;
-			t.copyPixels(buffer, bounds, FP.point);
+			t.copyPixels(buffer, bounds, new Point(x,y));
 		}
 		
 		/**
