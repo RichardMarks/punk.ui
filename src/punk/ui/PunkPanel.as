@@ -212,7 +212,7 @@ package punk.ui
 		{
 			super.render();
 			
-			buffer.fillRect(FP.bounds, 1234568998*width);
+			buffer.fillRect(FP.bounds, 0x00000000);
 			
 			
 			for each(var uiComponent:PunkUIComponent in _children)
@@ -226,14 +226,14 @@ package punk.ui
 				uiComponent.render();
 			}
 			
-			FP.point.x = relativeX - FP.camera.x;
-			FP.point.y = relativeY - FP.camera.y;
+			FP.point.x = x - FP.camera.x;
+			FP.point.y = y - FP.camera.y;
 			
 			bounds.x = x;
 			bounds.y = y;
 			
 			var t:BitmapData = renderTarget ? renderTarget : FP.buffer;
-			t.copyPixels(buffer, bounds, new Point(x,y));
+			t.copyPixels(buffer, bounds, FP.point);
 		}
 		
 		/**
