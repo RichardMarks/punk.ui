@@ -209,7 +209,7 @@ package punk.ui {
 				value = ((Input.mouseY - y - (handleLength/2)) / (height - handleLength)) * (maxValue);
 			}
 			
-			if (oldValue != _value) onChanged(_value);
+			if (oldValue != _value && onChanged is Function) onChanged(_value);
 		}
 		
 		
