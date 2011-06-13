@@ -2,6 +2,7 @@ package punk.ui
 {
 	import net.flashpunk.Graphic;
 	import net.flashpunk.graphics.Image;
+	import net.flashpunk.FP;
 	import net.flashpunk.utils.Input;
 	
 	import punk.ui.skin.PunkSkin;
@@ -50,6 +51,11 @@ package punk.ui
 		protected var bg:Image;
 
 		/**
+		 * Height of the caption bar.
+		 */
+		protected var barHeight:int;
+		
+		/**
 		 * Constructor
 		 * @param	x X-Coordinate of the component
 		 * @param	y Y-Coordinate of the component
@@ -78,7 +84,7 @@ package punk.ui
 			if(!skin.punkWindow) return;
 			
 			caption = new PunkText(captionString, 0, 0, skin.punkWindow.labelProperties);
-			var barHeight:int = skin.punkWindow.bar.height;
+			barHeight = skin.punkWindow.bar.height;
 			bar = getSkinImage(skin.punkWindow.bar, 0, barHeight);
 			bg = getSkinImage(skin.punkWindow.body, 0, height - barHeight);
 			bg.y = barHeight;
@@ -93,18 +99,18 @@ package punk.ui
 			
 			if(!draggable) return;
 			
-			if(Input.mousePressed && PunkUI.mouseIsOver(this))
+			if(Input.mousePressed && PunkUI.mouseIsOver(this) && (Input.mouseY + FP.camera.y) < (y+barHeight))
 			{
 				dragging = true;
-				mouseOffsetX = x - world.mouseX;
-				mouseOffsetY = y - world.mouseY;
+				mouseOffsetX = x - (Input.mouseX + FP.camera.x);
+				mouseOffsetY = y - (Input.mouseY + FP.camera.y);
 				if(world) world.bringToFront(this);
 			}
 			
 			if(dragging)
 			{
-				x = mouseOffsetX + world.mouseX;
-				y = mouseOffsetY + world.mouseY;
+				x = mouseOffsetX + (Input.mouseX + FP.camera.x);
+				y = mouseOffsetY + (Input.mouseY + FP.camera.y);
 			}
 			
 			if(Input.mouseReleased) dragging = false;
