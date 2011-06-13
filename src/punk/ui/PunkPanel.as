@@ -214,7 +214,6 @@ package punk.ui
 			
 			buffer.fillRect(FP.bounds, 0x00000000);
 			
-			
 			for each(var uiComponent:PunkUIComponent in _children)
 			{
 				if(!uiComponent.visible) continue;
@@ -226,8 +225,16 @@ package punk.ui
 				uiComponent.render();
 			}
 			
-			FP.point.x = x - FP.camera.x;
-			FP.point.y = y - FP.camera.y;
+			
+			if (_panel == null) {
+				// Scroll top level panels
+				FP.point.x = x - FP.camera.x;
+				FP.point.y = y - FP.camera.y;
+			} else {
+				// Do not scroll nested panels
+				FP.point.x = x;
+				FP.point.y = y;
+			}
 			
 			bounds.x = x;
 			bounds.y = y;
