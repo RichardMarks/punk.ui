@@ -204,9 +204,9 @@ package punk.ui {
 			var oldValue:Number = _value;
 			
 			if (horizontal) {
-				value = ((Input.mouseX - x - (handleLength/2)) / (width - handleLength)) * (maxValue);
+				value = ((Input.mouseX+FP.camera.x - x - (handleLength/2)) / (width - handleLength)) * (maxValue);
 			} else {
-				value = ((Input.mouseY - y - (handleLength/2)) / (height - handleLength)) * (maxValue);
+				value = ((Input.mouseY+FP.camera.y - y - (handleLength/2)) / (height - handleLength)) * (maxValue);
 			}
 			
 			if (oldValue != _value && onChanged is Function) onChanged(_value);
@@ -247,8 +247,8 @@ package punk.ui {
 		 * @return true if mouse is over handle.
 		 */
 		protected function mouseIsOverHandle():Boolean {
-			if (	Input.mouseX > sliderHandle.x+x && Input.mouseX < sliderHandle.x+x + handleWidth
-				&&	Input.mouseY > sliderHandle.y+y && Input.mouseY < sliderHandle.y+y + handleHeight)
+			if (	Input.mouseX+FP.camera.x > sliderHandle.x+x && Input.mouseX+FP.camera.x < sliderHandle.x+x + handleWidth
+				&&	Input.mouseY+FP.camera.y > sliderHandle.y+y && Input.mouseY+FP.camera.y < sliderHandle.y+y + handleHeight)
 				return true;
 				
 			return false;
