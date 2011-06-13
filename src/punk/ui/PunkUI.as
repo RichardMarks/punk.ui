@@ -30,6 +30,7 @@ package punk.ui
 		public static function mouseIsOver(component:PunkUIComponent, onlyOnTop:Boolean = true, screenMouse:Boolean = false):Boolean
 		{
 			var w:* = component.world ? component.world : component._panel;
+			if(!w) return false;
 			var mx:Number = w.mouseX;
 			var my:Number = w.mouseY;
 			if(screenMouse)
