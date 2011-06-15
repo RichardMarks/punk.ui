@@ -72,7 +72,6 @@ package punk.ui
 			
 			this.draggable = draggable;
 			
-			if(bg) graphiclist.add(bg);
 		}
 		
 		/**
@@ -123,6 +122,7 @@ package punk.ui
 		{
 			super.render();
 			
+			renderGraphic(bg);
 			renderGraphic(bar);
 			renderGraphic(caption);
 		}
