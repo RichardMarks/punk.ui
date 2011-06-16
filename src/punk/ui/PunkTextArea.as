@@ -87,8 +87,8 @@ package punk.ui
 			super.render();
 			
 			var bd:BitmapData = (renderTarget ? renderTarget : FP.buffer);
-			_point.x = punkText._field.x;
-			_point.y = punkText._field.y;
+			_point.x = x;
+			_point.y = y;
 			if(updateTextBuffer)
 			{
 				punkText.updateTextBuffer();

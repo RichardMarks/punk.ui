@@ -204,7 +204,7 @@ package punk.ui {
 		}
 		
 		protected function onMouseMove(e:MouseEvent = null):void {
-			if(wolrd && world != FP.world)
+			if(world && world != FP.world)
 			{
 				removed();
 				return;

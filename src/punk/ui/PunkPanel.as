@@ -226,7 +226,6 @@ package punk.ui
 				uiComponent.render();
 			}
 			
-			
 			if (_panel == null) {
 				// Scroll top level panels
 				FP.point.x = x - FP.camera.x;
