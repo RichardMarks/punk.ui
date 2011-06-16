@@ -142,6 +142,7 @@ package punk.ui
 			var index:int = _children.indexOf(uiComponent);
 			if(index < 0) return uiComponent;
 			_children.splice(index, 1);
+			--_count;
 			uiComponent.renderTarget = null;
 			uiComponent.removed();
 			uiComponent._panel = null;
