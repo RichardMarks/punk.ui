@@ -134,7 +134,8 @@ package punk.ui
 			
 			// If the component is added to a panel, add camera offset in 
 			// order to maintain a static position in the panel.
-			if (_panel != null) {
+			if(_panel != null && graphic)
+			{
 				graphic.x = FP.camera.x;
 				graphic.y = FP.camera.y;
 			}
