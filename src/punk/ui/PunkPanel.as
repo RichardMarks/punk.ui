@@ -60,20 +60,6 @@ package punk.ui
 		protected var _oldScrollY:Number = 0;
 		
 		/**
-		 * Target distance in the X plane to scroll the panel
-		 */
-		protected var _targetX:Number = 0;
-		/**
-		 * Target distance in the Y-plane to scroll the panel.
-		 */
-		protected var _targetY:Number = 0;
-		
-		/**
-		 * Easing amount used in scrolling
-		 */
-		protected var _t:Number = 0;
-		
-		/**
 		 * X-Scroll offset
 		 */
 		public var scrollX:Number = 0;
@@ -166,25 +152,6 @@ package punk.ui
 				if(uiComponent.graphic && uiComponent.graphic.active) uiComponent.graphic.update();
 			}
 			
-			if(_targetX != scrollX || _targetY != scrollY)
-			{
-				if(_scrolledWithEase)
-				{
-					var d:Number = FP.distance(_targetX, _targetY, scrollX, scrollY);
-					var s:Number = d / _t;
-					
-					point.x = _targetX - scrollX;
-					point.y = _targetY - scrollY;
-					point.normalize(s);
-					scrollX += point.x;
-					scrollY += point.y;
-				}
-			}
-			else
-			{
-				_scrolledWithEase = false;
-			}
-			
 			bounds.width = width;
 			bounds.height = height;
 			
@@ -247,14 +214,11 @@ package punk.ui
 		 * Scroll the panel to a location, with easing.
 		 * @param	x X-Coordinate to scroll to
 		 * @param	y Y-Coordinate to scroll to
-		 * @param	ease Strength of the ease. Set to 1 to disable easing and scroll automatically.
 		 */
-		public function scrollTo(x:Number, y:Number, ease:Number = 1):void
+		public function scrollTo(x:Number, y:Number):void
 		{
-			_targetX = x;
-			_targetY = y;
-			_t = ease < 1 ? 1 : ease;
-			_scrolledWithEase = true;
+			scrollX = x;
+			scrollY = y;
 		}
 		
 		/**
@@ -396,8 +360,6 @@ package punk.ui
 			}
 			return null;
 		}
-		
-		private var _scrolledWithEase:Boolean = false;
 		
 		private static var point:Point = new Point;
 	}
