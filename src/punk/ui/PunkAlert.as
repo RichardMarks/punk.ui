@@ -4,20 +4,44 @@ package punk.ui
 	
 	public class PunkAlert extends PunkWindow
 	{
+		/**
+		 * The message PunkText label. 
+		 */		
 		public var message:PunkText;
+		/**
+		 * The Ok button. 
+		 */		
+		public var okButton:PunkButton;
 		
-		public var onClose:Function;
+		/**
+		 * Callback for the ok button. 
+		 */		
+		public var onOk:Function;
 		
-		public function PunkAlert(x:Number=0, y:Number=0, width:Number = 200, height:Number = 100, caption:String="", messageString:String="", okLabel:String="Ok", onClose:Function = null, draggable:Boolean=true, skin:PunkSkin=null)
+		/**
+		 * Create a new Alert 
+		 * @param x					X position of the alert
+		 * @param y					Y position of the alert
+		 * @param width				Width of the alert. Defaults to 200.
+		 * @param height			Height of the alert. Defaults to 100.
+		 * @param caption			Caption title of the alert.
+		 * @param messageString		Message of the alert.
+		 * @param okLabel			The label for the ok button. Defaults to Ok.
+		 * @param onOk				The callback for the ok button.
+		 * @param draggable			Whether the PunkAlert is draggable or not.
+		 * @param skin				Custom skin.
+		 * 
+		 */		
+		public function PunkAlert(x:Number=0, y:Number=0, width:Number = 200, height:Number = 100, caption:String="", messageString:String="", okLabel:String="Ok", onOk:Function = null, draggable:Boolean=true, skin:PunkSkin=null)
 		{
 			super(x, y, width, height, caption, draggable, skin);
 			
-			this.onClose = onClose;
+			this.onOk = onOk;
 			
 			message = new PunkText(messageString, 0, 0, _labelProperties);
 			addGraphic(message);
 			
-			add(new PunkButton((width * 0.5) - 50, this.height - originY - 25, 100, 20, okLabel, close));
+			add(okButton = new PunkButton((width * 0.5) - 50, this.height - originY - 25, 100, 20, okLabel, close));
 		}
 		
 		/**
@@ -28,7 +52,7 @@ package punk.ui
 			if(world) world.remove(this);
 			else if(_panel) _panel.remove(this);
 			
-			if(onClose != null) onClose();
+			if(onOk != null) onOk();
 		}
 		
 		/**
