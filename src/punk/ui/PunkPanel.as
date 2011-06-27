@@ -363,11 +363,21 @@ package punk.ui
 		/**
 		 * X-Coordinate of the mouse
 		 */
-		internal function get mouseX():int { return _panel ? _panel.mouseX : world.mouseX; }
+		internal function get mouseX():int
+		{
+			if(_panel) return _panel.mouseX;
+			else if(world) return world.mouseX;
+			return 0;
+		}
 		/**
 		 * Y-Coordinate of the mouse
 		 */
-		internal function get mouseY():int { return _panel ? _panel.mouseY : world.mouseY; }
+		internal function get mouseY():int
+		{
+			if(_panel) return _panel.mouseY;
+			else if(world) return world.mouseY;
+			return 0;
+		}
 		
 		/**
 		 * Return the top most PunkUIComponent of the panel at a given point

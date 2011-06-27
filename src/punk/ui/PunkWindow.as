@@ -70,8 +70,7 @@ package punk.ui
 			captionString = caption;
 			super(x, y, width, height, skin);
 			
-			originY = barHeight;
-			y += barHeight;
+			setHitbox(width, height, 0, barHeight);
 			
 			this.draggable = draggable;
 			
