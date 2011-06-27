@@ -94,6 +94,24 @@ package punk.ui
 			else y = value;
 		}
 		
+		public function mergeDefault(defaultValues:Object, values:Object):Object
+		{
+			var obj:Object = new Object;
+			var p:String;
+			
+			for(p in defaultValues)
+			{
+				obj[p] = defaultValues[p];
+			}
+			
+			for(p in values)
+			{
+				obj[p] = values[p];
+			}
+			
+			return obj;
+		}
+		
 		/**
 		 * Cause the supplied Graphic to be rendered
 		 * @param	graphic the Graphic to render

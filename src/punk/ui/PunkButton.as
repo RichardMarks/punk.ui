@@ -11,8 +11,8 @@ package punk.ui
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.utils.Input;
 	
-	import punk.ui.skin.PunkSkinButtonElement;
 	import punk.ui.skin.PunkSkin;
+	import punk.ui.skin.PunkSkinButtonElement;
 	import punk.ui.skin.PunkSkinImage;
 
 	/**
@@ -130,9 +130,8 @@ package punk.ui
 			
 			var labelProperties:Object = skin.punkButton.labelProperties;
 			if(!labelProperties) labelProperties = new Object;
+			labelProperties =  mergeDefault({align: "center", width: width, resizable: false, wordWrap: true}, labelProperties);
 			label = new PunkText(textString, 0, 0, labelProperties);
-			if(!labelProperties.hasOwnProperty("align")) label.align = "center";
-			if(!labelProperties.hasOwnProperty("width")) label.width = width;
 			if(!labelProperties.hasOwnProperty("y"))
 			{
 				label.y = (height >> 1) - (label.textHeight >> 1);

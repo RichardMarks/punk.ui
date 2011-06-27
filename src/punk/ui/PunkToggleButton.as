@@ -84,8 +84,8 @@ package punk.ui
 			
 			var labelProperties:Object = skin.labelProperties;
 			if(!labelProperties) labelProperties = new Object;
-			label = new PunkText(textString, 0, 0, skin.labelProperties);
-			if(!labelProperties.hasOwnProperty("width")) label.width = width;
+			labelProperties = mergeDefault({width: width, resizable: false, wordWrap: true}, labelProperties);
+			label = new PunkText(textString, 0, 0, labelProperties);
 			if(!skin.labelProperties.hasOwnProperty("y"))
 			{
 				label.y = (height >> 1) - (label.textHeight >> 1);
