@@ -141,5 +141,47 @@ package punk.ui
 			punkText._field.removeEventListener(FocusEvent.FOCUS_OUT, onFocusOutText);
 			FP.stage.removeChild(punkText._field);
 		}
+		
+		/**
+		 * X scroll offset for scrolling content.
+		 */		
+		public function get scrollX():Number
+		{
+			return punkText.scrollV;
+		}
+		
+		public function set scrollX(v:Number):void
+		{
+			punkText.scrollV = v;
+		}
+		
+		/**
+		 * Y scroll offset for scrolling content.
+		 */	
+		public function get scrollY():Number
+		{
+			return punkText.scrollH;
+		}
+		
+		public function set scrollY(v:Number):void
+		{
+			punkText.scrollH = v;
+		}
+		
+		/**
+		 * The max horizontal scroll for the text.
+		 */		
+		public function get maxScrollX():Number
+		{
+			return punkText.maxScrollH;
+		}
+		
+		/**
+		 * The max vertical scroll for the text.
+		 */		
+		public function get maxScrollY():Number
+		{
+			return punkText.maxScrollV;
+		}
 	}
 }

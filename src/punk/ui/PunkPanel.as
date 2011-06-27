@@ -60,11 +60,11 @@ package punk.ui
 		protected var _oldScrollY:Number = 0;
 		
 		/**
-		 * X-Scroll offset
+		 * X-Scroll offset for scrolling content.
 		 */
 		public var scrollX:Number = 0;
 		/**
-		 * Y-Scroll offset
+		 * Y-Scroll offset for scrolling content.
 		 */
 		public var scrollY:Number = 0;
 		
