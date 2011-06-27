@@ -8,7 +8,7 @@ package punk.ui
 	import punk.ui.skin.PunkSkin;
 	
 	/**
-	 * A window component
+	 * A window component.
 	 */
 	public class PunkWindow extends PunkPanel
 	{
@@ -70,6 +70,9 @@ package punk.ui
 			captionString = caption;
 			super(x, y, width, height, skin);
 			
+			originY = barHeight;
+			y += barHeight;
+			
 			this.draggable = draggable;
 			
 		}
@@ -82,11 +85,12 @@ package punk.ui
 		{
 			if(!skin.punkWindow) return;
 			
-			caption = new PunkText(captionString, 0, 0, skin.punkWindow.labelProperties);
 			barHeight = skin.punkWindow.bar.height;
+			caption = new PunkText(captionString, 0, 0, skin.punkWindow.labelProperties);
+			caption.y -= barHeight;
 			bar = getSkinImage(skin.punkWindow.bar, 0, barHeight);
 			bg = getSkinImage(skin.punkWindow.body, 0, height - barHeight);
-			bg.y = barHeight;
+			bar.y = -barHeight;
 		}
 		
 		/**
@@ -94,25 +98,26 @@ package punk.ui
 		 */
 		override public function update():void
 		{
+			if(draggable)
+			{
+				if(Input.mousePressed && PunkUI.mouseIsOver(this) && (Input.mouseY + FP.camera.y) < y)
+				{
+					dragging = true;
+					mouseOffsetX = x - (Input.mouseX + FP.camera.x);
+					mouseOffsetY = y - (Input.mouseY + FP.camera.y);
+					if(world) world.bringToFront(this);
+				}
+				
+				if(dragging)
+				{
+					x = mouseOffsetX + (Input.mouseX + FP.camera.x);
+					y = mouseOffsetY + (Input.mouseY + FP.camera.y);
+				}
+			
+				if(Input.mouseReleased) dragging = false;
+			}
+			
 			super.update();
-			
-			if(!draggable) return;
-			
-			if(Input.mousePressed && PunkUI.mouseIsOver(this) && (Input.mouseY + FP.camera.y) < (y+barHeight))
-			{
-				dragging = true;
-				mouseOffsetX = x - (Input.mouseX + FP.camera.x);
-				mouseOffsetY = y - (Input.mouseY + FP.camera.y);
-				if(world) world.bringToFront(this);
-			}
-			
-			if(dragging)
-			{
-				x = mouseOffsetX + (Input.mouseX + FP.camera.x);
-				y = mouseOffsetY + (Input.mouseY + FP.camera.y);
-			}
-			
-			if(Input.mouseReleased) dragging = false;
 		}
 		
 		/**
@@ -120,11 +125,11 @@ package punk.ui
 		 */
 		override public function render():void
 		{
-			super.render();
-			
 			renderGraphic(bg);
 			renderGraphic(bar);
 			renderGraphic(caption);
+			
+			super.render();
 		}
 	}
 }
