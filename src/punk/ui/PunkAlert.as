@@ -41,7 +41,7 @@ package punk.ui
 			message = new PunkText(messageString, 0, 0, _labelProperties);
 			addGraphic(message);
 			
-			add(okButton = new PunkButton((width * 0.5) - 50, this.height - originY - 25, 100, 20, okLabel, close));
+			add(okButton = new PunkButton((width * 0.5) - 37, this.height - originY - 25, 74, 20, okLabel, clickOk));
 		}
 		
 		/**
@@ -51,8 +51,6 @@ package punk.ui
 		{
 			if(world) world.remove(this);
 			else if(_panel) _panel.remove(this);
-			
-			if(onOk != null) onOk();
 		}
 		
 		/**
@@ -66,6 +64,12 @@ package punk.ui
 			_labelProperties = skin.punkLabel.labelProperties;
 			if(!_labelProperties) _labelProperties = new Object;
 			_labelProperties = mergeDefault({width: width, wordWrap: true, resizable: false, align: "center"}, _labelProperties);
+		}
+		
+		protected function clickOk():void
+		{
+			close();
+			if(onOk != null) onOk();
 		}
 		
 		private var _labelProperties:Object;
