@@ -130,8 +130,8 @@ package punk.ui
 			}
 		}
 		
-		override public function render():void {
-			
+		override public function render():void
+		{	
 			// If the component is added to a panel, add camera offset in 
 			// order to maintain a static position in the panel.
 			if(_panel != null && graphic)
@@ -141,6 +141,14 @@ package punk.ui
 			}
 			
 			super.render();
+		}
+		
+		/**
+		 * The panel this component is in, if any.
+		 */		
+		public function get panel():PunkPanel
+		{
+			return _panel;
 		}
 		
 		internal var _camera:Point;
